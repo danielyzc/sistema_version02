@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+    <p:panel header="Mantenimiento - Tipo Productos" >
+
+
+
+         <h:form id="frmPrincipal">
+<p:growl id="growl" showDetail="true"/>
+
+   
+             
+             <center>
+                        <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanTipoProducto.newObject()}" style="margin-right:20px; border:0 none;">  
+                        <p:graphicImage  value="../images/nuevo.png"  />
+                        <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                       
+                    </center>
+             
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanTipoProducto.lista_tipo_Producto}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+        <p:column   style="width:300px; text-align:center; font-size: 13px;" 
+                    filterBy="#{item.nombreTipoProducto}"
+                headerText="Tipo"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.nombreTipoProducto}" />
+        </p:column>
+
+                <p:column  style="width:120px; text-align:center; font-size: 13px; " filterBy="#{item.descripcion}"
+                   headerText="Descripci&oacute;n"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.descripcion}" />
+        </p:column>
+
+
+         <p:column style="width:70px; text-align:center;"
+                headerText="op.">
+           
+              <p:commandLink  oncomplete="PF('dlgeditArea').show();" id="editArea" update=":Form3" >  
+                        <p:graphicImage  value="../images/Editar.png"  />
+                        <p:tooltip for="editArea"  value="EDITAR ITEM" showEffect="slide" hideEffect="explode" /> 
+     <f:setPropertyActionListener value="#{item}" target="#{managedBeanTipoProducto.tipo}" />
+                                        
+                        </p:commandLink>
+          
+              
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanTipoCliente.Volver_TipoCliente}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+    
+    
+       
+                  <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+         <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+     <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre Del Tipo de Producto: " />
+            <p:inputText size="35" value="#{managedBeanTipoProducto.tipo.nombreTipoProducto}"/>
+
+            <h:outputText value="Descripci&oacute;n: " />
+            <p:inputTextarea cols="35" value="#{managedBeanTipoProducto.tipo.descripcion}"/>
+
+ </h:panelGrid>
+
+      
+    </h:panelGrid>
+                        
+                     <p:separator/>
+                    
+                     <center>
+                          <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanTipoProducto.crearNew()}" />
+</center> 
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+              <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+   
+     <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+     <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre Del Tipo de Producto: " />
+            <p:inputText size="35" value="#{managedBeanTipoProducto.tipo.nombreTipoProducto}"/>
+
+            <h:outputText value="Descripci&oacute;n: " />
+            <p:inputTextarea cols="35" value="#{managedBeanTipoProducto.tipo.descripcion}"/>
+
+ </h:panelGrid>
+
+    </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanTipoProducto.editarNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+    
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

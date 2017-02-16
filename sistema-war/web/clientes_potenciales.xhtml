@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    
+    <p:panel header="M&oacute;dulo de Ventas - Captación de Clientes" >
+        <h:form id="frmAlmacen" >
+<p:growl id="growl" showDetail="true"/>
+            <center> <h:commandButton title="Nuevo Cliente" image="images/nuevo.png" action="#{managedBeanClientePonecial.nuevo}"/> </center>
+
+    <p:separator />
+
+    <h:panelGrid id="pnl1" columns="1" style="width: 100%;">
+<center>
+    <p:dataTable  style="width:100%" paginator="true" rows="100"   var="item" value="#{managedBeanClientePonecial.lista}" widgetVar="carsTable"
+                                   emptyMessage="No se Encontraron datos"
+                  >
+
+         <f:facet name="header">
+            Clientes Potenciales
+             
+        </f:facet>
+
+                    <p:column style="width:60px; font-size: 10px; text-align: center;"    headerText="Registro" >
+                        <h:outputText value="#{item.fechaRegistro}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+        </p:column>
+
+        <p:column style="width:170px; font-size: 10px;text-align: center;" filterBy="#{item.clienteRazonSocial}"
+                headerText="CLiente y/o Razón S."
+                filterMatchMode="contains">
+            <h:outputText value="#{item.clienteRazonSocial}" />
+        </p:column >
+
+        
+        
+        <p:column style="width:150px; font-size: 10px;text-align: center;" filterBy="#{item.telefono}"
+                headerText="TELEFONOS"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.telefono}" />
+        </p:column >
+        
+        
+
+  <p:column style="width:60px;font-size: 10px;text-align: center;"    headerText="Cumpleaños" >
+      <h:outputText value="#{item.fechaCumpleanios}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+        </p:column>
+
+      
+
+        <p:column style="width:250px;font-size: 10px;text-align: center;" filterBy="#{item.direccion}"
+                headerText="Dirección"
+                filterMatchMode="contains">
+               <h:outputText value="#{item.direccion}" />
+        </p:column >
+
+
+        <p:column style="width:70px;font-size: 10px;text-align: center;" filterBy="#{item.dni}"
+                headerText="DNI"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.dni}" />
+        </p:column >
+
+      
+    </p:dataTable>
+                </center>
+            </h:panelGrid>
+
+    <center>     <h:commandLink  action="#{managedBeanActividad.Volver_Letras}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+   
+</h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+</h:body>
+</html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head> <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=../index.jsf" />
+<link rel="shortcut icon" href="../favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="../images/casa_final.jpg" url="../index.jsf"/>
+    <p:menuitem value="Ventas"  icon="../images/ventas_final.jpg" url="../ventas.jsf"/>
+    <p:menuitem value="Compras" icon="../images/compras_final.jpg" url="../compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="../images/almacen_final.jpg" url="../almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="../images/finanzas_final.jpg" url="../finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Editar Cliente" >
+
+        <h:form id="frm_nuevo_cliente">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Nombre del Cliente: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.nombreCliente}" />
+ <h:outputText value="" />
+
+
+  <h:outputText value="Razón Social: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.razonSocial}" />
+ <h:outputText value="" />
+ <h:outputText value="Giro - Rubro: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.giroRubro}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Nombre/Contacto: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.contacto}" />
+ <h:outputText value="" />
+ 
+  <h:outputText value="Tipo de Cliente: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.tipoCliente}" effect="drop" converter="tipoClienteConverter" >
+  <f:selectItems  id="temsripoclientes"  value="#{managedBeanTipoCliente.tipoclientesItems}"/>
+  </p:selectOneMenu>
+ <h:outputText value="" />
+
+  <h:outputText value="RUC: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.rucCliente}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Dirección: " />
+  <p:inputTextarea cols="35" style="color: blue;" value="#{managedBeanCliente.cliente.direccion}"/>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Zona: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.zonaCiudad}" effect="drop" converter="zonaConverter" >
+      <f:selectItems  id="Itemszonas"  value="#{managedBeanZona.zonasItems}"/>
+  </p:selectOneMenu>
+ <h:outputText value="" />
+
+ 
+  <h:outputText value="Teléfono: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.telefono}" />
+ <h:outputText value="" />
+
+   <h:outputText value="Celular: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.celular}"/>
+ <h:outputText value="" />
+   <h:outputText value="Nextel: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.nextel}"/>
+ <h:outputText value="" />
+   <h:outputText value="Correo: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.correo}" />
+ <h:outputText value="" />
+
+            </h:panelGrid>
+
+                <h:commandButton title="Editar los Datos del  Cliente" image="../images/guardar.png"  action="#{managedBeanCliente.editar}"/>
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+<div class="footer">
+  <div class="footer_resize">
+    <ul>
+      <li><a href="index.jsf">inicio</a></li>
+      <li><a href="ventas.jsf">Ventas</a></li>
+      <li><a href="compras.jsf">Compras</a></li>
+      <li><a href="almacen.jsf">Almac&eacute;n</a></li>
+      <li><a href="finanzas.jsf">Finanzas</a></li>
+      <li><a href="#"><img src="images/twitter.gif" alt="picture" width="80" height="15" border="0" /></a></li>
+    </ul>
+    <p>Copyright © DanielzQrie <a href="#">#{managedBeanDesarrollador.desarrollador.nombre}</a>. All Rights Reserved</p>
+    <div class="clr"></div>
+  </div>
+</div>
+</h:body>
+</html>
+

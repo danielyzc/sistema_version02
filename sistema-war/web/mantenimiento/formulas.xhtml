@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Formulaciones" >
+
+
+
+         <h:form id="frmbtn">
+
+
+     <center>
+         <h:commandButton title="Nueva Fórmula" image="../images/nuevo.png" action="#{managedBeanFormulacion.Nueva}"
+              />
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="25"   var="item" value="#{managedBeanFormulacion.lista}" widgetVar="carsTable"
+                           rowKey="#{item.idFormulacion}"     selection="#{managedBeanFormulacion.formulacion}"  selectionMode="single"
+                           emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+                <p:column style="width:16px">
+            <p:rowToggler />
+        </p:column>
+        <p:column   style="width:150px; text-align:center; font-size: 13px;" filterBy="#{item.producto.nombreProducto}"
+                headerText="Producto"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.producto.nombreProducto}"  />
+        </p:column>
+
+                <p:column   style="width:100px; text-align:center; font-size: 13px;" filterBy="#{item.palabraClave}"
+                headerText="Clave"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.palabraClave}"  />
+        </p:column>
+
+                <p:column   style="width:120px; text-align:center; font-size: 13px;" filterBy="#{item.descripcion}"
+                headerText="Descripcion"
+                filterMatchMode="contains">
+     <h:outputText value="#{item.descripcion}" />
+        </p:column>
+
+
+
+
+         <p:column style="width:25px; text-align: center;"
+                headerText="op.">
+
+                        
+             <h:commandButton title="Editar"
+                              image="../images/Editar.png" action="#{managedBeanFormulacion.Edicion}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanFormulacion.formulacion}" />
+              </h:commandButton>
+
+              
+
+        </p:column >
+
+
+        <p:rowExpansion>
+
+
+             <h:panelGrid id="display333" columns="2" cellpadding="4"  styleClass="ui-widget-content"
+                        columnClasses="label, value">
+
+            <h:outputText value="NOMBRE : " style="font-size: 15px;" />
+            <h:outputText value="#{item.producto.nombreProducto}" style="font-size: 15px; color: blue" />
+
+<h:outputText value="Descripción : " style="font-size: 15px;" />
+<h:outputText value="#{item.descripcion}" style="font-size: 15px;" />
+
+<h:outputText value="Fecha de Registro : " style="font-size: 15px;" />
+<h:outputText value="#{item.fechaRegistro}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="dd MMMM  yyyy"   />
+</h:outputText>
+
+        </h:panelGrid>
+
+            <p:dataTable   paginator="true" rows="10"   var="item" value="#{item.detalleFormulacionInsumosList}" widgetVar="formulacionTable"
+                     emptyMessage="No se Encontraron datos" >
+
+           <f:facet name="header">
+          Materia Prima relacionada con la Fórmula
+        </f:facet>
+
+
+           <p:column style="width:100px; font-size: 15px;text-align: center;" filterBy="#{item.materiaPrima.nombreMateriaPrima}"
+                headerText="Materia Prima"
+                filterMatchMode="contains">
+               <h:outputText value="#{item.materiaPrima.nombreMateriaPrima}" style=" color: red"/>
+        </p:column >
+
+          <p:column style="width:100px; font-size: 15px; text-align: center;" headerText="Proporcion">
+              <h:outputText value="#{item.proporcion}" style="color: red" />
+        </p:column >
+            </p:dataTable>
+            
+        </p:rowExpansion>
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+
+ </h:form>
+
+
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanFormulacion.Volver_Formulacion}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Nuevo Proveedor" >
+
+<h:form id="frm11">
+            <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre del Proveedor" />
+            <p:inputText size="37"  style="color: blue;" value="#{managedBeanProveedor.proveedor.nombre}" />
+
+
+
+            <h:outputText value="Tipo de Proveedor: "  />
+
+            <p:selectOneMenu  value="#{managedBeanProveedor.proveedor.tipoProveedor}" effect="drop" style="width:425px" converter="tipoproveedorConverter" >
+                <f:selectItems  id="temsripoproovee" value="#{managedBeanTipoProveedor.tipoproveedoresItems}"/>
+        </p:selectOneMenu>
+
+            <h:outputText value="Dirección" />
+            <p:inputTextarea cols="35" value="#{managedBeanProveedor.proveedor.direccion}" />
+  <h:outputText value="Celular" />
+  <p:inputText size="37" value="#{managedBeanProveedor.proveedor.celular}" />
+   <h:outputText value="Nextel" />
+   <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nextel}" />
+    <h:outputText value="Teléfono" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.telefono}" />
+
+    <h:outputText value="Correo" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.correo}" />
+
+</h:panelGrid>
+
+
+                <h:commandButton value="Agregar Proveedor" title="Click Para Agregar Nuevo Proveedor" image="images/guardar.png" action="#{managedBeanProveedor.crear2}" />
+
+ </h:panelGrid>
+   </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

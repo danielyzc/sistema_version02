@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head> <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=../index.jsf" />
+<link rel="shortcut icon" href="../favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="../index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="../ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="../compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="../almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="../finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Nuevo Conductor" >
+
+ <h:form id="frm11">
+
+
+     <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+     <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre Del Conductor:" />
+            <p:inputText id="nombre_conductor" style="color: blue;" size="21" value="#{managedBeanConductor.conductor.nombre}"/>
+
+            <h:outputText value="Licencia" />
+            <p:inputText id="licencia" size="21" value="#{managedBeanConductor.conductor.numeroLicenciaConducir}"/>
+
+            <h:outputText value="RUC o DNI" />
+            <p:inputText  id="ruc" size="21" value="#{managedBeanConductor.conductor.ruc}"/>
+
+             <h:outputText value="Observaciones" />
+             <p:inputTextarea cols="21" style="color: green;" value="#{managedBeanConductor.conductor.observaciones}"/>
+
+
+ </h:panelGrid>
+
+         <h:commandButton value="Agregar"  title="Dar Click para Agregar un Nuevo Conductor" image="../images/guardar.png" action="#{managedBeanConductor.crear}" />
+
+    </h:panelGrid>
+</h:form>
+    </p:panel>
+
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

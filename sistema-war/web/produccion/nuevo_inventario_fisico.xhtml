@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="PRODUCCION - NUEVO INVENTARIO FISICO" >
+        <h:form id="frm11">
+            <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="3"  >
+
+            <h:outputText value="TIENDA" />
+
+            <p:selectOneMenu value="#{managedBeanInventarioFisico.inventarioFisico.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+<h:outputText id="txtFechaInicio" value="FECHA INICIO:" />
+<p:calendar id="FECHA_INICIO"  required="true"  effect="slide" locale="es" value="#{managedBeanInventarioFisico.inventarioFisico.fechaInicio}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+
+<h:outputText id="txtFechaTermino" value="FECHA TERMINO:" />
+<p:calendar id="FECHA_TERMINO"  required="true"  effect="slide" locale="es" value="#{managedBeanInventarioFisico.inventarioFisico.fechaTermino}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+
+ <h:outputText value="DESCRIPCION:" />
+ <p:inputTextarea rows="3" cols="20" value="#{managedBeanInventarioFisico.inventarioFisico.obervaciones}"/>
+
+
+</h:panelGrid>
+
+
+                <h:commandButton value="Agregar Producto" title="Click Para Agregar Nuevo Inventario" image="../images/guardar.png" action="#{managedBeanInventarioFisico.Crear}" />
+
+ </h:panelGrid>
+   </h:form>
+
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

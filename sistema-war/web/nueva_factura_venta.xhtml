@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      
+    <p:panel header="M&oacute;dulo de Ventas - Factura de Venta" >
+
+          <h:form id="frm11">
+              <p:growl id="growl" showDetail="true"/>
+              <p:fieldset id="fielset" toggleable="true" toggleSpeed="500" legend="Datos de la Venta" style="margin-top:5px">
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+                    <h:outputText value="Nombre de la Tienda. " />
+
+                    <p:selectOneMenu value="#{managedBeanFacturaVenta.factura.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+
+
+<h:outputText value="Vendedor" />
+<p:selectOneMenu  value="#{managedBeanFacturaVenta.factura.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados_factura"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+
+<h:outputText value="Fecha para Entregar:" />
+<p:calendar id="FECHA_ENTEGA_FACTURA" required="true"  effect="slide" locale="es" value="#{managedBeanFacturaVenta.factura.fechaVenta}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+<h:outputText value="Nombre del Cliente : "/>
+
+<p:autoComplete required="true" id="auroxcomplete_cliente"
+                 value="#{managedBeanFacturaVenta.factura.cliente}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Clientes}"
+                 var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
+                  itemValue="#{item_cliente}"
+                                converter="clienteConverter"  minQueryLength="3"
+               size="42"
+                />
+ <h:outputText value=""/>
+
+ <h:outputText value="Estado de Venta :"/>
+ <p:selectOneMenu value="#{managedBeanFacturaVenta.factura.estadoVenta}" effect="drop" style="width:425px" converter="estadoventaConverter" >
+     <f:selectItems  id="temsestadoventas" value="#{managedBeanEstadoVenta.estadoventaItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+<h:outputText value="IGV :"/>
+<p:selectOneMenu value="#{managedBeanFacturaVenta.factura.igvFactura}" effect="drop" style="width:75px" converter="igvFacturaConverter" >
+     <f:selectItems  id="items_igv" value="#{managedBeanIgvFactura.igvItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+         <h:outputText value="Observaciones:"/>
+         <p:inputTextarea id="inputobs" cols="31" value="#{managedBeanFacturaVenta.factura.observaciones}"/>
+         <h:outputText value="" />
+        </h:panelGrid>
+ </p:fieldset>
+
+
+
+
+    <p:fieldset id="fielset2" toggleable="true" toggleSpeed="500" legend="Ingreso de Productos" style="margin-top:5px">
+<p:growl id="messages" showDetail="true"/>
+        <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+
+
+
+  <h:outputText value="Nombre del Producto : "/>
+
+ <p:autoComplete id="auroxcomplete"
+                 value="#{managedBeanFacturaVenta.detalle_factura_venta_Producto.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                 minQueryLength="3"
+               converter="ProductoConverter"
+               size="42"
+               >
+ 
+ <p:ajax event="itemSelect" listener="#{managedBeanFacturaVenta.handleSelectPRECIO}" update="frm11:txtinpPrecio frm11:growl" />  
+  
+ </p:autoComplete>
+ <h:outputText value=""/>
+
+ <h:outputText value="Cantidad"/>
+ <p:inputText id="i1npss" size="42" value="#{managedBeanFacturaVenta.detalle_factura_venta_Producto.cantidad}"/>
+ <h:outputText value=""/>
+
+<h:outputText value="Precio de venta"/>
+<p:inputText id="txtinpPrecio" size="42" value="#{managedBeanFacturaVenta.detalle_factura_venta_Producto.precioVenta}"/>
+ <h:outputText value=""/>
+
+ <h:outputText value="Descuento Unitario"/>
+ <p:inputText id="i1aa3" size="42" value="#{managedBeanFacturaVenta.detalle_factura_venta_Producto.descuento}"/>
+ <h:outputText value=""/>
+ <h:outputText value=""/>
+ <p:commandButton value="Agregar a la Lista" action="#{managedBeanFacturaVenta.AgregarDetalleProducto}" update="frm11" />
+
+ </h:panelGrid>
+    </p:fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+        <p:fieldset id="fielset3" toggleable="true" toggleSpeed="500" legend="Lista de Productos" style="margin-top:5px">
+    <p:growl id="messages2" />
+    <p:dataTable var="item" value="#{managedBeanFacturaVenta.lista_detalles}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cantidad" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.precioVenta}" />
+                </f:facet>
+                <f:facet name="input">
+                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Dscto." style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.descuento}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.descuento}" style="width:100%" label="Descuento"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+                 <p:column headerText="Sub.Total" style="width:75px">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+
+        <p:column headerText="" style="width:100px">
+            <p:commandButton title="Editar éste Producto" icon="ui-icon ui-icon-arrowrefresh-1-w"  action="#{managedBeanFacturaVenta.EliminarLista}" update=":frm11" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanFacturaVenta.detalle_factura_venta_Producto}" />
+            </p:commandButton>
+            <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanFacturaVenta.EliminarLista}" update=":frm11" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanFacturaVenta.detalle_factura_venta_Producto}" />
+            </p:commandButton>
+
+
+
+        </p:column>
+
+                <f:facet name="footer">
+                    Monto SIN IGV : #{managedBeanFacturaVenta.venta_total_detalles} SOLES..; TOTAL(+IGV) = #{managedBeanFacturaVenta.venta_total_detalles + managedBeanFacturaVenta.venta_total_detalles.multiply(managedBeanFacturaVenta.factura.igvFactura.monto) } SOLES.        </f:facet>
+    </p:dataTable>
+
+
+    </p:fieldset>
+<br />
+
+
+    <p:fieldset id="fielset23" toggleable="true" toggleSpeed="500" legend="Datos de la GUIA de remision" style="margin-top:5px">
+        <h:panelGrid id="pnlg343" columns="3" cellpadding="5" >
+
+
+            <h:outputText value="Motivo" />
+            <p:selectOneMenu  value="#{managedBeanFacturaVenta.guia.motivoTransladoFactura}" effect="drop" style="width:425px" converter="motivotransladoConverter" >
+                <f:selectItems  id="motivo_translado"  value="#{managedBeanMotivoTransladoFactura.motivosItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+<h:outputText value="Unidad de Transporte" />
+<p:selectOneMenu  value="#{managedBeanFacturaVenta.guia.unidadTransporte}" effect="drop" style="width:425px" converter="unidadTransporteConverter" >
+    <f:selectItems  id="unidades_transporte"  value="#{managedBeanUnidadTransporte.unidadesItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+<h:outputText value="Conductor" />
+<p:selectOneMenu  value="#{managedBeanFacturaVenta.guia.conductor}" effect="drop" style="width:425px" converter="conductorConverter" >
+    <f:selectItems  id="conductores"  value="#{managedBeanConductor.condcutorItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+
+ <h:outputText value="Punto de Partida"/>
+ <p:inputText id="i1npss33" size="42" value="#{managedBeanFacturaVenta.guia.puntoPartida}"/>
+ <h:outputText value=""/>
+
+<h:outputText value="Punto de LLegada"/>
+<p:inputText id="i1npss32333" size="42" value="#{managedBeanFacturaVenta.guia.puntoLlegada}"/>
+ <h:outputText value=""/>
+
+ <h:outputText value="Fecha de Inicio del Translado"/>
+ <p:calendar id="FECHA_INICIOTRANSLADO1" required="true"  effect="slide" locale="es" value="#{managedBeanFacturaVenta.guia.fechaInicioTranslado}" pattern="dd/MM/yyyy"/>
+ <h:outputText value=""/>
+  <h:outputText value="Observaciones:"/>
+  <p:inputTextarea id="guiaobs" cols="31" value="#{managedBeanFacturaVenta.guia.observaciones}"/>
+         <h:outputText value="" />
+ </h:panelGrid>
+    </p:fieldset>
+<br />
+<center>  <h:commandButton value="Terminar Venta" action="#{managedBeanFacturaVenta.crear}" />  </center>
+         </h:form>
+  <p:separator />
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

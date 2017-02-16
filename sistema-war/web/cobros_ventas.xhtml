@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+        
+    
+
+
+
+         <h:form id="frmPrincipal">
+             <p:growl id="growl" showDetail="true"/>
+             <p:panel header="M&oacute;dulo de Ventas - Cobros de Ventas al Crédito" >
+
+
+
+             <h:panelGrid columns="1" id="grid_principal_cobros" style="width: 100%;">
+               
+            
+                 <p:accordionPanel id="acordion1" >
+                     <p:tab title="LISTA DE BOLETAS PENDIENTES DE PAGO">
+                       <p:dataTable id="tbldatosFiltrados"   var="item" value="#{managedBeanVenta.listaFiltradaVentas}" style="width: 100%; margin-top: 20px;" >
+<f:facet name="header">
+           BOLETAS
+        </f:facet>
+
+                     <p:column filterBy="#{managedBeanVenta.Formato(item)}" filterMatchMode="contains">
+                    <f:facet name="header"> <h:outputText value="ID BOLETA"> </h:outputText></f:facet>
+                    <h:outputText value="#{managedBeanVenta.Formato(item)}" />
+                </p:column>
+
+
+                <p:column filterBy="#{item.cliente.nombreCliente}" filterMatchMode="contains">
+                    <f:facet name="header"> <h:outputText value="CLIENTE"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.cliente.nombreCliente}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="FECHA ENVIO"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaVenta}" ><f:convertDateTime pattern="EEEE dd MMMM yyyy" /></h:outputText>
+                </p:column>
+
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Estado"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.estadoVenta.nombreTestadoVenta}" />
+                </p:column>
+
+                                <p:column>
+                    <f:facet name="header"> <h:outputText value="Total"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalVenta}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Pagado"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalPagosCredito}" style="color: blue;" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Saldo"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalVenta -item.totalPagosCredito}" style="color: red;" />
+                </p:column>
+
+
+
+                 <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Op."></h:outputText>
+                        </f:facet>
+                     
+                      <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanPagoVentaCredito.newObject(item)}" >  
+                        <p:graphicImage  value="images/cobrando.png"  />
+                        <p:tooltip for="newArea"  value="REALIZAR COBRO" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                     
+
+
+           </p:column>
+
+
+            </p:dataTable>  
+                     </p:tab>
+                     
+                 </p:accordionPanel>
+                 
+           
+
+
+
+           
+                 <p:separator />
+                 
+                 
+                 <p:accordionPanel id="acordion2" >
+                      <p:tab title="LISTA DE FACTURAS PENDIENTES DE PAGO">
+                         
+                 <p:dataTable id="tbldatosFiltrados2333"   var="item" value="#{managedBeanFacturaVenta.listaFiltradaFacturaVentas}" style="width: 100%; margin-top: 20px;"
+                     >
+<f:facet name="header">
+          FACTURAS
+        </f:facet>
+
+                       <p:column filterBy="#{managedBeanFacturaVenta.Formato(item)}" filterMatchMode="contains">
+                    <f:facet name="header"> <h:outputText value="ID FACTURA"> </h:outputText></f:facet>
+                    <h:outputText value="#{managedBeanFacturaVenta.Formato(item)}" />
+                </p:column>
+
+                <p:column filterBy="#{item.cliente.nombreCliente}" filterMatchMode="contains">
+                    <f:facet name="header"> <h:outputText value="Cliente"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.cliente.nombreCliente}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Fecha de envio"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaVenta}" ><f:convertDateTime pattern="EEEE dd MMMM yyyy" /></h:outputText>
+                </p:column>
+
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Estado"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.estadoVenta.nombreTestadoVenta}" />
+                </p:column>
+
+                                <p:column>
+                    <f:facet name="header"> <h:outputText value="Total"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalVentaIncluidoIgv}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Pagado"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalPagosCredito}" style="color: blue;" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Saldo"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalVentaIncluidoIgv -item.totalPagosCredito}" style="color: red;" />
+                </p:column>
+
+
+
+                 <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Op."></h:outputText>
+                        </f:facet>
+
+              
+                     
+                      <p:commandLink  oncomplete="PF('dlgnewArea2').show();" id="newArea2" update=":Form3" actionListener="#{managedBeanPagoFacturaVentaCredito.newObject(item)}" >  
+                        <p:graphicImage  value="images/cobrando.png"  />
+                        <p:tooltip for="newArea2"  value="REALIZAR COBRO" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+
+           </p:column>
+
+
+            </p:dataTable>
+ 
+                      </p:tab>
+                     </p:accordionPanel>
+             
+</h:panelGrid>
+             <p:separator />
+           <center>
+               <h:outputLink id="lnk" value="#">
+    <p:printer target="grid_principal_cobros" />
+    <p:graphicImage width="100 px" height="75 px" value="/images/imprimir3.jpg" />
+</h:outputLink>
+               
+               <h:commandLink  action="#{managedBeanPagoVentaCredito.Volver_CobroVentas}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+
+</p:panel>
+           </h:form>
+
+    
+                <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="COBRANDO SALDO EN BOLETA" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+     <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Número de Venta: " />
+ <h:outputText value="#{managedBeanVenta.Formato(managedBeanPagoVentaCredito.pagoventacredito.venta)}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Cliente: " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.cliente.nombreCliente}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Vendido por : " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.empleado.nombreEmpleado}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. de la Venta: " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.totalVenta}" />
+ <h:outputText value="" />
+
+<h:outputText value="Total de SOLES.. que ya se ha pagado: " />
+   <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.totalPagosCredito}" />
+ <h:outputText value="" />
+
+
+  <h:outputText value="Total de SOLES.. que aún faltan : " />
+  <h:outputText style="color: red;" value="#{managedBeanPagoVentaCredito.debito}" />
+ <h:outputText value="" />
+ 
+ <h:outputText value="Empleado que Recibe el Cobro: " />
+ <p:selectOneMenu  value="#{managedBeanPagoVentaCredito.pagoventacredito.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea  value="#{managedBeanPagoVentaCredito.pagoventacredito.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Cantidad de SOLES.. a  Abonar : " />
+ <p:inputText size="21" value="#{managedBeanPagoVentaCredito.pagoventacredito.cantidad}" />
+ <h:outputText value="" />
+
+ 
+
+            </h:panelGrid>
+
+                              
+
+
+                </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="AGREGAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanPagoVentaCredito.crearNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+             
+             
+             <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog2" header="COBRANDO SALDO EN FACTURA" widgetVar="dlgnewArea2" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+     <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Número de Factura: " />
+ <h:outputText value="#{managedBeanFacturaVenta.Formato(managedBeanPagoFacturaVentaCredito.pagoventacredito.facturaVenta)}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Cliente: " />
+  <h:outputText value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.facturaVenta.cliente.nombreCliente}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Vendido por : " />
+  <h:outputText value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.facturaVenta.empleado.nombreEmpleado}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. de la Venta: " />
+  <h:outputText value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.facturaVenta.totalVentaIncluidoIgv}" />
+ <h:outputText value="" />
+
+<h:outputText value="Total de SOLES.. que ya se ha pagado: " />
+   <h:outputText value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.facturaVenta.totalPagosCredito}" />
+ <h:outputText value="" />
+
+
+  <h:outputText value="Total de SOLES.. que aún faltan : " />
+  <h:outputText style="color: red;" value="#{managedBeanPagoFacturaVentaCredito.debito}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Empleado que Recibe el Cobro: " />
+ <p:selectOneMenu  value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea  value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Cantidad de SOLES.. a  Abonar : " />
+ <p:inputText size="21" value="#{managedBeanPagoFacturaVentaCredito.pagoventacredito.cantidad}" />
+ <h:outputText value="" />
+
+
+
+            </h:panelGrid>
+
+        
+
+                </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea2').hide();" title="AGREGAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanPagoFacturaVentaCredito.crearNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

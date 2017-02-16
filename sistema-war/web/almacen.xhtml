@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+       <p:panel header="M&oacute;dulo de Almac&eacute;n" >
+        <h:form id="frmAlmacen" >
+<p:growl id="growl" showDetail="true"/>
+
+<h:panelGrid id="pnl1" columns="1" style="width: 100%;">
+<center>
+    <p:dataTable  style="width:100%" paginator="true" rows="75"   var="item" value="#{managedBeanStock.listaTotales}" widgetVar="carsTable"
+                            emptyMessage="No se Encontraron datos"
+                  >
+
+
+                 
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+            
+        </f:facet>
+
+                    <p:column style="width:250px" filterBy="#{item.tienda.nombreTienda}"
+                headerText="Tienda"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.tienda.nombreTienda}" />
+        </p:column>
+
+                    <p:column style="width:270px" filterBy="#{item.producto.nombreProducto}"
+                headerText="Producto"
+                filterMatchMode="contains">
+                        <h:outputText value="#{item.producto.nombreProducto}" />
+        </p:column >
+
+
+       
+        
+        <p:column headerText="Cantidad" style="width:80px; #{item.cantidad le item.cantidadMinimaStock ? 'background-color: red;':null}">
+            <center> <h:outputText value="#{item.cantidad}" /> </center>
+        </p:column>
+
+         <p:column style="width:95px;"
+                headerText="op.">
+
+            
+<p:commandButton value="Ver" icon="ui-icon ui-icon-search"
+                 update=":frmAlmacen:display " oncomplete="PF('carDialog').show();" >
+    
+     <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.stockProductoTiendaOrigen}" />
+                      
+</p:commandButton>
+
+        </p:column >
+
+    </p:dataTable>
+                </center>
+            </h:panelGrid>
+
+      <p:dialog id="dialog" header="PRODUCTO SELECCIONADO" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="NOMBRE : " style="font-size: 15px;" />
+             <h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.producto.nombreProducto}" style="font-size: 15px;" />
+
+<h:outputText value="TIPO : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.producto.tipoProducto.nombreTipoProducto}" style="font-size: 15px;" />
+
+<h:outputText value="ALMACEN : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.tienda.nombreTienda}" style="font-size: 15px;" />
+
+<h:outputText value="STOCK : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.cantidad}" style="font-size: 15px;" />
+
+
+
+<h:outputText value="PRECIO: " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.producto.precioProducto.precioProducto}" style="font-size: 15px;" />
+
+<h:outputText value="UBICACIONES: " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStock.ListaUbicaciones(managedBeanStock.stockProductoTiendaOrigen.producto.detalleAlmacenProductosList)}" style="font-size: 15px; color: blue; font-weight: bold" />
+
+
+
+        </h:panelGrid>
+    </p:dialog>
+</h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

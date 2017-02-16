@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head> <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    
+    
+
+
+
+         <h:form id="frmbtn">
+             <p:growl id="growl" showDetail="true"/>
+<p:panel header="VENTAS - VENTAS RAPIDAS" >
+
+     <center>
+         <h:commandButton title="NUEVA FECHA" image="/images/nuevo.png" action="#{managedBeanVentaRapida.nueva}"
+              />
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanVentaRapida.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+                <p:column   style="width:75px; text-align:center; font-size: 13px;" filterBy="#{item.fechaVenta}"
+                headerText="FECHA"
+                filterMatchMode="contains"
+
+                >
+            <h:outputText value="#{item.fechaVenta}" >
+            <f:convertDateTime pattern="dd/MM/yyyy" />
+            </h:outputText>
+
+        </p:column>
+
+
+
+
+        
+                <p:column   style="width:200px; text-align:center; font-size: 13px;" filterBy="#{item.tienda.nombreTienda}"
+                headerText="TIENDA"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.tienda.nombreTienda}" />
+        </p:column>
+
+
+
+                <p:column style="width:100px; text-align:center;"
+                headerText="op.">
+
+<h:commandButton title="IMPRIMIR"
+                 image="/images/impresora_mini.png" action="#{managedBeanReportando.generar_Ventas_Rapidas}">
+    <f:setPropertyActionListener value="#{item}" target="#{managedBeanReportando.ventaRapida}" />
+              </h:commandButton>
+
+             <h:commandButton title="REGISTRAR PRODUCTOS"
+                              image="/images/lector_mini.jpg" action="#{managedBeanVentaRapida.ingreso_productos}">
+    <f:setPropertyActionListener value="#{item}" target="#{managedBeanVentaRapida.ventaRapida}" />
+              </h:commandButton>
+
+
+
+        </p:column >
+
+
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+
+
+   
+
+
+     <p:separator />
+           
+           <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            
+          </p:panel>
+         </h:form>
+
+
+
+
+   
+
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

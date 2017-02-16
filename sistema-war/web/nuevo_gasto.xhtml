@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="N&uacute;evo Gasto" >
+
+        <h:form id="frm_nuevo_gasto">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Motivo : " />
+ <p:inputTextarea cols="35" value="#{managedBeanGastoEconomico.gastoseconomicos.motivo}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nota extra: " />
+  <p:inputTextarea  value="#{managedBeanGastoEconomico.gastoseconomicos.nota}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Cantidad total de Dinero: " />
+  <p:inputText style="color: red;" size="17" value="#{managedBeanGastoEconomico.gastoseconomicos.total}"/>
+ <h:outputText value="" />
+
+
+
+            </h:panelGrid>
+
+                <h:commandButton title="Agregar un Nuevo Ingreso" image="images/guardar.png"  action="#{managedBeanGastoEconomico.crear}"/>
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

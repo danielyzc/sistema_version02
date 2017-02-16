@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción" >
+
+
+         <h:form id="frm_button" >
+ <center><h:commandButton title="Nueva Producción"
+                          image="../images/nuevo.png" action="#{managedBeanProduccionAlmacen.nueva}" /> </center>
+
+        <p:fieldset id="fielset"  legend="Lista de productos en Tiendas" style="margin-top:10px">
+
+
+ <h:panelGrid id="pnl1" columns="2">
+
+               <h:outputText value="Fecha de Producción" />
+               <p:calendar id="FECHA_Orden"  effect="slide" locale="es" value="#{managedBeanProduccionAlmacen.fecha_busqueda}" pattern="dd/MM/yyyy"/>
+
+
+            </h:panelGrid>
+
+            <p:commandButton value="Traer Datos"  update="frm_button:tbldatosFiltrados " />
+            <p:separator />
+
+
+
+
+
+
+            <p:dataTable id="tbldatosFiltrados"   var="item" value="#{managedBeanProduccionAlmacen.lista}" style="width: 100%;" >
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="ID"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.idProduccionAlmacen}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Almacén"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.tienda.nombreTienda}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Producto"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.formulacion.producto.nombreProducto} - #{item.formulacion.palabraClave} " />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="FECHA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaRegistro}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column>
+                     <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                     <h:outputText  value="#{item.cantidadProductoTerminado}" />
+                </p:column>
+
+
+            </p:dataTable>
+
+
+
+
+
+
+
+
+        </p:fieldset>
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanStock.Volver_Almacen}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

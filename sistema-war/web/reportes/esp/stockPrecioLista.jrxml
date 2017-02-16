@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select t.nombre_tienda ,SUBSTRING(p.nombre_producto,15)as producto
+,IFNULL((select costo_unitario from ingreso_producto_tienda where id_ingreso_producto_tienda = dap.id_ingreso_producto_tienda ),0)
+
+
+as precio_compra,pp.precio_producto, dap.quedaron as cantidad
+,SUBSTRING(uf.nombre_ubicacion_fisica,15) as ubicacion
+
+ from stock_producto_tienda_origen
+st inner join tienda t on t.id_tienda = st.id_tienda_origen inner join producto p
+on p.id_producto = st.id_producto 
+inner join precio_producto pp on p.id_producto=pp.id_producto
+inner join detalle_almacen_productos dap on dap.id_producto = p.id_producto
+inner join ubicacion_fisica uf on dap.id_ubicacion_fisica = uf.id_ubicacion_fisica
+where dap.id_estado_producto_costo_almacen=1
+order by 2]]>
+	</queryString>
+	<field name="nombre_tienda" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="precio_compra" class="java.math.BigDecimal"/>
+	<field name="precio_producto" class="java.math.BigDecimal"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="ubicacion" class="java.lang.String"/>
+	<title>
+		<band height="6" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="99" y="7" width="381" height="28"/>
+				<textElement>
+					<font isBold="true" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE STOCK ACTUAL CON PRECIO DE LISTA Y UBICACIÓN]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[TIENDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[PRODUCTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[P. COMPRA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[P. VENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<text><![CDATA[UBICACIÓN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre_tienda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{precio_compra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{precio_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="92" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ubicacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="516" y="0" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="452" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PAG.]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy hh:mm a">
+				<reportElement x="84" y="2" width="160" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="3" width="74" height="20"/>
+				<textElement/>
+				<text><![CDATA[IMRESO EL:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

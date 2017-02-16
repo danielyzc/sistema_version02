@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+   <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción" >
+
+
+         <h:form id="frm_button" >
+
+
+        <p:fieldset id="fielset"  legend="Seguimiento de Producto" style="margin-top:10px">
+
+
+            <p:separator />
+        
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+
+
+
+ <h:outputText value="Nombre Producto" />
+             <p:autoComplete id="auroxcomplete"
+                             value="#{managedBeanStock.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                               converter="ProductoConverter"  minQueryLength="3"
+               size="42"
+                />
+
+             <h:outputText value="Nombre de la Tienda. " />
+
+             <p:selectOneMenu value="#{managedBeanStock.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+
+             <h:outputText value="Fecha de Inicio" />
+             <p:calendar value="#{managedBeanStock.fecha_inicio}" pattern="dd/MM/yyyy"/>
+             <h:outputText value="Fecha de Fin" />
+             <p:calendar value="#{managedBeanStock.fecha_fin}" pattern="dd/MM/yyyy"/>
+
+
+             
+            </h:panelGrid>
+
+
+
+
+            <p:commandButton value="Traer Datos" action="#{managedBeanStock.seguimiento_productos}"  update=":frm_button:tbldatosFiltrados :frm_button:tbldatosFiltrados2 :frm_button:tbldatosFiltrados3 :frm_button:tbldatosFiltrados5 :frm_button:fielset2" />
+            <p:separator />
+
+
+
+
+            <p:dataTable id="tbldatosFiltrados"   var="item" value="#{managedBeanStock.lista_entradas}"
+                         widgetVar="ingresosTable" 
+                  emptyMessage="No se Encontraron datos"
+                         >
+         
+ <f:facet name="header">
+           Seguimiento de ENTRADA.
+        </f:facet>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Tienda"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.tienda.nombreTienda}" />
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="F.INGRESO"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaIngreso}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+
+
+                <p:column style="width:95px;" headerText="op.">
+                              <p:commandButton value="Ver" image="ui-icon ui-icon-search"
+                                               update=":frm_button:display " oncomplete="PF('carDialog').show();" >
+                                  <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.ingresotiendaProducto}" />
+
+                              </p:commandButton>
+                </p:column >
+
+ <f:facet name="footer">
+     La cantidad Total  es : #{managedBeanStock.total_entrada} PRODUCTOS , por ENTRADA
+        </f:facet>
+
+               
+            </p:dataTable>
+
+              <p:dialog header="Motivo de Entrada" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="Motivo : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanStock.ingresotiendaProducto.motivo}" style="font-size: 15px;" />
+        </h:panelGrid>
+    </p:dialog>
+
+ <p:separator />
+
+ <p:dataTable id="tbldatosFiltrados2"   var="item" value="#{managedBeanStock.lista_salidas}"  >
+ <f:facet name="header">
+           Seguimiento de SALIDA.
+        </f:facet>
+
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Tienda"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.tienda.nombreTienda}" />
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="F.SALIDA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaSalida}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+
+
+  <p:column style="width:95px;" headerText="op.">
+                              <p:commandButton value="Ver" image="ui-icon ui-icon-search"
+                                               update=":frm_button:display2 " oncomplete="carDialog2.show()" >
+                                  
+                                  <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.salidatiendaProducto}" />
+
+                              </p:commandButton>
+                </p:column >
+
+ <f:facet name="footer">
+     La cantidad Total  es : #{managedBeanStock.total_salida} PRODUCTOS , por SALIDA
+        </f:facet>
+
+            </p:dataTable>
+
+
+ <p:dialog header="Motivo de Salida" widgetVar="carDialog2" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display2" columns="2" cellpadding="4">
+
+            <h:outputText value="Motivo :  " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanStock.salidatiendaProducto.motivo}" style="font-size: 15px;" />
+        </h:panelGrid>
+    </p:dialog>
+
+
+  <p:separator />
+
+
+  <p:dataTable id="tbldatosFiltrados3"   var="item" value="#{managedBeanStock.lista_detalles_venta}" >
+ <f:facet name="header">
+           Seguimiento de BOLETAS VENTAS.
+        </f:facet>
+
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Tienda"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.venta.tienda.nombreTienda}" />
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="F.SALIDA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.venta.fechaVenta}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+
+
+
+ <f:facet name="footer">
+     La cantidad Total  es : #{managedBeanStock.total_ventas} PRODUCTOS , por VENTAS
+        </f:facet>
+
+            </p:dataTable>
+
+
+
+
+
+
+  <p:separator />
+
+
+  <p:dataTable id="tbldatosFiltrados5"   var="item" value="#{managedBeanStock.lista_detalles_factura_venta}" >
+ <f:facet name="header">
+           Seguimiento de FACTURAS DE VENTA.
+        </f:facet>
+
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Tienda"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.facturaVenta.tienda.nombreTienda}" />
+                </p:column>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="F.SALIDA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.facturaVenta.fechaVenta}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+
+
+
+ <f:facet name="footer">
+     La cantidad Total  es : #{managedBeanStock.total_factura_ventas} PRODUCTOS , por FACTURA DE VENTAS
+        </f:facet>
+
+            </p:dataTable>
+
+
+
+
+
+
+
+
+  <p:separator />
+    <p:dataTable id="tbldatosFiltrados4"   var="item" value="#{managedBeanStock.lista_detalles_cambios}" >
+ <f:facet name="header">
+           Seguimiento de Cambios.
+        </f:facet>
+
+
+  <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="FECHA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.cambio.fechaCambio}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+              <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="ENTRA"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.producto1.nombreProducto}" />
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="SALE"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.producto.nombreProducto}" />
+                </p:column>
+
+
+
+
+
+ <f:facet name="footer">
+     ENTRADAS-CAMBIO =  #{managedBeanStock.total_cambios_entrada} ;  SALIDAS-CAMBIO = #{managedBeanStock.total_cambios_salida}
+        </f:facet>
+
+            </p:dataTable>
+
+
+        </p:fieldset>
+
+               <p:separator />
+
+                <p:fieldset id="fielset2"  legend="Resumen Fechas :  #{managedBeanStock.cadena_fecha1}    HASTA    #{managedBeanStock.cadena_fecha2} " style="margin-top:10px">
+                 <h:panelGrid id="pnl122" columns="2">
+                        <h:outputText value="CARGA INICIAL: " />
+                        <h:outputText value="#{(managedBeanStock.total_entrada_anterior + managedBeanStock.total_cambios_entrada_anterior ) - (managedBeanStock.total_salida_anterior + managedBeanStock.total_cambios_salida_anterior + managedBeanStock.total_ventas_anterior + managedBeanStock.total_factura_ventas_anterior )}" />
+
+                                <h:outputText value="TOTAL DE ENTRADAS - ALMACEN:           " />
+                      <h:outputText value="#{managedBeanStock.total_entrada}" style="color: blue" />
+                       <h:outputText value="TOTAL DE ENTRADAS - CAMBIOS:           " />
+                       <h:outputText value="#{managedBeanStock.total_cambios_entrada}" style="color: blue" />
+                      <h:outputText value="TOTAL DE SALIDAS -  ALMACEN:            " />
+                      <h:outputText value="#{managedBeanStock.total_salida}" style="color: green" />
+                       <h:outputText value="TOTAL DE SALIDAS -  CAMBIOS:            " />
+                       <h:outputText value="#{managedBeanStock.total_cambios_salida}" style="color: green" />
+                      <h:outputText value="TOTAL DE PRODUCTOS EN BOLETAS DE VENTAS:         " />
+                      <h:outputText value="#{managedBeanStock.total_ventas}" style="color: red" />
+
+                   <h:outputText value="TOTAL DE PRODUCTOS EN FACTURAS DE VENTAS:         " />
+                   <h:outputText value="#{managedBeanStock.total_factura_ventas}" style="color: red" />
+
+
+
+                   <h:outputText value="VALOR DEL STOCK HASTA LA FECHA : " />
+
+                   <h:outputText value="#{((managedBeanStock.total_entrada + managedBeanStock.total_cambios_entrada) - (managedBeanStock.total_salida+managedBeanStock.total_ventas + managedBeanStock.total_factura_ventas + managedBeanStock.total_cambios_salida ))+managedBeanStock.total_entrada_anterior + managedBeanStock.total_cambios_entrada_anterior  - (managedBeanStock.total_salida_anterior + managedBeanStock.total_ventas_anterior + managedBeanStock.total_factura_ventas_anterior + managedBeanStock.total_cambios_salida_anterior)}" style="color: dodgerblue" />
+
+
+                 </h:panelGrid>
+
+
+             </p:fieldset>
+               
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanStock.Volver_Almacen}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

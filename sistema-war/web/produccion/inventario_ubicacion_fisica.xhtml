@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+    <p:panel header="CONTADOR DE PRODUCTOS" >
+
+          <h:form id="frm11">
+              <p:focus for="txt_codigo_barras"/>
+              <p:growl id="growl" showDetail="true"  />
+
+<br />
+              <h:outputText style="font-size: 25px; color: blue;" value="UBICACION ACTUAL : #{managedBeanInventarioFisico.detalleInventarioUbicacionFisica.ubicacionFisica.nombreUbicacionFisica}" />
+<br />
+<br />
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset2"  legend="Ingreso de Productos" style="margin-top:5px">
+
+        <h:panelGrid id="pnl_principal" style="width: 100%" columns="2" cellpadding="5" >
+
+
+
+
+            <h:panelGrid id="pnlg34" width="540" columns="2" cellpadding="5" >
+
+
+            <h:outputText id="txtcodbarras" value="CODIGO BARRAS:" />
+
+            <p:inputText  id="txt_codigo_barras" value="#{managedBeanInventarioFisico.codigoBarras}"  onclick="borrar()" >
+                <p:ajax event="keyup"  listener="#{managedBeanInventarioFisico.buscar}" update="frm11:ultimo_producto frm11:growl frm11:detalleslist frm11:txt_cantidad_productos" />
+  </p:inputText>
+           
+
+
+            
+
+ 
+ 
+            <h:outputText value="ULTIMO PRODUCTO AGREGADO:" style="font-size: 9px;" />
+            <h:outputText  id="ultimo_producto" value="#{managedBeanInventarioFisico.nombre_producto}" style="font-size: 12px; color: green;"/>
+          
+
+  <h:outputText value="CANTIDAD:" />
+  <p:inputText size="15" style="text-align: center;" value="#{managedBeanInventarioFisico.cantidad}" />
+
+
+   <h:outputText value="" />
+   <p:commandButton value="AGREGAR A LISTA" action="#{managedBeanInventarioFisico.agregarLista}" update="frm11:ultimo_producto frm11:growl frm11:detalleslist frm11:txt_cantidad_productos"/>
+
+      
+  
+        </h:panelGrid>
+
+            <h:panelGrid id="pnl_dos" columns="1" cellpadding="5" >
+
+
+              <h:commandLink title="CONFIRMAR" action="#{managedBeanInventarioFisico.volver_inventario_ubicacion}"  >
+       <p:graphicImage title="CONFIRMAR" value="../images/check.png" />
+</h:commandLink>
+            
+            <h:outputText id="txt_cantidad_productos" style="font-size: 50px; color: red; float: left;" value=" TOTAL: #{managedBeanInventarioFisico.totalProductosLista}"/>
+
+        </h:panelGrid>
+
+
+            </h:panelGrid>
+        
+    </p:fieldset>
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset3"  legend="Lista de Productos" style="margin-top:5px">
+    <p:growl id="messages2" />
+    <p:dataTable var="item" value="#{managedBeanInventarioFisico.detalleInventarioUbicacionFisica.detalleUbicacionFisicaProductoList}" id="detalleslist" >
+
+        <f:facet name="header">
+            LA LISTA CUENTA CON #{managedBeanInventarioFisico.totalListaDetalleUbicacionProducto} PRODUCTOS
+        </f:facet>
+
+        <p:column headerText="PRODUCTO" style="width:70%">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+       <p:column headerText="CANTIDAD" style="width:10%">
+
+           <h:outputText value="#{item.cantidad}" />
+
+        </p:column>
+
+        
+
+        
+
+               
+
+        <p:column headerText="OP" style="width:20%">
+           
+            <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanInventarioFisico.eliminar_lista_productos}" update=":frm11:fielset3 :frm11:ultimo_producto :frm11:growl :frm11:txt_cantidad_productos" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanInventarioFisico.detalleUbicacionFisicaProducto}" />
+            </p:commandButton>
+
+
+
+        </p:column>
+
+                <f:facet name="footer">
+                   
+        </f:facet>
+    </p:dataTable>
+
+    </p:fieldset>
+<br />
+<script type="text/javascript">
+        function borrar() {
+//var myObjs = document.getElementById("frm11:txt_codigo_barras"); // get element by tag name
+//alert(myObjs.value);
+   document.getElementById("frm11:txt_codigo_barras").value="";
+        }
+
+         function onclick(){
+    var inputfield = document.getElementById("frm11:txt_codigo_barras");
+    alert(inputfield.getAttribute(value));
+  }
+
+    </script>
+</h:form>
+  <p:separator />
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

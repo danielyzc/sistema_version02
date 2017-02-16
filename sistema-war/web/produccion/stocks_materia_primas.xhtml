@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:panel header="Producción" >
+
+    <h:form id="frmAlmacen" >
+ <p:growl id="growl" showDetail="true"/>
+<center><h:commandButton title="Registrar Por Primera Vez"
+                         image="../images/nuevo.png" action="#{managedBeanStockMateriaPrima.nuevo_stock}" /> </center>
+        <p:separator />
+<h:panelGrid id="pnl1" columns="1" style="width:100%;">
+<center>
+    <p:dataTable  style="width:100%;" paginator="true" rows="10"   var="item" value="#{managedBeanStockMateriaPrima.lista}" widgetVar="carsTable"
+                  selection="#{managedBeanStockMateriaPrima.stock_materia_prima}"  selectionMode="single"
+                  rowKey="#{item.stockMateriaPrimaTiendaOrigenPK}"        emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+         </f:facet>
+
+        <p:column style="width:100px; font-size: 15px;" filterBy="#{item.tienda.nombreTienda}"
+                headerText="Almacén"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.tienda.nombreTienda}" />
+        </p:column>
+
+        <p:column style="width:100px; font-size: 15px;" filterBy="#{item.materiaPrima.nombreMateriaPrima}"
+                headerText="Materia Prima"
+                filterMatchMode="contains">
+                        <h:outputText value="#{item.materiaPrima.nombreMateriaPrima}" />
+        </p:column >
+
+
+        <p:column headerText="Cantidad" style="width:80px; font-size: 15px;">
+            <center> <h:outputText  value="#{item.cantidad}" /> </center>
+        </p:column>
+
+
+        <p:column style="width:120px;" headerText="Opciones">
+                        
+            <p:commandButton value="Ver" image="ui-icon ui-icon-search"
+                              update=":frmAlmacen:display " oncomplete="PF('carDialog').show();" />
+            <h:commandButton id="btnSeleccionar" title="Ingreso de Stock" image="${pageContext.request.contextPath}/images/agrega.png" value="Ingreso" action="#{managedBeanStockMateriaPrima.entra}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStockMateriaPrima.stock_materia_prima}" />
+                        </h:commandButton>
+
+
+            <h:commandButton id="btnSelecciona2r" title="Salida de Stock" image="${pageContext.request.contextPath}/images/elimina.png" value="Ingreso" action="#{managedBeanStockMateriaPrima.sale}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStockMateriaPrima.stock_materia_prima}" />
+                        </h:commandButton>
+
+                    <h:commandButton id="btnSelecciona23" title="Actualizar Datos" image="${pageContext.request.contextPath}/images/fecha_vencimiento.jpg" value="Fecha" action="#{managedBeanStock.fecha}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStockMateriaPrima.stock_materia_prima}" />
+                        </h:commandButton>
+
+                     </p:column>
+
+      
+
+    </p:dataTable>
+    
+                </center>
+            </h:panelGrid>
+
+      <p:dialog header="MATERIA PRIMA SELECCIONADA" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="NOMBRE : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanStockMateriaPrima.stock_materia_prima.materiaPrima.nombreMateriaPrima}" style="font-size: 15px;" />
+
+<h:outputText value="UNIDAD DE MEDIDA : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStockMateriaPrima.stock_materia_prima.materiaPrima.unidadMedida.nombreUnidadMedida}" style="font-size: 15px;" />
+
+<h:outputText value="CANTIDAD : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStockMateriaPrima.stock_materia_prima.cantidad}" style="font-size: 15px;" />
+
+<h:outputText value="DESCRIPCION : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanStockMateriaPrima.stock_materia_prima.descripcion}" style="font-size: 15px;" />
+        </h:panelGrid>
+    </p:dialog>
+</h:form>
+
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanStockMateriaPrima.Volver_Stock}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

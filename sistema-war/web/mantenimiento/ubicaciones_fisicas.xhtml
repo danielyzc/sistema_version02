@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+    <p:panel header="Mantenimiento - Ubicaciones Fisicas" >
+
+
+
+         <h:form id="frmPrincipal">
+<p:growl id="growl" showDetail="true"/>
+
+             <center>
+                        <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanUbicacionFisica.newObject()}" style="margin-right:20px; border:0 none;">  
+                        <p:graphicImage  value="../images/nuevo.png"  />
+                        <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                       
+                    </center>
+             
+    
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="100"   var="item" value="#{managedBeanUbicacionFisica.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+              <h:commandButton title="IMPRIMIR"
+                               image="../images/imprimir3_mini.jpg" action="#{managedBeanUbicacionFisica.CreatePdf}">
+                  
+              </h:commandButton>
+
+        </f:facet>
+
+        <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.nombreUbicacionFisica}"
+                headerText="UBICACION"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.nombreUbicacionFisica}" />
+        </p:column>
+
+
+        
+        <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.descripcionUbicacionFisica}"
+                headerText="Descripcion"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.descripcionUbicacionFisica}" />
+        </p:column>
+
+
+
+       
+
+         <p:column style="width:157px; text-align:center;"
+                headerText="op.">
+           
+             
+             
+<center>
+                        <p:commandLink  oncomplete="PF('dlgeditArea').show();" id="editArea" update=":Form3" >  
+                        <p:graphicImage  value="../images/Editar.png"  />
+                        <p:tooltip for="editArea"  value="EDITAR ITEM" showEffect="slide" hideEffect="explode" /> 
+<f:setPropertyActionListener value="#{item}" target="#{managedBeanUbicacionFisica.ubicacionfisica}" />
+                        </p:commandLink>
+                       
+                    </center>
+           
+
+
+
+              
+               
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+   
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+           <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+    
+    <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+      
+                 <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+     <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre de Ubicacion: " />
+            <p:inputText size="35" value="#{managedBeanUbicacionFisica.ubicacionfisica.nombreUbicacionFisica}"/>
+
+            <h:outputText value="Descripci&oacute;n: " />
+            <p:inputTextarea cols="35" value="#{managedBeanUbicacionFisica.ubicacionfisica.descripcionUbicacionFisica}"/>
+
+ </h:panelGrid>
+
+    </h:panelGrid>
+                        
+                     <p:separator/>
+                    
+                     <center>
+                          <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanUbicacionFisica.crearNew()}" />
+</center> 
+                          
+                    </p:dialog>  
+
+                </h:form>
+    
+    
+    <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+    
+     <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+     <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre De la Ubicacion: " />
+            <p:inputText  size="35" value="#{managedBeanUbicacionFisica.ubicacionfisica.nombreUbicacionFisica}"/>
+
+            <h:outputText value="Descripci&oacute;n:" />
+            <p:inputTextarea  cols="35" value="#{managedBeanUbicacionFisica.ubicacionfisica.descripcionUbicacionFisica}"/>
+
+ </h:panelGrid>
+
+     </h:panelGrid>
+     
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanUbicacionFisica.editarNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+    
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

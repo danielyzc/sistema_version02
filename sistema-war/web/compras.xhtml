@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+                <p:growl id="growl" showDetail="true"/>
+    <p:panel header="MODULO DE COMPRAS" >
+
+
+          <h:form id="frm_inicial">
+
+
+         <h:panelGrid id="pnlg1" columns="3" style="padding:0 10px 0 145px;" >
+
+
+             <h:panelGroup>
+                 <h:commandLink id="ordenes" title="Ordenes de Compra" action="#{managedBeanOrdenCompra.Nueva}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/orden_compra.jpg" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="ordenes"  value="REALIZAR ORDENES DE COMPRA" showEffect="slide" hideEffect="explode" />
+                 </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Ordenes de Compra" action="#{managedBeanOrdenCompra.Nueva}"/>
+             </h:panelGroup>
+
+             <h:panelGroup>
+                 <h:commandLink id="facturacion" title="Facturar la Compra" action="#{managedBeanOrdenCompra.Facturacion}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/facturar.png" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="facturacion"  value="FACTURAR ORDENES DE COMPRA" showEffect="slide" hideEffect="explode" />
+                 </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Facturar la Compra" action="#{managedBeanOrdenCompra.Facturacion}"/>
+             </h:panelGroup>
+
+
+              <h:panelGroup>
+                  <h:commandLink id="pagosComprasCredito" title="Pagos de Compras Credito" action="#{managedBeanOrdenCompra.Pagos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/PagosCredito.png" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="pagosComprasCredito"  value="REALIZAR PAGO DE COMPRA AL CRÉDITO" showEffect="slide" hideEffect="explode" />
+                  </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Pagos de Compras Credito" action="#{managedBeanOrdenCompra.Pagos}"/>
+             </h:panelGroup>
+
+
+         </h:panelGrid>
+
+            <p:separator />
+
+            <h:panelGrid id="pnlg23" columns="3" style="padding:0 10px 0 145px;" >
+
+
+             <h:panelGroup>
+                 <h:commandLink id="newProveedor" title="Nuevo Proveedor" action="#{managedBeanProveedor.Nuevo}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/proveedores.jpg" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="newProveedor"  value="REGISTRAR NUEVO PROVEEDOR" showEffect="slide" hideEffect="explode" />
+                 </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Nuevo Proveedor" action="#{managedBeanProveedor.Nuevo}"/>
+             </h:panelGroup>
+
+                 <h:panelGroup>
+                     <h:commandLink id="lpendientes" title="Letras Pendientes" action="#{managedBeanLetrasCredito.VerLetras}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/calendario.jpg" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="lpendientes"  value="VER LETRAS PENDIENTES" showEffect="slide" hideEffect="explode" />
+                  </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Letras Pendientes" action="#{managedBeanLetrasCredito.VerLetras}"/>
+             </h:panelGroup>
+
+         </h:panelGrid>
+ </h:form>
+
+      
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

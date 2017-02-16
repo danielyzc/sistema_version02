@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_pagos_ventas_credito_cliente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="241"/>
+	<property name="ireport.y" value="146"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="id_cliente" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha1" class="java.util.Date"/>
+	<parameter name="fecha2" class="java.util.Date"/>
+	<parameter name="imagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select v.total_venta, v.total_pagos_credito, c.nombre_cliente, pvc.fecha_ingreso
+,e.nombre_empleado, pvc.observaciones, pvc.cantidad  from pago_venta_credito pvc
+inner join venta v on v.id_venta = pvc.id_venta inner join cliente c
+on c.id_cliente = v.id_cliente
+inner join empleado e on e.id_empleado = v.id_empleado
+
+where c.id_cliente=$P{id_cliente} and
+ pvc.fecha_ingreso between $P{fecha1} and $P{fecha2}
+
+
+union
+
+select v.total_venta_incluido_igv, v.total_pagos_credito, c.nombre_cliente, pvc.fecha_ingreso
+,e.nombre_empleado, pvc.observaciones, pvc.cantidad  from pago_factura_venta_credito pvc
+inner join factura_venta v on v.id_factura_venta = pvc.id_factura_venta inner join cliente c
+on c.id_cliente = v.id_cliente
+inner join empleado e on e.id_empleado = v.id_empleado
+
+where c.id_cliente=$P{id_cliente} and
+ pvc.fecha_ingreso between $P{fecha1} and $P{fecha2}]]>
+	</queryString>
+	<field name="total_venta" class="java.math.BigDecimal"/>
+	<field name="total_pagos_credito" class="java.math.BigDecimal"/>
+	<field name="nombre_cliente" class="java.lang.String"/>
+	<field name="fecha_ingreso" class="java.sql.Date"/>
+	<field name="nombre_empleado" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="cantidad" class="java.math.BigDecimal"/>
+	<group name="NOMBRE_CLIENTE">
+		<groupExpression><![CDATA[$F{total_venta}]]></groupExpression>
+		<groupHeader>
+			<band height="54">
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+				</rectangle>
+				<textField>
+					<reportElement style="Detail" x="154" y="15" width="76" height="15" forecolor="#124AAD"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{total_venta}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="50" y="15" width="50" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="12"/>
+					</textElement>
+					<text><![CDATA[Total Crédito:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="263" y="15" width="145" height="15"/>
+					<textElement>
+						<font fontName="Serif"/>
+					</textElement>
+					<text><![CDATA[Suma de pagos:]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Detail" x="418" y="15" width="78" height="15" forecolor="#E30F0F"/>
+					<textElement>
+						<font fontName="Serif"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{total_pagos_credito}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="50" y="33" width="92" height="15"/>
+					<textElement/>
+					<text><![CDATA[Fecha de Pago]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="198" y="34" width="92" height="15"/>
+					<textElement/>
+					<text><![CDATA[Recibido Por]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="329" y="34" width="92" height="15"/>
+					<textElement/>
+					<text><![CDATA[OBSERVACIONES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="458" y="33" width="92" height="15"/>
+					<textElement/>
+					<text><![CDATA[CANTIDAD]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{imagePath}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Agrotek]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="100" y="46" width="174" height="22"/>
+				<textElement/>
+				<text><![CDATA[Pagos-Cliente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="50" y="12" width="71" height="20" forecolor="#006600"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="SubTitle" x="168" y="8" width="240" height="24" forecolor="#006600"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre_cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Detail" x="0" y="0" width="154" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha_ingreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="329" y="0" width="119" height="21"/>
+				<textElement>
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="454" y="0" width="92" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="186" y="0" width="143" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre_empleado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="418" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="498" y="0" width="52" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="3" y="0" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

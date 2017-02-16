@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Seguimiento de Cobros a Clientes." >
+
+      <h:form id="frm_button" >
+
+
+        <p:fieldset id="fielset"  legend="Seguimiento de Pagos Realizados Por Cliente" style="margin-top:10px">
+
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+
+
+
+<h:outputText value="Nombre del Cliente : "/>
+
+ <p:autoComplete id="auroxcomplete_cliente"
+                 value="#{managedBeanReportando.cliente}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Clientes}"
+                 var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
+                  itemValue="#{item_cliente}"
+               converter="clienteConverter"  minQueryLength="3"
+               size="42"
+                />
+
+
+             <h:outputText value="Fecha de Inicio" />
+             <p:calendar value="#{managedBeanReportando.fecha_inicio}" pattern="dd/MM/yyyy"/>
+             <h:outputText value="Fecha de Fin" />
+             <p:calendar value="#{managedBeanReportando.fecha_fin}" pattern="dd/MM/yyyy"/>
+
+            </h:panelGrid>
+
+            <p:commandButton value="Generar Reporte" action="#{managedBeanReportando.generar_seguimiento_pagos}"  update="frm_button " actionListener="#{managedBeanReportando.addInfo_seguimiento_clientes}" />
+            <p:separator />
+
+        </p:fieldset>
+            <h:outputLink title="Descargar Reporte" value="/pdfs/reporte_pagos_ventas_credito_cliente.pdf" >
+                 <h:graphicImage value="/images/pdf.png"/>
+            </h:outputLink>
+
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+
+                 <p:messages showDetail="false" autoUpdate="false"/>
+                <center>     <h:commandLink  action="#{managedBeanReportando.Volver_ReporteVentas}"  >
+       <p:graphicImage  value="/images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

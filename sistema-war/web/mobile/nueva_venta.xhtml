@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:pm="http://primefaces.org/mobile">
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head> 
+</h:head>
+<h:body>
+    
+   
+       
+    
+
+          <h:form id="frm11">
+               <p:growl id="growl" showDetail="true"/>
+    <p:growl id="messages" showDetail="true"/>
+   
+           <p:tabMenu activeIndex="0">
+      <p:menuitem value="VENTAS" outcome="ventas" icon="ui-icon-star"/>
+<p:menuitem value="COMPRAS"  icon="ui-icon-search" />
+<p:menuitem value="ALMACEN"  icon="ui-icon-document"/>
+<p:menuitem value="FINANZAS"  icon="ui-icon-wrench"/>
+
+</p:tabMenu>
+              
+              
+              <p:overlayPanel dynamic="true" for="btn-basic" widgetVar="pnl-basic" at="left" showEffect="overlay">
+                  <h:form >
+                      
+                      
+        <h:panelGrid id="pnlg1" columns="1" >
+            
+            <h:outputText value="Vendedor" />
+<p:selectOneMenu  value="#{managedBeanVenta.venta.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+
+                    <h:outputText value="Nombre de la Tienda. " />
+
+<p:selectOneMenu value="#{managedBeanVenta.venta.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+
+
+
+
+
+
+
+<h:outputText value="Nombre del Cliente : "/>
+
+<p:selectOneMenu filter="true" filterMatchMode="contains" value="#{managedBeanVenta.venta.cliente}" effect="drop" style="width:425px" converter="clienteConverter" >
+    <f:selectItems   value="#{managedBeanCliente.clientesItems}"/>
+</p:selectOneMenu>
+<h:outputText value="Fecha para Entregar:" />
+<p:calendar id="FECHA_ENTEGA"  required="true"  effect="slide" locale="es" value="#{managedBeanVenta.venta.fechaVenta}" pattern="dd/MM/yyyy"/>
+
+
+
+
+
+
+ <h:outputText value="Estado de Venta :"/>
+ <p:selectOneMenu value="#{managedBeanVenta.venta.estadoVenta}" effect="drop" style="width:425px" converter="estadoventaConverter" >
+     <f:selectItems  id="temsTipoVentas" value="#{managedBeanEstadoVenta.estadoventaItems}"/>
+        </p:selectOneMenu>
+
+
+       
+         <h:outputText value="Observaciones:"/>
+         <p:inputTextarea id="inp4"  value="#{managedBeanVenta.venta.observaciones}"/>
+
+        </h:panelGrid>
+                      </h:form>
+ </p:overlayPanel>
+              
+              <p:commandButton id="btn-basic" value="VER DATOS DE LA VENTA" />
+              
+              <h:panelGrid  columns="2" cellpadding="2" >
+                           <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+
+
+
+  <h:outputText value="Nombre del Producto : "/>
+
+ <p:autoComplete id="autoCompleteProducto"
+                 value="#{managedBeanVenta.detalle_venta_Producto.producto}"
+                 completeMethod="#{managedBeanProducto.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                 itemValue="#{item_Producto}" label="#{item_Producto.nombreProducto}"
+                 minQueryLength="3"
+               converter="ProductorealConverter" 
+               size="42" 
+              
+               >
+     
+    
+             <p:ajax event="itemSelect" listener="#{managedBeanVenta.handleSelectPRECIO}" update="frm11:txtinpPrecio frm11:messages" />  
+    
+ </p:autoComplete>
+ <h:outputText value=""/>
+
+ <h:outputText value="Cantidad"/>
+ <pm:inputSlider value="#{managedBeanVenta.detalle_venta_Producto.cantidad}" />
+
+ <h:outputText value=""/>
+
+ 
+<h:outputText value="Precio de venta"/>
+<p:inputText id="txtinpPrecio" style="color: red;" size="42" value="#{managedBeanVenta.detalle_venta_Producto.precioVenta}"/>
+ <h:outputText value=""/>
+
+
+ <h:outputText value=""/>
+ <p:commandButton value="Agregar a la Lista" action="#{managedBeanVenta.AgregarDetalleProducto_FinalDZ}" update=":frm11:detalleslist" />
+
+ </h:panelGrid>
+                  <p:panel header="LISTA DE VENTA" >
+                      
+                      <p:dataTable style="width: 100%" var="item" value="#{managedBeanVenta.lista_detalles}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cantidad" style="width:75px">
+           <h:outputText value="#{item.cantidad}" />
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px">
+            <h:outputText value="#{item.precioVenta}" />
+        </p:column>
+
+       
+
+                 <p:column headerText="Sub.Total" style="width:75px">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+
+        <p:column headerText="" style="width:100px">
+           
+            <p:commandButton title="Eliminar éste Producto" value="X"  action="#{managedBeanVenta.EliminarLista}" update=":frm11" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanVenta.detalle_venta_Producto}" />
+            </p:commandButton>
+
+
+
+        </p:column>
+
+                <f:facet name="footer">
+                   
+                    <h:outputText style="float: right; color: blue; font-size: 21px;" value="MONTO TOTAL: #{managedBeanVenta.venta_total_detalles} SOLES"/>
+        </f:facet>
+    </p:dataTable>
+                  </p:panel>
+                      </h:panelGrid>
+           
+              
+              
+
+
+              <p:separator />
+<br />
+<center>  <h:commandButton value="Terminar Venta" action="#{managedBeanVenta.editar_guardar_venta_FinalDZ}" />  </center>
+         </h:form>
+  <p:separator />
+
+
+ 
+       
+</h:body>
+</html>

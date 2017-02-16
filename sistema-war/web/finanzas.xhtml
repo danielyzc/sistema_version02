@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+   <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Finanzas" >
+
+        <h:form id="frm_principal" >
+
+
+          <h:panelGrid id="pnlg23" columns="3" style="padding:0 10px 0 145px;" >
+
+
+             <h:panelGroup>
+                 <h:commandLink id="ingresos" title="Ingresos" action="#{managedBeanIngresoEconomico.Ingresos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/ingresos.jpg" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="ingresos"  value="REALIZAR INGRESOS ECONÓMICOS" showEffect="slide" hideEffect="explode" />
+                 </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Ingresos" action="#{managedBeanIngresoEconomico.Ingresos}"/>
+             </h:panelGroup>
+
+
+
+                <h:panelGroup>
+                    <h:commandLink id="gastos" title="Gastos" action="#{managedBeanGastoEconomico.Gastos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/gastos.png" alt="" title="" style="border-width:0px;"/>
+            <p:tooltip for="gastos"  value="REALIZAR GASTOS ECONÓMICOS" showEffect="slide" hideEffect="explode" />
+                    </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Gastos" action="#{managedBeanGastoEconomico.Gastos}"/>
+             </h:panelGroup>
+
+
+         </h:panelGrid>
+
+
+              <p:separator />
+</h:form>
+          
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

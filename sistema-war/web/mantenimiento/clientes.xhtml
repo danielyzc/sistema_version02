@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+       
+    <p:panel header="Mantenimiento - Clientes" >
+
+
+           <h:form id="frmPrincipal">
+               <p:growl id="growl" showDetail="true"/>
+               
+               <center>
+                        <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanCliente.newObject()}" style="margin-right:20px; border:0 none;">  
+                        <p:graphicImage  value="../images/nuevo.png"  />
+                        <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                       
+                    </center>
+               
+              
+    <p:separator />
+    <h:panelGrid id="pnlg1" columns="1"  style="width:100%;">
+
+            
+
+<center>
+    <p:dataTable   paginator="true" rows="30"   var="item" value="#{managedBeanCliente.lista_Clientes}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+        <p:column   style="width:250px; text-align:center; font-size: 13px;" filterBy="#{item.nombreCliente}"
+                headerText="Nombre"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.nombreCliente}" />
+        </p:column>
+
+
+        <p:column   style="width:90px; text-align:center; font-size: 13px;" filterBy="#{item.rucCliente}"
+                headerText="RUC"
+                filterMatchMode="contains">
+             <h:outputText value="#{item.rucCliente}" />
+        </p:column>
+
+
+
+        <p:column style="width:90px; text-align:center; font-size: 13px;" filterBy="#{item.telefono}"
+                  headerText="Teléfono:"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.telefono}" />
+        </p:column >
+
+
+    
+
+        <p:column style="width:170px;text-align:center; font-size: 13px;" filterBy="#{item.direccion}"
+                  headerText="Dirección"
+                filterMatchMode="contains">
+            <h:outputText style="color: blue;" value="#{item.direccion}" />
+        </p:column >
+
+
+         <p:column style="width:40px;"
+                headerText="op.">
+             
+                   <p:commandLink  oncomplete="PF('dlgeditArea').show();" id="editArea" update=":Form3" >  
+                        <p:graphicImage  value="../images/Editar.png"  />
+                        <p:tooltip for="editArea"  value="EDITAR ITEM" showEffect="slide" hideEffect="explode" /> 
+<f:setPropertyActionListener value="#{item}" target="#{managedBeanCliente.cliente}" />
+                        </p:commandLink>
+           
+               
+             
+
+           
+        </p:column >
+
+    </p:dataTable>
+                </center>
+
+
+        </h:panelGrid>
+
+</h:form>
+  <p:separator />
+      <h:form id="frm_12232454">
+          <center>     <h:commandLink title="Regresar"  action="#{managedBeanCliente.Volver_Clientes}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+
+    </p:panel>
+
+       
+        <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    <h:outputText value="Nombre del Cliente: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.nombreCliente}" />
+        <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+             
+            <h:panelGrid id="pnlg1" columns="4" cellpadding="5">
+
+
+
+
+ <h:outputText value="Razón Social: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.razonSocial}" />
+
+ <h:outputText value="Giro - Rubro: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.giroRubro}" />
+
+
+  <h:outputText value="Nombre/Contacto: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.contacto}" />
+
+  <h:outputText value="Tipo de Cliente: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.tipoCliente}" effect="drop" converter="tipoClienteConverter" >
+  <f:selectItems  id="temsripoclientes"  value="#{managedBeanTipoCliente.tipoclientesItems}"/>
+  </p:selectOneMenu>
+
+
+  <h:outputText value="RUC: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.rucCliente}"/>
+
+
+  <h:outputText value="Dirección: " />
+  <p:inputTextarea cols="35" rows="2" autoResize="false"  style="color: blue;" value="#{managedBeanCliente.cliente.direccion}"/>
+
+
+  <h:outputText value="Zona: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.zonaCiudad}" effect="drop" converter="zonaConverter" >
+      <f:selectItems  id="Itemszonas"  value="#{managedBeanZona.zonasItems}"/>
+  </p:selectOneMenu>
+
+
+ 
+
+      <h:outputText value="Teléfono: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.telefono}" />
+    <h:outputText value="Celular: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.celular}"/>
+
+ 
+    <h:outputText value="Nextel: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.nextel}"/>  
+      <h:outputText value="Correo: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.correo}" />
+
+
+
+
+            </h:panelGrid>
+
+             
+                </h:panelGrid>
+                     <p:separator/>
+                    
+                     <center>
+                          <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanCliente.crearNew()}" />
+</center> 
+                          
+                    </p:dialog>  
+
+                </h:form>
+       
+<h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    <h:outputText value="Nombre del Cliente: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.nombreCliente}" />
+            <h:panelGrid id="pnlPadre" columns="4" cellpadding="5">
+
+
+  <h:outputText value="Razón Social: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.razonSocial}" />
+
+ <h:outputText value="Giro - Rubro: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.giroRubro}" />
+
+
+ <h:outputText value="Nombre/Contacto: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.contacto}" />
+
+ 
+  <h:outputText value="Tipo de Cliente: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.tipoCliente}" effect="drop" converter="tipoClienteConverter" >
+  <f:selectItems  id="temsripoclientes"  value="#{managedBeanTipoCliente.tipoclientesItems}"/>
+  </p:selectOneMenu>
+
+
+  <h:outputText value="RUC: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.rucCliente}"/>
+
+
+  <h:outputText value="Dirección: " />
+  <p:inputTextarea cols="35" rows="2" autoResize="false" style="color: blue;" value="#{managedBeanCliente.cliente.direccion}"/>
+ 
+
+
+  <h:outputText value="Zona: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.zonaCiudad}" effect="drop" converter="zonaConverter" >
+      <f:selectItems  id="Itemszonas"  value="#{managedBeanZona.zonasItems}"/>
+  </p:selectOneMenu>
+
+
+ 
+  <h:outputText value="Teléfono: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.telefono}" />
+
+
+   <h:outputText value="Celular: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.celular}"/>
+
+   <h:outputText value="Nextel: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.nextel}"/>
+
+   <h:outputText value="Correo: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.correo}" />
+
+
+          
+      
+
+                </h:panelGrid>
+     
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanCliente.editarNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

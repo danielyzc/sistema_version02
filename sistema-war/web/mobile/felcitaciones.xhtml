@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head> 
+</h:head>
+<h:body>
+    
+   <h:form id="frm11">
+               
+                <p:tabMenu activeIndex="0">
+      <p:menuitem value="VENTAS" outcome="ventas" icon="ui-icon-star"/>
+<p:menuitem value="COMPRAS"  icon="ui-icon-search" />
+<p:menuitem value="ALMACEN"  icon="ui-icon-document"/>
+<p:menuitem value="FINANZAS"  icon="ui-icon-wrench"/>
+
+</p:tabMenu>
+               
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="MÓDULO DE VENTAS - CONFIRMACIÓN DE LA VENTA" >
+
+         
+        <h:panelGrid  width="100%" columns="2" cellpadding="2">
+            
+               <h:panelGrid id="pnlg1" width="100%" columns="1" cellpadding="5">
+                    <h:panelGrid id="pnlgextra" columns="1" cellpadding="5">
+                       <h:outputText value="SISTEMA DE VENTAS INTEGRADO" />
+                        <h:outputText value="RESPONSABLE : danielyzc@gmail.com" />
+                        <h:outputText value="TRUJILLO - PERÚ" />
+                   </h:panelGrid>
+
+
+                      <h:panelGrid id="pnlgextra2" columns="2" cellpadding="5">
+                        <h:outputText value="Fecha: " />
+
+                    <h:outputText value="#{managedBeanVenta.venta.fechaVenta}"  >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+
+                        <h:outputText value="Venta:" />
+                        <h:outputText value="#{managedBeanVenta.bloqueBoleta} - #{managedBeanVenta.numeroBoleta}" />
+
+
+                      <h:outputText value="Tienda:" />
+<h:outputText value="#{managedBeanVenta.venta.tienda.nombreTienda}" />
+
+                    <h:outputText value="Cliente:"/>
+ <h:outputText value="#{managedBeanVenta.venta.cliente.nombreCliente}"/>
+   <h:outputText value="Obs:"/>
+         <h:outputText value="#{managedBeanVenta.venta.observaciones}"/>
+                      </h:panelGrid>
+
+
+         
+        </h:panelGrid>
+            
+            <p:panel header="LISTA DE VENTA" >
+                <p:dataTable style="width: 100%" var="item" value="#{managedBeanVenta.lista_detalles_mostrar}" id="detalleslist" >
+
+        <f:facet name="header">
+           Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cant." >
+            
+                    <h:outputText value="#{item.cantidad}" />
+               
+           
+           
+        </p:column>
+
+        <p:column headerText="Precio" >
+           
+                    <h:outputText value="#{item.precioVenta}" />
+               
+        </p:column>
+
+        <p:column headerText="Dscto." >
+           
+                    <h:outputText value="#{item.descuento}" />
+               
+        </p:column>
+
+                 <p:column headerText="Sub.Total" >
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+
+                <f:facet name="footer">
+                    
+                    <h:outputText style="float: right; color: blue; font-size: 21px;" value="MONTO TOTAL: #{managedBeanVenta.venta.totalVenta} SOLES"/>
+        </f:facet>
+    </p:dataTable>
+            </p:panel>
+        </h:panelGrid>
+     
+
+      
+
+   
+<br />
+<center >
+<h:panelGrid id="pnlg112" columns="3" >
+    
+
+
+      <h:outputLink onclick="window.open('../boletas/boleta'+#{managedBeanVenta.venta.idVenta}+'.txt','','height=375,width=240,scrollbars=1') ; return false;" value="#">
+<h:graphicImage value="/images/impresora_matricial.jpg" width="120 px" height="120 px"/>
+</h:outputLink>
+
+
+
+
+</h:panelGrid>
+</center>
+         
+        
+    </p:panel>
+</h:form>
+       
+</h:body>
+</html>

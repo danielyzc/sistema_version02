@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_consolidado" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="fecha1" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select m.nombre_mercado, tv.nombre_tipo_venta ,p.nombre_producto, dtvp.cantidad
+from venta v  inner join tipo_venta tv on
+v.id_tipo_venta = tv.id_tipo_venta inner join cliente c on
+v.id_cliente = c.id_cliente inner join mercado m on
+m.id_mercado = c.id_mercado inner join detalle_venta_producto dtvp on
+dtvp.id_venta = v.id_venta inner join producto p on
+p.id_producto = dtvp.id_producto
+where v.fecha_venta =  $P{fecha1}]]>
+	</queryString>
+	<field name="nombre_mercado" class="java.lang.String"/>
+	<field name="nombre_tipo_venta" class="java.lang.String"/>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<group name="NOMBRE_MERCADO">
+		<groupExpression><![CDATA[$F{nombre_mercado}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="11" width="290" height="20"/>
+				<textElement>
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Consolidado de Ventas del dia:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="346" y="11" width="265" height="20" forecolor="#FF0000"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25"/>
+	</pageHeader>
+	<pageFooter>
+		<band height="7" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="200">
+			<crosstab>
+				<reportElement x="0" y="0" width="802" height="200"/>
+				<rowGroup name="NOMBRE_PRODUCTO" width="148" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{nombre_producto}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="148" height="25"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Serif" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{nombre_producto}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="123" height="25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="NOMBRE_MERCADO" height="30" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{nombre_mercado}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="157" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Serif" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{NOMBRE_MERCADO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="99" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="CANTIDADMeasure" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[$F{CANTIDAD}]]></measureExpression>
+				</measure>
+				<crosstabCell width="157" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="157" height="25"/>
+							<textElement verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CANTIDADMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="157" height="25" rowTotalGroup="NOMBRE_PRODUCTO">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="157" height="25"/>
+							<textElement verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CANTIDADMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="99" columnTotalGroup="NOMBRE_MERCADO">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
+							<textElement verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CANTIDADMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="99" rowTotalGroup="NOMBRE_PRODUCTO" columnTotalGroup="NOMBRE_MERCADO">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
+							<textElement verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CANTIDADMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

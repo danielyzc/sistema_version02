@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+
+    <p:panel header="VENTA RAPIDA" >
+
+          <h:form id="frm_principal_2">
+              <p:focus for="txt_codigo_barras"/>
+              <p:growl id="growl" showDetail="true"  />
+
+        <p:fieldset toggleable="true" toggleSpeed="500" id="fielset"  legend="Datos de la Venta" style="margin-top:5px">
+
+            <h:panelGrid id="pnlg1_subprincipal" columns="2" cellpadding="5">
+
+
+            
+                <h:panelGrid id="pnlg1" width="450px" columns="2" cellpadding="1">
+                    <h:outputText value="TIENDA:" />
+                    <h:outputText value="#{managedBeanVentaRapida.ventaRapida.tienda.nombreTienda}" />
+
+
+
+<h:outputText id="txtFecha" value="FECHA SALIDA:"  />
+<h:outputText value="#{managedBeanVentaRapida.ventaRapida.fechaVenta}" style="color: green; font-weight: bold;">
+ <f:convertDateTime pattern="dd/MM/yyyy" />
+</h:outputText>
+
+
+        </h:panelGrid>
+                <h:panelGrid id="pnlg_dos" columns="1" >
+                  
+<center>     <h:commandLink  action="#{managedBeanVentaRapida.volver}"  >
+        <p:graphicImage  value="images/inicio1.jpg" height="75px" width="75" />
+</h:commandLink></center>
+                </h:panelGrid>
+ </h:panelGrid>
+
+ </p:fieldset>
+
+
+
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset2"  legend="INGRESO PRODUCTOS" style="margin-top:5px">
+
+
+        <h:panelGrid id="pnl_princ" style="width: 100%" columns="2" cellpadding="5">
+
+
+            <h:panelGrid id="panel_datos" width="420" columns="2" cellpadding="5" >
+
+
+            <h:outputText id="txtcodbarras" value="CODIGO BARRAS:" />
+
+            <p:inputText  id="txt_codigo_barras" value="#{managedBeanVentaRapida.codigoBarras}"  onclick="borrar()" >
+                <p:ajax event="keyup"  listener="#{managedBeanVentaRapida.buscar}" update="frm_principal_2:producto_seleccionado :frm_principal_2:growl" />
+  </p:inputText>
+
+
+
+
+    <h:outputText value="PRODUCTO SELECCIONADO:" style="font-size: 9px;"/>
+    <h:outputText id="producto_seleccionado" style="font-size: 20px; color: red;" value="#{managedBeanVentaRapida.nombre_producto}"/>
+    
+        <h:outputText value="CANTIDAD" style="color: red;"/>
+        <p:inputText value="#{managedBeanVentaRapida.cantidad}" style="color: blue;" size="7"/>
+       
+        
+        <h:outputText value=""/>
+        <p:commandButton value="AGREGAR" action="#{managedBeanVentaRapida.agregarLista}" update="frm_principal_2:producto_seleccionado :frm_principal_2:growl :frm_principal_2:fielset_productos :frm_principal_2:total"/>
+
+        </h:panelGrid>
+            <h:panelGrid id="panel_dos" columns="1" cellpadding="5" >
+                <h:outputText id="total" style="font-size: 50px; color: red;" value=" TOTAL: #{managedBeanVentaRapida.cantidadLista}"/>
+
+            </h:panelGrid>
+             </h:panelGrid>  
+
+
+    </p:fieldset>
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset_productos"  legend="Lista de Productos" style="margin-top:5px">
+    <p:growl id="messages2" />
+    <p:dataTable var="item" value="#{managedBeanVentaRapida.listaProductos}" id="detalleslist" >
+
+        <f:facet name="header">
+            LA LISTA CUENTA CON #{managedBeanVentaRapida.cantidadLista} PRODUCTOS A VENDIDOS
+        </f:facet>
+
+
+       <p:column headerText="SACAR" style="width:15px">
+
+    <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanVentaRapida.eliminar_lista}" update=":frm_principal_2:producto_seleccionado :frm_principal_2:growl :frm_principal_2:fielset_productos :frm_principal_2:total">
+         <f:setPropertyActionListener value="#{item}" target="#{managedBeanVentaRapida.detalle}" />
+            </p:commandButton>
+
+        </p:column>
+
+
+      
+        <p:column headerText="PRODUCTO" style="width:350px;">
+
+            <h:outputText style="font-size: 10px;" value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+
+
+          <p:column headerText="CANT" style="width:75px; text-align: center;">
+
+              <h:outputText style="font-size: 10px;" value="#{item.cantidad}" />
+
+        </p:column>
+        <p:column headerText="PRECIO" style="width:75px; text-align: center;">
+            
+                    <h:outputText style="font-size: 10px;" value="#{item.precioVenta}" />
+                
+        </p:column>
+
+<p:column headerText="CLIENTE" style="width:75px">
+
+    <h:outputText value="#{item.cliente.nombreCliente}" style="font-size: 10px;" />
+
+        </p:column>
+
+
+        <p:column headerText="OP" style="width:15px">
+
+    <p:commandButton title="EDITAR" icon="ui-icon ui-icon-search"  update=":frm_principal_2:display " oncomplete="PF('carDialog').show();">
+         <f:setPropertyActionListener value="#{item}" target="#{managedBeanVentaRapida.detalle}" />
+            </p:commandButton>
+
+        </p:column>
+
+
+
+
+                <f:facet name="footer">
+
+        </f:facet>
+    </p:dataTable>
+    
+
+    </p:fieldset>
+<br />
+
+
+<p:dialog id="dialog" header="PRODUCTO SELECCIONADO" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="PRODUCTO : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanVentaRapida.detalle.producto.nombreProducto}" style="font-size: 15px;" />
+
+<h:outputText value="CANTIDAD : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanVentaRapida.detalle.cantidad}" style="font-size: 15px;" />
+
+<h:outputText value="PRECIO : " style="font-size: 15px;" />
+<p:inputText value="#{managedBeanVentaRapida.detalle.precioVenta}" style="font-size: 15px;" />
+
+<h:outputText value="CLIENTE : " style="font-size: 15px;" />
+
+<p:autoComplete id="AutoComplete_cliente"
+                var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
+                  itemValue="#{item_cliente}"
+                  value="#{managedBeanVentaRapida.detalle.cliente}"
+                 completeMethod="#{managedBeanCliente.completar_filtrado_Clientes}"
+
+                  converter="clienteFinalConverter"  minQueryLength="3"
+               size="17"
+               />
+
+<p:commandButton value="GUARDAR" action="#{managedBeanVentaRapida.editarDetalle}" update=":frm_principal_2"/>
+        </h:panelGrid>
+    </p:dialog>
+
+<script type="text/javascript">
+        function borrar() {
+//var myObjs = document.getElementById("frm11:txt_codigo_barras"); // get element by tag name
+//alert(myObjs.value);
+   document.getElementById("frm_principal_2:txt_codigo_barras").value="";
+        }
+
+         function onclick(){
+    var inputfield = document.getElementById("frm_principal_2:txt_codigo_barras");
+    alert(inputfield.getAttribute(value));
+  }
+
+    </script>
+</h:form>
+  <p:separator />
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+
+</html>
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+       <p:panel header="M&oacute;dulo de Almac&eacute;n" >
+        <h:form id="frmPrincipal" >
+<p:growl id="growl" showDetail="true"/>
+   <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Número de Orden de Compra: " />
+ <h:outputText value="#{managedBeanCanjeOrdenCompra.canjeordencompra.ordenCompra.idOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Proveedor: " />
+  <h:outputText value="#{managedBeanCanjeOrdenCompra.canjeordencompra.ordenCompra.proveedor.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Estado Orden de Compra: " />
+  <h:outputText value="#{managedBeanCanjeOrdenCompra.canjeordencompra.ordenCompra.estadoOrdenCompra.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. a Pagar: " />
+  <h:outputText value="#{managedBeanCanjeOrdenCompra.canjeordencompra.ordenCompra.totalOrdenCompra}" />
+ <h:outputText value="" />
+
+
+
+
+
+  <h:outputText value="Fecha de Pago : " />
+  <p:calendar value="#{managedBeanCanjeOrdenCompra.canjeordencompra.fechaPago}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Monto del Canje: " />
+  <p:inputText size="35" value="#{managedBeanCanjeOrdenCompra.canjeordencompra.montoCanje}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Observaciones: " />
+  <p:inputTextarea cols="35" value="#{managedBeanCanjeOrdenCompra.canjeordencompra.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="N&uacute;mero de Cuotas: " />
+ <p:inputText size="35" value="#{managedBeanCanjeOrdenCompra.canjeordencompra.numeroCuotas}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Banco: " />
+  <p:inputText style="color: blue;" size="35" value="#{managedBeanCanjeOrdenCompra.canjeordencompra.nombreBancoPagar}" />
+ <h:outputText value="" />
+
+ <h:outputText value="N&uacute;mero de cuenta: " />
+ <p:inputText  style="color: red;" size="35" value="#{managedBeanCanjeOrdenCompra.canjeordencompra.numeroCuenta}" />
+ <h:outputText value="" />
+ 
+
+            </h:panelGrid>
+
+                <h:commandButton title="Realizar Canje" image="images/guardar.png"  action="#{managedBeanCanjeOrdenCompra.crear}"/>
+
+
+<h:outputText value="" />
+<h:outputText value="" />
+
+                </h:panelGrid>
+
+</h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

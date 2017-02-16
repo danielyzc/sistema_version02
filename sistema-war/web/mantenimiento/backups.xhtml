@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+    <p:graphicImage value="/images/ajaxloadingbar.gif" />
+</p:dialog>
+
+        <h:form id="frmbtn">
+    
+    <p:panel header="Mantenimiento - BACKUPS" >
+
+
+
+         
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+            <p:fieldset id="fset1" toggleable="true" legend="CREAR BACKUP" >
+
+                <p:commandButton
+                    id="downloadLink"  ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+        icon="ui-icon-arrowthichk-s"
+
+        value="CREAR UN NUEVO BACKUP" action="#{managedBeanBackUp.backupDB}">
+                <p:fileDownload value="#{managedBeanBackUp.file}" />
+                </p:commandButton>
+
+            </p:fieldset>
+
+            <p:fieldset id="fset2" toggleable="true" legend="CARGAR BACKUP" >
+
+
+                <p:fileUpload value="CARGAR BACKUP" auto="true"/>
+            </p:fieldset>
+
+            
+
+
+        </h:panelGrid>
+
+
+ 
+
+
+
+
+     <p:separator />
+            
+                <center>     <h:commandLink  action="#{managedBeanMateriaPrima.Volver_Materia}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+          
+
+
+
+
+    </p:panel>
+</h:form>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

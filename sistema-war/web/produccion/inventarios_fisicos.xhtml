@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="PRODUCCION - INVENTARIOS FISICOS" >
+
+
+
+         <h:form id="frmbtn">
+
+
+     <center>
+         <h:commandButton title="NUEVO INVENTARIO FISICO" image="../images/nuevo.png" action="#{managedBeanInventarioFisico.Nuevo}"
+              />
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanInventarioFisico.lista_inventarios}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+
+
+                <p:column style="width:25px; text-align:center;"
+                headerText="INICIAL">
+
+
+              <h:commandButton title="CONVERTIR INICIAL"
+                               image="../images/init.png" action="#{managedBeanInventarioFisico.RegistrarSistema}">
+                  <f:setPropertyActionListener value="#{item}" target="#{managedBeanInventarioFisico.inventarioFisico}" />
+              </h:commandButton>
+
+
+
+
+        </p:column >
+
+
+                <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.obervaciones}"
+                headerText="OBS"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.obervaciones}" />
+        </p:column>
+
+
+        
+        <p:column   style="width:85px; text-align:center; font-size: 13px;" filterBy="#{item.fechaInicio}"
+                headerText="INICIO"
+                filterMatchMode="contains">
+
+         <h:outputText value="#{item.fechaInicio}"  >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+        </p:column>
+
+                <p:column   style="width:85px; text-align:center; font-size: 13px;" filterBy="#{item.fechaTermino}"
+                headerText="FIN"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaTermino}" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+        </p:column>
+
+
+
+        <p:column style="width:157px; text-align:center;"
+                headerText="COM">
+
+
+
+             <h:commandButton title="REALIZAR COMPARACION"
+                              image="../images/comparar.png" action="#{managedBeanReportando.Comparar_Inventario}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanReportando.inventarioFisico}" />
+              </h:commandButton>
+
+
+
+        </p:column >
+
+
+         <p:column style="width:157px; text-align:center;"
+                headerText="op.">
+           
+             
+              <h:commandButton title="IMPRIMIR"
+                               image="../images/impresora_mini.png" action="#{managedBeanReportando.generar_Inventario}">
+                  <f:setPropertyActionListener value="#{item}" target="#{managedBeanReportando.inventarioFisico}" />
+              </h:commandButton>
+
+
+           
+
+
+             <h:commandButton title="Editar"
+                              image="../images/Editar.png" action="#{managedBeanInventarioFisico.edicion}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanInventarioFisico.inventarioFisico}" />
+              </h:commandButton>
+
+              
+               
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+   
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+           <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

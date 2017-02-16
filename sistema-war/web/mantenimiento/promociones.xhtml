@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+    <p:panel header="MANTENIMIENTO - PROMOCIONES" >
+
+
+
+         <h:form id="frmPrincipal">
+   <p:growl id="growl" showDetail="true"/>
+
+     <center>
+         <h:commandButton title="NUEVA PROMOCION" image="../images/nuevo.png" action="#{managedBeanPromocion.Nueva}"
+              />
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="50"   var="item" value="#{managedBeanPromocion.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+        <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.observaciones}"
+                headerText="NOMBRE"
+                filterMatchMode="contains"
+
+                >
+            <h:outputText value="#{item.observaciones}" />
+        </p:column>
+
+<p:column style="width:100px; font-size: 10px; text-align: center;" headerText="INICIO">
+                        <h:outputText  value="#{item.fechaInicio}" >
+        <f:convertDateTime pattern="EEEEE dd MMMMM yyyy"   />
+        </h:outputText>
+        </p:column >
+        <p:column style="width:100px; font-size: 10px; text-align: center;" headerText="FIN">
+                        <h:outputText  value="#{item.fechaFin}" >
+        <f:convertDateTime pattern="EEEEE dd MMMMM yyyy"   />
+        </h:outputText>
+        </p:column >
+           
+
+        
+        
+         <p:column   style="width:300px; text-align:center; font-size: 13px;" 
+                headerText="ESTADO"
+                filterMatchMode="contains"
+
+                >
+             <h:outputText value="#{item.estadoPromocion eq 1 ?    'ACTIVO' :'INACTIVO'}" />
+        </p:column>
+        
+         <p:column style="width:95px;"
+                headerText="op.">
+
+            
+<p:commandButton value="Ver" icon="ui-icon ui-icon-search"
+                 update=":frmPrincipal:display :frmPrincipal:tablaDetalles" oncomplete="PF('carDialog').show();" >
+    
+    <f:setPropertyActionListener value="#{item}" target="#{managedBeanPromocion.promocion}" />
+                      
+</p:commandButton>
+             
+               <h:commandButton title="Editar"
+                               image="../images/Editar.png" action="#{managedBeanPromocion.edicion}">
+                  <f:setPropertyActionListener value="#{item}" target="#{managedBeanPromocion.promocion}" />
+              </h:commandButton>
+
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+  <p:dialog id="dialog" header="PROMOCION SELECCIONADA" widgetVar="carDialog" resizable="false"
+              width="550" showEffect="clip" hideEffect="fold">
+
+      <h:panelGrid id="display" columns="2" style="width: 100%;" cellpadding="4">
+
+            <h:outputText value="NOMBRE : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanPromocion.promocion.observaciones}" style="font-size: 15px;" />
+
+
+<h:outputText value="ALMACEN : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanPromocion.promocion.tienda.nombreTienda}" style="font-size: 15px;" />
+
+        </h:panelGrid>
+     
+      <p:dataTable style="width: 100%;" id="tablaDetalles" var="item2" value="#{managedBeanPromocion.promocion.detallePromocionProductoList}"  >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item2.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="DESCUENTO" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item2.descuentoPorcentaje}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item2.descuentoPorcentaje}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+       
+                <f:facet name="footer">
+                    NUM PRODUCTOS EN LISTA : #{managedBeanPromocion.tamlistapROM()}.
+        </f:facet>
+    </p:dataTable>
+
+    </p:dialog>
+ </h:form>
+
+   
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+           <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+             
+             
+                   <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+    
+        <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre del Proveedor" />
+            <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nombre}" />
+
+
+
+            <h:outputText value="Tipo de Proveedor: "  />
+
+            <p:selectOneMenu  value="#{managedBeanProveedor.proveedor.tipoProveedor}" effect="drop" style="width:425px" converter="tipoproveedorConverter" >
+                <f:selectItems  id="temsripoproovee" value="#{managedBeanTipoProveedor.tipoproveedoresItems}"/>
+        </p:selectOneMenu>
+
+            <h:outputText value="Dirección" />
+     <p:inputText size="37" value="#{managedBeanProveedor.proveedor.direccion}" />
+  <h:outputText value="Celular" />
+  <p:inputText size="37" value="#{managedBeanProveedor.proveedor.celular}" />
+   <h:outputText value="Nextel" />
+   <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nextel}" />
+    <h:outputText value="Teléfono" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.telefono}" />
+
+    <h:outputText value="Correo" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.correo}" />
+
+</h:panelGrid>
+
+
+      
+
+ </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanProveedor.editarNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

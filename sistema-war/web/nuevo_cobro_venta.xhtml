@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />  
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Cobro de la Venta Seleccionada" >
+
+        <h:form id="frm_nuevo_cliente">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Número de Venta: " />
+ <h:outputText value="#{managedBeanVenta.Formato(managedBeanPagoVentaCredito.pagoventacredito.venta)}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Cliente: " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.cliente.nombreCliente}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Vendido por : " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.empleado.nombreEmpleado}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. de la Venta: " />
+  <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.totalVenta}" />
+ <h:outputText value="" />
+
+<h:outputText value="Total de SOLES.. que ya se ha pagado: " />
+   <h:outputText value="#{managedBeanPagoVentaCredito.pagoventacredito.venta.totalPagosCredito}" />
+ <h:outputText value="" />
+
+
+  <h:outputText value="Total de SOLES.. que aún faltan : " />
+  <h:outputText style="color: red;" value="#{managedBeanPagoVentaCredito.debito}" />
+ <h:outputText value="" />
+ 
+ <h:outputText value="Empleado que Recibe el Cobro: " />
+ <p:selectOneMenu  value="#{managedBeanPagoVentaCredito.pagoventacredito.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea  value="#{managedBeanPagoVentaCredito.pagoventacredito.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Cantidad de SOLES.. a  Abonar : " />
+ <p:inputText size="21" value="#{managedBeanPagoVentaCredito.pagoventacredito.cantidad}" />
+ <h:outputText value="" />
+
+ 
+
+            </h:panelGrid>
+
+                <h:commandButton title="Realizar el Pago" image="images/guardar.png"  action="#{managedBeanPagoVentaCredito.Crear}"/>
+
+
+               
+<h:outputText value="" />
+<h:outputText value="" />
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

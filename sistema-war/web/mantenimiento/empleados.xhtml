@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../master/master.xhtml">
+
+            <ui:define name="datos">
+
+                <p:panel header="Mantenimiento - Empleados" >
+
+
+
+                    <h:form id="frmPrincipal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <center>
+                            <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanEmpleado.newObject()}" style="margin-right:20px; border:0 none;">  
+                                <p:graphicImage  value="../images/nuevo.png"  />
+                                <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                            </p:commandLink>
+
+                        </center>
+
+
+
+                        <p:separator />
+
+
+
+                        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+                            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanEmpleado.lista_Empleados}" widgetVar="carsTable"
+                                           emptyMessage="No se Encontraron datos">
+
+                                <f:facet name="header">
+                                    Seleccione una Opci&oacute;n de Filtrado
+                                </f:facet>
+
+                                <p:column   style="width:210px; text-align:center; font-size: 13px;" filterBy="#{item.nombreEmpleado}"
+                                            headerText="Empleado"
+                                            filterMatchMode="contains">
+                                    <h:outputText value="#{item.nombreEmpleado}" />
+                                </p:column>
+
+                                <p:column  style="width:75px; text-align:center; font-size: 13px; " filterBy="#{item.direccion}"
+                                           headerText="Dirección"
+                                           filterMatchMode="contains">
+                                    <h:outputText value="#{item.direccion}" />
+                                </p:column>
+
+
+                                <p:column  style="width:100px; text-align:center; font-size: 13px; " filterBy="#{item.usuario}"
+                                           headerText="Usuario"
+                                           filterMatchMode="contains">
+                                    <h:outputText value="#{item.usuario}" />
+                                </p:column>
+
+                                <p:column  style="width:120px; text-align:center; font-size: 10px; " filterBy="#{item.correo}"
+                                           headerText="Correo"
+                                           filterMatchMode="contains">
+                                    <h:outputText value="#{item.correo}" />
+                                </p:column>
+
+
+
+                                <p:column style="width:70px; text-align:center;"
+                                          headerText="op.">
+
+
+                                    <p:commandLink  oncomplete="PF('dlgeditArea').show();" id="editArea" update=":Form3" >  
+                                        <p:graphicImage  value="../images/Editar.png"  />
+                                        <p:tooltip for="editArea"  value="EDITAR ITEM" showEffect="slide" hideEffect="explode" /> 
+                                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanEmpleado.empleado}" />
+
+                                    </p:commandLink>
+
+
+
+
+                                </p:column >
+
+                            </p:dataTable>
+
+
+                        </h:panelGrid>
+
+
+                    </h:form>
+
+
+
+
+                    <p:separator />
+                    <h:form id="frm_link2">
+                        <center>     <h:commandLink  action="#{managedBeanEmpleado.Volver_TipoCliente}"  >
+                                <p:graphicImage  value="../images/inicio1.jpg" />
+                            </h:commandLink></center>
+                    </h:form>
+
+
+
+
+                </p:panel>
+
+                <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+
+
+                        <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+                            <h:panelGrid id="pnlg1" columns="2"  >
+
+                                <h:outputText value="Nombre Del Empleado" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.nombreEmpleado}"/>
+                                <h:outputText value="TIENDA" />
+
+                                <p:selectOneMenu value="#{managedBeanEmpleado.empleado.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+                                    <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Correo" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.correo}"/>
+
+                                <h:outputText value="Dirección" />
+                                <p:inputTextarea cols="23" rows="2" autoResize="false" value="#{managedBeanEmpleado.empleado.direccion}"/>
+                                <h:outputText value="SUELDO BASE" />
+                                <p:inputText size="15" value="#{managedBeanEmpleado.empleado.sueldoBase}"/>
+
+
+
+                                <h:outputText value="Teléfono" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.telefono}"/>
+                                <h:outputText value="Usuario" />
+                                <p:inputText  size="21" value="#{managedBeanEmpleado.empleado.usuario}"/>
+                                <h:outputText value="Password" />
+                                <p:inputText type="password" size="21" value="#{managedBeanEmpleado.empleado.password}"/>
+
+
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <center>
+                            <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanEmpleado.crearNew()}" />
+                        </center> 
+
+                    </p:dialog>  
+
+                </h:form>
+
+                <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+
+
+                        <h:panelGrid id="pnlgprincipal" columns="2"  >
+
+
+
+                            <h:panelGrid id="pnlg1" columns="2"  >
+
+                                <h:outputText value="Nombre Del Empleado" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.nombreEmpleado}"/>
+
+                                <h:outputText value="Correo" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.correo}"/>
+
+                                <h:outputText value="Dirección" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.direccion}"/>
+
+                                <h:outputText value="SUELDO BASE" />
+                                <p:inputText size="15" value="#{managedBeanEmpleado.empleado.sueldoBase}"/>
+
+
+                                <h:outputText value="Teléfono" />
+                                <p:inputText size="21" value="#{managedBeanEmpleado.empleado.telefono}"/>
+                                <h:outputText value="Usuario" />
+                                <p:inputText  size="21" value="#{managedBeanEmpleado.empleado.usuario}"/>
+                                <h:outputText value="Password" />
+                                <p:inputText type="password" size="21" value="#{managedBeanEmpleado.empleado.password}"/>
+
+
+                            </h:panelGrid>
+
+
+                        </h:panelGrid>
+                        <p:separator/>
+
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanEmpleado.editarNew()}" /></center> 
+
+
+                    </p:dialog>  
+
+                </h:form>
+
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

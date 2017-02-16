@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+   <p:growl id="growl" showDetail="true"/>
+
+       <p:panel header="M&oacute;dulo de Administración" >
+
+<h:form id="frm123">
+
+ <p:fieldset id="fielset"  legend="Datos de Filtrado" style="margin-top:10px">
+            <h:panelGrid id="pnl1" columns="2">
+
+
+                <p:calendar id="feth1" effect="slide" locale="es" value="#{managedBeanReportando.fecha_inicio}" pattern="dd/MM/yyyy"/>
+                <p:calendar id="feth2" effect="slide" locale="es" value="#{managedBeanReportando.fecha_fin}" pattern="dd/MM/yyyy"/>
+
+                <p:commandButton value="Generar Reportes" action="#{managedBeanReportando.Generar_ReportesTotales}" update="frm123" actionListener="#{managedBeanReportando.addInfo}"/>
+            </h:panelGrid>
+            <p:separator />
+
+            <p:messages showDetail="true" autoUpdate="true"/>
+
+
+                       </p:fieldset>
+
+
+
+        <h:outputLink title="Descargar los Reportes" value="#{managedBeanReportando.nombre_reporte}" >
+                 <h:graphicImage value="../images/winrar.png"/>
+            </h:outputLink>
+
+    </h:form>
+
+<p:separator />
+ <h:form id="frm_reportes2_2">
+     <center>     <h:commandLink  action="#{managedBeanReportando.Volver_Reporte}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

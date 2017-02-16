@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+    <p:growl id="growl" showDetail="true"/>
+    <h:form id="frmPrincipal">
+    <p:panel header="M&oacute;dulo de Compras - Pagos de Compras al Crédito" >
+
+
+
+         
+        <p:fieldset id="fielset"  legend="Lista Ventas Ordenes de Compra Pedientes de Pago" style="margin-top:10px">
+
+
+            <p:dataTable id="tbldatosFiltrados"   var="item" value="#{managedBeanOrdenCompra.listaFiltradaOrdenesCompra}"
+                         style="width: 100%;" emptyMessage="SIN DATOS"
+                     >
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Proveedor"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.proveedor.nombre}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Fecha que Entrego"> </h:outputText></f:facet>
+                      <h:outputText value="#{item.fechaEntregaOrdenCompra}" ><f:convertDateTime pattern="EEEE dd MMMM yyyy" /></h:outputText>
+
+                </p:column>
+
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Estado"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.estadoOrdenCompra.nombre}" />
+                </p:column>
+
+                                <p:column>
+                    <f:facet name="header"> <h:outputText value="Total"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.totalOrdenCompra}" />
+                </p:column>
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Pagado"> </h:outputText></f:facet>
+                    <h:outputText style="color: blue;" value="#{item.totalPagosCreditoOrdenCompra}" />
+                </p:column>
+
+ <p:column>
+                    <f:facet name="header"> <h:outputText value="Saldo"> </h:outputText></f:facet>
+                    <h:outputText style="color: red;" value="#{item.totalOrdenCompra- item.totalPagosCreditoOrdenCompra}" />
+                </p:column>
+
+                 <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Op."></h:outputText>
+                        </f:facet>
+
+                                 
+                     
+                      <p:commandLink   oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanPagoCompraCredito.newObject(item)}" >  
+                        <p:graphicImage  value="images/cobrando.png"  />
+                        <p:tooltip for="newArea"  value="REALIZAR  PAGO" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                     
+
+           </p:column>
+
+
+            </p:dataTable>
+
+
+
+
+        </p:fieldset>
+           <p:separator />
+           <center>     <h:commandLink  action="#{managedBeanPagoCompraCredito.Volver_PagoCompras}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+
+
+           
+
+    </p:panel>
+    </h:form>
+    
+      <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+      <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Orden de Compra: " />
+ <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.idOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Proveedor: " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.proveedor.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Estado : " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.estadoFacturacionOrdenCompra.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. de la Compra: " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.totalOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. que ya se ha pagado: " />
+   <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.totalPagosCreditoOrdenCompra}" />
+ <h:outputText value="" />
+
+
+   <h:outputText value="Total de SOLES.. que aún faltan : " />
+   <h:outputText style="color: red;" value="#{managedBeanPagoCompraCredito.debito}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Empleado Realiza el Pago: " />
+ <p:selectOneMenu  value="#{managedBeanPagoCompraCredito.pagocompracredito.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea value="#{managedBeanPagoCompraCredito.pagocompracredito.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Cantidad de SOLES.. a  Abonar : " />
+ <p:inputText size="21" value="#{managedBeanPagoCompraCredito.pagocompracredito.cantidad}" />
+ <h:outputText value="" />
+
+
+
+            </h:panelGrid>
+
+            
+
+                </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="AGREGAR ITEM" update=":frmPrincipal" action="#{managedBeanPagoCompraCredito.crearNew()}" /></center> 
+ 
+                          
+                    </p:dialog>  
+
+                </h:form>
+             
+    
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

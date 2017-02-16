@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:panel header="PRODUCCION - EDITAR INVENTARIOS FISICOS" >
+
+
+
+         <h:form id="frmbtn">
+<p:growl id="growl" showDetail="true"/>
+ <p:growl id="messages" />
+ <br />
+ <center>
+     <h:outputText  value="NOMBRE INVENTARIO: #{managedBeanInventarioFisico.inventarioFisico.obervaciones}" style="font-size: 25px; color: red;"  />
+ </center>
+ <br />
+     <center>
+         <p:commandButton value="AGREGAR UBICACION FISICA" 
+                          action="#{managedBeanInventarioFisico.nueva_ubicacion}"       update=":frmbtn:display " oncomplete="PF('carDialog').show();">
+           
+         </p:commandButton>
+    
+
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable  id="tabla_principal" paginator="true" rows="17"   var="item" value="#{managedBeanInventarioFisico.inventarioFisico.detalleInventarioUbicacionFisicaList}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+                <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.ubicacionFisica.nombreUbicacionFisica}"
+                headerText="UBICACION"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.ubicacionFisica.nombreUbicacionFisica}" />
+        </p:column>
+
+
+        
+                <p:column   style="width:300px; text-align:center; font-size: 13px;" filterBy="#{item.ubicacionFisica.descripcionUbicacionFisica}"
+                headerText="DESCRIPCION"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.ubicacionFisica.descripcionUbicacionFisica}" />
+        </p:column>
+
+               
+
+       
+
+         <p:column style="width:157px; text-align:center;"
+                headerText="op.">
+           
+             
+                       
+
+
+             <h:commandButton title="AGREGAR PRODUCTOS"
+                              image="../images/scan.jpg" action="#{managedBeanInventarioFisico.Inventario_Ubicacion_fisica}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanInventarioFisico.detalleInventarioUbicacionFisica}" />
+              </h:commandButton>
+
+              
+               
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+<p:dialog id="dialog" header="UBICACION FISICA" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+           <h:outputText value="Ubicación:"/>
+
+         <p:autoComplete id="autocomplete"
+                         value="#{managedBeanInventarioFisico.ubicacionFisica}"
+                         completeMethod="#{managedBeanUbicacionFisica.completar_filtrado_UbicacionFisica}"
+                         var="item_UbicacionFisica" itemLabel="#{item_UbicacionFisica.nombreUbicacionFisica}"
+                  itemValue="#{item_UbicacionFisica}"
+                               converter="ubicacionFisicaConverter"  minQueryLength="3"
+                               size="35" style="font-size: 15px;"
+                />
+  <center>        <p:commandButton id="showDialogButton" value="Guardar Cambios" onclick="confirmation.show()" type="button" />
+</center>
+        </h:panelGrid>
+
+    </p:dialog>
+
+            <p:confirmDialog id="confirmDialog" message="Esta apunto de realizar un cambio, Desea guardar ???"
+                                 header="Confirmación"  severity="alert" widgetVar="confirmation" width="250" height="170">
+
+        <p:commandButton id="confirm" value="SI" update=":frmbtn:messages :frmbtn:tabla_principal" oncomplete="carDialog.hide() confirmation.hide()"
+                         actionListener="#{managedBeanInventarioFisico.agregarUbicacion}" />
+        <p:commandButton id="decline" value="NO" onclick="confirmation.hide()" type="button" />
+
+    </p:confirmDialog>
+ </h:form>
+
+   
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanInventarioFisico.volver_inventario}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

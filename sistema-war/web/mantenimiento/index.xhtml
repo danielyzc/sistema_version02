@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Mantenimiento" >
+        <h:form id="frm_inicial">
+
+
+         <h:panelGrid id="pnlg1" columns="5" style="padding:0 10px 0 145px;" >
+
+
+          
+
+            <h:panelGroup>
+                 <h:commandLink title="Almacenes" action="#{managedBeanAdministrar.Tiendas}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/almacen_final.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Almacenes" action="#{managedBeanAdministrar.Tiendas}"/>
+            </h:panelGroup>
+
+
+<h:panelGroup>
+    <h:commandLink title="UBICACIONES" action="#{managedBeanAdministrar.UbicacionesFisicas}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/ubicaciones.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="UBICACIONES" action="#{managedBeanAdministrar.UbicacionesFisicas}"/>
+            </h:panelGroup>
+
+
+ <h:panelGroup>
+     <h:commandLink title="Productos" action="#{managedBeanAdministrar.Productos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/productos.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Productos" action="#{managedBeanAdministrar.Productos}"/>
+            </h:panelGroup>
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Proveedores" action="#{managedBeanAdministrar.Proveedores}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/proveedores.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Proveedores" action="#{managedBeanAdministrar.Proveedores}"/>
+            </h:panelGroup>
+
+              <h:panelGroup>
+                  <h:commandLink title="Empleados" action="#{managedBeanAdministrar.Empleados}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/empleados.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Empleados" action="#{managedBeanAdministrar.Empleados}"/>
+            </h:panelGroup>
+
+ <h:panelGroup>
+                   <h:commandLink title="Clientes" action="#{managedBeanAdministrar.Clientes}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/clientes.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Clientes" action="#{managedBeanAdministrar.Clientes}"/>
+            </h:panelGroup>
+             
+            <h:panelGroup>
+                <h:commandLink title="Tipo de Clientes" action="#{managedBeanAdministrar.Tipo_Clientes}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/tipo_clientes.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Tipo de Clientes" action="#{managedBeanAdministrar.Tipo_Clientes}"/>
+            </h:panelGroup>
+
+    <h:panelGroup>
+                <h:commandLink title="Zonas" action="#{managedBeanAdministrar.Zona_clientes}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/mapa.png" alt="zonas de clientes" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Zonas" action="#{managedBeanAdministrar.Zona_clientes}"/>
+            </h:panelGroup>
+              
+
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Tipo de Productos" action="#{managedBeanAdministrar.Tipo_Pruductos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/tipo_productos.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Tipo de Productos" action="#{managedBeanAdministrar.Tipo_Pruductos}"/>
+            </h:panelGroup>
+
+
+
+
+             
+
+
+             
+              
+
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Tipo Proveedor" action="#{managedBeanAdministrar.Tipo_Proveedor}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/tipo_proveedor.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Tipo Proveedor" action="#{managedBeanAdministrar.Tipo_Proveedor}"/>
+            </h:panelGroup>
+
+            
+
+                <h:panelGroup>
+                    <h:commandLink title="Precio Productos" action="#{managedBeanAdministrar.PreciProductos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/precio_productos.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Precio Productos" action="#{managedBeanAdministrar.PreciProductos}"/>
+            </h:panelGroup>
+
+
+             <h:panelGroup>
+                 <h:commandLink title="FECHA VENCIMIENTO" action="#{managedBeanReportando.generar_FechaVencimientos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/vencido.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="FECHA VENCIMIENTO" action="#{managedBeanReportando.generar_FechaVencimientos}"/>
+            </h:panelGroup>
+
+             
+
+
+
+              <h:panelGroup>
+                  <h:commandLink title="Letra de Creditos" action="#{managedBeanAdministrar.Letras}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/letras_credito.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Letra de Creditos" action="#{managedBeanAdministrar.Letras}"/>
+            </h:panelGroup>
+
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Unidades de Medida" action="#{managedBeanAdministrar.Unidades}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/unidades.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Unidades de Medida" action="#{managedBeanAdministrar.Unidades}"/>
+            </h:panelGroup>
+
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Materia Prima" action="#{managedBeanAdministrar.MateriasPrimas}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/insumos.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Materia Prima" action="#{managedBeanAdministrar.MateriasPrimas}"/>
+            </h:panelGroup>
+
+
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Formulaci&oacute;n" action="#{managedBeanAdministrar.Formulacion}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/formulacion.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Formulaci&oacute;n" action="#{managedBeanAdministrar.Formulacion}"/>
+            </h:panelGroup>
+
+
+            
+
+
+              <h:panelGroup>
+                  <h:commandLink title="Motivos de Translado" action="#{managedBeanAdministrar.Motivos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/motivos.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Motivos de Translado" action="#{managedBeanAdministrar.Motivos}"/>
+            </h:panelGroup>
+
+
+             
+               <h:panelGroup>
+                  <h:commandLink title="Transporte" action="#{managedBeanAdministrar.Transporte}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/unidad_transporte.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Transporte" action="#{managedBeanAdministrar.Transporte}"/>
+            </h:panelGroup>
+             
+             
+             <h:panelGroup>
+                 <h:commandLink title="Conductores" action="#{managedBeanAdministrar.Conductores}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/conductor.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Conductores" action="#{managedBeanAdministrar.Conductores}"/>
+            </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:commandLink title="BACKUP" action="#{managedBeanBackUp.Backups}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/backup.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="BACKUP" action="#{managedBeanBackUp.Backups}"/>
+            </h:panelGroup>
+             
+             
+             <h:panelGroup>
+                 <h:commandLink title="PROMOCIONES" action="#{managedBeanPromocion.Promociones}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/backup.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="PROMOCIONES" action="#{managedBeanPromocion.Promociones}"/>
+        </h:panelGroup>
+            
+
+
+
+         </h:panelGrid>
+
+           
+
+
+ </h:form>
+
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

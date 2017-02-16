@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado 2.0 </title>
+        <h:outputScript name="js/calendar_es.js" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+
+
+
+
+        <p:dock position="top" id="dock_menu" itemWidth="75" >
+
+            <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="${pageContext.request.contextPath}/index.jsf"/>
+            <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="${pageContext.request.contextPath}/ventas.jsf"/>
+            <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="${pageContext.request.contextPath}/compras.jsf"/>
+            <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="${pageContext.request.contextPath}/almacen.jsf"/>
+            <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="${pageContext.request.contextPath}/finanzas.jsf"/>
+        </p:dock>  
+        <h:form id="frm1" >
+            <p:idleMonitor timeout="${session.maxInactiveInterval*1000}">
+                <p:ajax event="idle" listener="#{managedBeanUsuario.isSessionValid}"
+                        oncomplete="Javascript:window.location='${pageContext.request.contextPath}/sistema-war/index.jsf'" />
+            </p:idleMonitor>
+
+            <p:confirmDialog  id="dialogoConfirm" global="true" showEffect="fade" hideEffect="explode">  
+
+                <center>
+                    <h:panelGrid columns="2" >
+                        <p:commandButton value="SI"  actionListener="#{authBackingBean.logout()}"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                        <p:commandButton value="NO"   onclick="window.location.reload();"    styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </h:panelGrid>
+                </center>
+            </p:confirmDialog> 
+            <p:commandButton value="CERRAR SESIÓN"  oncomplete="window.location.reload();" style="left:0px; top:-5px;float: right;">
+                <p:confirm header="CONFIRMAR" message="¿ DESEA CERRAR SESIÓN ?" icon="ui-icon-alert" />  
+            </p:commandButton> 
+        </h:form>
+
+        <link type="text/css" rel="stylesheet" href="/sistema-war/css/style.css" />
+
+    </h:head>
+    <h:body>
+
+        <div class="main">
+
+
+            <ui:insert name="datos"/>
+
+        </div>
+    </h:body>
+</html>

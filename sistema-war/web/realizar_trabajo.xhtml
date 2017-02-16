@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+
+        <p:panel header="M&oacute;dulo de Ventas - SERVICIOS PENDIENTES" style="width: 1350px;" >
+       <h:form id="frm_button" prependId="false" >
+<p:growl id="growl" showDetail="true"/>
+ <p:growl id="messages" />
+
+            <p:separator />
+
+
+
+            <p:dataTable  id="tabla_principal" paginator="true" rows="100"   var="item" value="#{managedBeanVenta.lista_modelos}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos"
+            selection="#{managedBeanVenta.venta}" selectionMode="single"
+            >
+
+                <p:ajax event="rowSelect" listener="#{managedBeanVenta.onRowSelect}"
+                    update=":frm_button:display :frm_button:growl" oncomplete="PF('carDialog').show();" />
+                <p:ajax event="rowUnselect" listener="#{managedBeanVenta.onRowUnselect}" update=":frm_button:growl"/>
+              
+
+         <f:facet name="header">
+            Lista de servicios, Pendientes a terminar.
+        </f:facet>
+
+         <p:column style="width:40px;text-align:center; font-size: 10px;"
+                headerText="VENTA">
+
+             <h:outputText style="color: red;" value="#{managedBeanVenta.Formato(item)}" />
+
+
+             </p:column>
+
+
+                <p:column   style="width:120px; text-align:center; font-size: 11px;" filterBy="#{item.cliente.nombreCliente}"
+                headerText="Cliente"
+                filterMatchMode="contains">
+                    <h:outputText style="color: blue;" value="#{item.cliente.nombreCliente}" />
+        </p:column>
+
+                <p:column   style="width:80px; text-align:center; font-size: 11px;" filterBy="#{item.cliente.telefono}"
+                headerText="Telefóno"
+                filterMatchMode="contains">
+                     <h:outputText value="#{item.cliente.telefono}" />
+        </p:column>
+
+
+                <p:column   style="width:120px; text-align:center; font-size: 11px;" filterBy="#{item.cliente.direccion}"
+                headerText="Dirección"
+                filterMatchMode="contains">
+                     <h:outputText value="#{item.cliente.direccion}" />
+        </p:column>
+
+
+                <p:column   style="width:100px; text-align:center; font-size: 11px;" filterBy="#{item.cliente.contacto}"
+                headerText="Nom/Contacto"
+                filterMatchMode="contains">
+                     <h:outputText value="#{item.cliente.contacto}" />
+        </p:column>
+
+        <p:column   style="width:100px; text-align:center; font-size: 11px;" filterBy="#{item.estadoVenta.nombreTestadoVenta}"
+                headerText="Estado"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.estadoVenta.nombreTestadoVenta}" />
+        </p:column>
+
+                <p:column   style="width:100px; text-align:center; font-size: 11px;" filterBy="#{item.observaciones}"
+                headerText="Plaga"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.observaciones}" />
+        </p:column>
+
+
+
+                <p:column   style="width:72px; text-align:center; font-size: 11px;" filterBy="#{item.totalVenta}"
+                headerText="Importe"
+                filterMatchMode="contains">
+                     <h:outputText value="#{item.totalVenta}" />
+        </p:column>
+
+
+                <p:column   style="width:100px; text-align:center; font-size: 11px;" filterBy="#{item.fechaVenta}"
+                headerText="Fecha"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaVenta}" >
+                    <f:convertDateTime pattern="EEEE dd MMMM yyyy" />
+                    </h:outputText>
+        </p:column>
+
+
+    </p:dataTable>
+
+            <p:dialog id="dialog" header="Detalle del Servicio" widgetVar="carDialog" resizable="false"
+                      showEffect="explode" hideEffect="explode" height="360" width="470" >
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+
+
+            <h:outputText style="font-size: 15px;" value="BOLETA:" />
+            <h:outputText style="font-size: 15px;" value="#{managedBeanVenta.Formato(managedBeanVenta.venta)}" />
+
+          
+            <h:outputText style="font-size: 15px;" value="Cliente:" />
+            <h:outputText style="color: blue;font-size: 15px;" value="#{managedBeanVenta.venta.cliente.nombreCliente}" />
+
+            <h:outputText  style="font-size: 15px;" value="Teléfono:" />
+             <h:outputText style="color: blue; font-size: 15px;" value="#{managedBeanVenta.venta.cliente.telefono}" />
+
+            <h:outputText style="font-size: 15px;" value="Contacto:" />
+            <h:outputText style="color: blue;font-size: 15px;" value="#{managedBeanVenta.venta.cliente.contacto}" />
+
+             <h:outputText  style="font-size: 15px;" value="Dirección:" />
+             <h:outputText style="color: green; font-size: 15px;" value="#{managedBeanVenta.venta.cliente.direccion}" />
+
+            <h:outputText style="font-size: 15px;" value="Plaga:" />
+            <h:outputText style="color: blue;font-size: 15px;" value="#{managedBeanVenta.venta.observaciones}" />
+
+
+
+            <h:outputText style="font-size: 15px;" value="Fecha:" />
+            <h:outputText style="color: red;font-size: 15px;" value="#{managedBeanVenta.venta.fechaVenta}" >
+            <f:convertDateTime pattern="EEEE dd MMMM yyyy" />
+            </h:outputText>
+
+ <h:outputText  style="font-size: 15px;" value="Opciones" />
+ 
+ <h:panelGrid id="data2" columns="5" cellpadding="4">
+
+
+
+     <h:commandLink title="Generar NUEVO contrato" action="#{managedBeanContratoFumigacion.nuevo(managedBeanVenta.venta)}"  >
+       <p:graphicImage  value="images/contrato_fumigacion.jpg" />
+</h:commandLink>
+
+     <h:commandLink title="VER contratos anteriores" action="#{managedBeanVenta.contratos}"  >
+       <p:graphicImage  value="images/lupa.jpg" />
+</h:commandLink>
+
+  </h:panelGrid>
+ 
+ 
+
+    
+        </h:panelGrid>
+
+            
+
+
+    </p:dialog>
+
+
+
+
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanVenta.Volver_Venta}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+</h:body>
+</html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+       <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Fórmulas" >
+        <h:form id="frm11">
+            <h:panelGrid columns="1" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+
+                <h:outputText value="Nombre del Producto : " style="color: blue;"/>
+
+ <p:autoComplete id="autocomplete"
+                 value="#{managedBeanFormulacion.formulacion.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                 minQueryLength="3"
+               converter="ProductoConverter"
+               size="35"
+              
+                />
+
+
+ <h:outputText value="Palabra Clave :" />
+ <p:inputText size="21" id="palabra_clave" value="#{managedBeanFormulacion.formulacion.palabraClave}" />
+
+            <h:outputText value="Descripción:" />
+            <p:inputTextarea cols="35" value="#{managedBeanFormulacion.formulacion.descripcion}" />
+
+
+                
+
+
+                <h:outputText value="Materia Prima :"/>
+
+
+
+  <p:autoComplete id="autocompleteMateria"
+                  value="#{managedBeanFormulacion.detalle.materiaPrima}"
+                                     completeMethod="#{managedBeanMateriaPrima.completar_filtrado_Materia_prima}"
+                                     var="item_materia" itemLabel="#{item_materia.nombreMateriaPrima}"
+                  itemValue="#{item_materia}"
+                               converter="materiaPrimaConverter"  minQueryLength="3"
+               size="18"
+                />
+
+
+                 <h:outputText value="Proporción:" />
+                 <p:inputText style="color: red;" id="input_proporcion" size="7" value="#{managedBeanFormulacion.detalle.proporcion}" />
+
+                 <p:commandButton value="Agregar a la Lista" action="#{managedBeanFormulacion.AgregarDetalleMateriaPrima}" update=":frm11:tablaDetalles" />
+
+ <h:outputText value="" />
+
+</h:panelGrid>
+
+                 <p:separator />
+                 
+                 <h:panelGrid id="pnlg1222" columns="2" >
+           
+                     <p:dataTable id="tablaDetalles"  style="width:100%"    var="item" value="#{managedBeanFormulacion.formulacion.detalleFormulacionInsumosList}" widgetVar="itemsTable"
+
+                  emptyMessage="No se Encontraron datos"
+                  >
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+         </f:facet>
+
+        <p:column style="width:100px; font-size: 15px;"  headerText="Materia prima">
+            <h:outputText value="#{item.materiaPrima.nombreMateriaPrima}" />
+        </p:column>
+
+                     <p:column style="width:100px; font-size: 15px;"  headerText="Proporcion">
+                         <h:outputText value="#{item.proporcion}" />
+        </p:column>
+
+
+
+        <p:column style="width:120px;" headerText="Opciones">
+
+           <p:commandButton title="Editar éste Item" image="ui-icon ui-icon-arrowrefresh-1-w"  action="#{managedBeanFormulacion.EliminarLista}" update=":frm11" >
+               <f:setPropertyActionListener value="#{item}" target="#{managedBeanFormulacion.detalle}" />
+            </p:commandButton>
+
+                     </p:column>
+
+
+
+    </p:dataTable>
+
+                
+
+                <h:commandButton value="Agregar Materia Prima" title="Click Para Agregar Nueva Formula" image="../images/guardar.png" action="#{managedBeanFormulacion.crear}" />
+
+                </h:panelGrid>
+ </h:panelGrid>
+   </h:form>
+
+    </p:panel>
+
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

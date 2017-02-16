@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../master/master.xhtml">
+
+            <ui:define name="datos">
+                
+                <p:panel header="Mantenimiento - Proveedores" >
+
+
+                    <h:form id="frmPrincipal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <center>
+                            <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanProveedor.newObject()}" style="margin-right:20px; border:0 none;">  
+                                <p:graphicImage  value="../images/nuevo.png"  />
+                                <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                            </p:commandLink>
+
+                        </center>
+
+
+
+                        <p:separator />
+                        <h:panelGrid id="pnlg1" columns="1"  style="width:100%;">
+
+
+
+                            <center>
+                                <p:dataTable   paginator="true" rows="10"   var="item" value="#{managedBeanProveedor.listaProveedores}" widgetVar="carsTable"
+                                               emptyMessage="No se Encontraron datos">
+
+                                    <f:facet name="header">
+                                        Seleccione una Opci&oacute;n de Filtrado
+                                    </f:facet>
+
+                                    <p:column   style="width:270px; text-align:center; font-size: 13px;" filterBy="#{item.nombre}"
+                                                headerText="Nombre"
+                                                filterMatchMode="contains">
+                                        <h:outputText value="#{item.nombre}" />
+                                    </p:column>
+
+
+
+                                    <p:column style="width:220px; text-align:center; font-size: 13px;" filterBy="#{item.tipoProveedor.nombre}"
+                                              headerText="Tipo"
+                                              filterMatchMode="contains">
+                                        <h:outputText value="#{item.tipoProveedor.nombre}" />
+                                    </p:column >
+
+
+                                    <p:column style="width:100px; text-align:center; font-size: 13px;" filterBy="#{item.celular}"
+                                              headerText="Celular"
+                                              filterMatchMode="contains">
+                                        <h:outputText value="#{item.celular}" />
+                                    </p:column >
+
+                                    <p:column style="width:100px;text-align:center; font-size: 13px;" filterBy="#{item.nextel}"
+                                              headerText="Nextel"
+                                              filterMatchMode="contains">
+                                        <h:outputText value="#{item.nextel}" />
+                                    </p:column >
+
+
+                                    <p:column style="width:70px; text-align:center;"
+                                              headerText="op.">
+                                        
+                                          <p:commandLink  oncomplete="PF('dlgeditArea').show();" id="editArea" update=":Form3" >  
+                        <p:graphicImage  value="../images/Editar.png"  />
+                        <p:tooltip for="editArea"  value="EDITAR ITEM" showEffect="slide" hideEffect="explode" /> 
+        <f:setPropertyActionListener value="#{item}" target="#{managedBeanProveedor.proveedor}" />
+                                        
+                        </p:commandLink>
+                       
+                                        
+
+                                     
+
+                                    </p:column >
+
+                                </p:dataTable>
+                            </center>
+                
+                    </h:panelGrid>
+    </h:form>
+
+                    <p:separator />
+                    <h:form id="frm_12232454">
+                        <center>     <h:commandLink title="Regresar"  action="#{managedBeanTienda.Volver_Tienda}"  >
+                                <p:graphicImage  value="../images/inicio1.jpg" />
+                            </h:commandLink></center>
+                    </h:form>
+
+
+
+
+
+                </p:panel>
+                
+                  <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+      
+               <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre del Proveedor" />
+            <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nombre}" />
+
+
+
+            <h:outputText value="Tipo de Proveedor: "  />
+
+            <p:selectOneMenu  value="#{managedBeanProveedor.proveedor.tipoProveedor}" effect="drop" style="width:425px" converter="tipoproveedorConverter" >
+                <f:selectItems  id="temsripoproovee" value="#{managedBeanTipoProveedor.tipoproveedoresItems}"/>
+        </p:selectOneMenu>
+
+            <h:outputText value="Dirección" />
+            <p:inputTextarea cols="37" value="#{managedBeanProveedor.proveedor.direccion}" />
+  <h:outputText value="Celular" />
+  <p:inputText size="37" value="#{managedBeanProveedor.proveedor.celular}" />
+   <h:outputText value="Nextel" />
+   <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nextel}" />
+    <h:outputText value="Teléfono" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.telefono}" />
+
+    <h:outputText value="Correo" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.correo}" />
+
+</h:panelGrid>
+
+
+                
+ </h:panelGrid>
+                        
+                     <p:separator/>
+                    
+                     <center>
+                          <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmPrincipal" action="#{managedBeanProveedor.crearNew()}" />
+</center> 
+                          
+                    </p:dialog>  
+
+                </h:form>
+                
+                
+                       <h:form id="Form3">
+
+                    <p:dialog width="350px;" id="dialog" header="EDITAR ITEM" widgetVar="dlgeditArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                    
+    
+        <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="Nombre del Proveedor" />
+            <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nombre}" />
+
+
+
+            <h:outputText value="Tipo de Proveedor: "  />
+
+            <p:selectOneMenu  value="#{managedBeanProveedor.proveedor.tipoProveedor}" effect="drop" style="width:425px" converter="tipoproveedorConverter" >
+                <f:selectItems  id="temsripoproovee" value="#{managedBeanTipoProveedor.tipoproveedoresItems}"/>
+        </p:selectOneMenu>
+
+            <h:outputText value="Dirección" />
+     <p:inputText size="37" value="#{managedBeanProveedor.proveedor.direccion}" />
+  <h:outputText value="Celular" />
+  <p:inputText size="37" value="#{managedBeanProveedor.proveedor.celular}" />
+   <h:outputText value="Nextel" />
+   <p:inputText size="37" value="#{managedBeanProveedor.proveedor.nextel}" />
+    <h:outputText value="Teléfono" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.telefono}" />
+
+    <h:outputText value="Correo" />
+    <p:inputText size="37" value="#{managedBeanProveedor.proveedor.correo}" />
+
+</h:panelGrid>
+
+
+      
+
+ </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgeditArea').hide();" title="EDITAR ITEM" update=":frmPrincipal" action="#{managedBeanProveedor.editarNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+                
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

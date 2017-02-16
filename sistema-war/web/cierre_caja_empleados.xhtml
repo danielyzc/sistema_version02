@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Ventas " >
+
+        <h:form id="frm123">
+       <p:fieldset id="fielset"  legend="Datos de Filtrado" style="margin-top:10px">
+
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+ <h:outputText value="Fecha:" />
+                <p:calendar id="feth1" effect="slide" locale="es" value="#{managedBeanReportando.fecha_cierre_caja2}" pattern="dd/MM/yyyy"/>
+            <h:outputText value="Vendedor:" />
+
+
+            <p:selectOneMenu  value="#{managedBeanReportando.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+            <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+           </p:selectOneMenu>
+
+                <p:commandButton value="Generar Cierre de Caja" action="#{managedBeanReportando.generar_Caja2}" update="frm123" actionListener="#{managedBeanReportando.addInfoCajaEmpleados}"/>
+
+
+            </h:panelGrid>
+            <p:separator />
+
+            <p:messages showDetail="true" autoUpdate="true"/>
+
+           
+                       </p:fieldset>
+
+    
+        <h:outputLink title="Cierre de Caja"  value="cierre_caja_diario.pdf" >
+                 <h:graphicImage value="/images/pdf.png"/>
+            </h:outputLink>
+
+   
+
+<p:separator />
+
+     <center>     <h:commandLink  action="#{managedBeanReportando.Volver_ReporteVentas}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+
+
+</h:form>
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

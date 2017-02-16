@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+<h:form id="frmimprimir">
+     <h:panelGroup id="pnlimpri" style="width: 275px;">
+
+
+          <h:panelGrid id="pnlgaaa1" columns="2" cellpadding="0">
+          <h:outputText value="Fecha: " style="font-size: 14px; color: black;" />
+  <h:outputText value="#{managedBeanVenta.venta.fechaVenta}" style="font-size: 14px; color: black;"  >
+                        <f:convertDateTime pattern="dd/MM/yyyy"   />
+                    </h:outputText>
+ <h:outputText value="ID: " style="font-size: 14px; color: black;" />
+ <h:outputText value="#{managedBeanVenta.venta.idVenta}" style="font-size: 14px; color: black;" />
+ <h:outputText value="Almacen: " style="font-size: 14px; color: black;"/>
+ <h:outputText value="#{managedBeanVenta.venta.tienda.nombreTienda}" style="font-size: 14px; color: black;"/>
+ <h:outputText value="Cliente :" style="font-size: 14px; color: black;"/>
+
+ <h:outputText value="#{managedBeanVenta.venta.cliente.nombreCliente}" style="font-size: 14px; color: black;"/>
+
+<h:outputText value="Obs:" style="font-size: 14px; color: black;"/>
+         <h:outputText value="#{managedBeanVenta.venta.observaciones}" style="font-size: 14px; color: black;"/>
+         </h:panelGrid>
+         <h:dataTable  var="item" value="#{managedBeanVenta.venta.detalleVentaProductoList}" style="width: 230px; padding-left: -5px" id="tablaimprimir" >
+
+
+
+
+               <h:column>
+                     <f:facet name="header"> <h:outputText value="NOMBRE" style="text-align: center;"> </h:outputText></f:facet>
+                      <h:inputText size="22" disabled="true" value="#{item.producto.nombreProducto}" style="font-size: 9px; color: black; font-weight: bold;" />
+               </h:column>
+              <h:column>
+                     <f:facet name="header"> <h:outputText value="C" style="text-align: center;"> </h:outputText></f:facet>
+
+                      <h:outputText value="#{item.cantidad}" style="font-size: 14px; color: black; text-align: center;" />
+                </h:column>
+
+           
+
+       <h:column>
+                     <f:facet name="header"> <h:outputText value="ST" style="text-align: center;"> </h:outputText></f:facet>
+
+                      <h:outputText value="#{item.subTotal}" style="font-size: 14px; color: black; text-align: center;"/>
+                </h:column>
+
+
+
+                <f:facet name="footer">
+TOTAL : #{managedBeanVenta.venta.totalVenta} SOLES.
+        </f:facet>
+    </h:dataTable>
+ </h:panelGroup>
+     <center>
+      <h:outputLink id="lnk" value="#">
+          <p:printer target="pnlimpri" />
+    <p:graphicImage width="45 px" height="40 px" value="/images/imprimir3.jpg" />
+</h:outputLink>
+          </center>
+  </h:form>
+</h:body>
+</html>

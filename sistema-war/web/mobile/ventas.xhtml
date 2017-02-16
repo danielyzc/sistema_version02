@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:pm="http://primefaces.org/mobile">
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+    <h:form>
+  <p:tabMenu activeIndex="0">
+      <p:menuitem value="VENTAS" outcome="ventas" icon="ui-icon-star"/>
+<p:menuitem value="COMPRAS"  icon="ui-icon-search" />
+<p:menuitem value="ALMACEN"  icon="ui-icon-document"/>
+<p:menuitem value="FINANZAS"  icon="ui-icon-wrench"/>
+
+</p:tabMenu>
+        <p:separator />
+        <p:toolbar>
+<f:facet name="left">
+<p:commandButton type="push" value="NUEVA"  action="#{managedBeanVenta.NewVentaMobile}" image="ui-icon-document" />
+<p:commandButton type="push" value="Open" image="ui-icon-folder-open"/>
+<span class="ui-separator">
+<span class="ui-icon ui-icon-grip-dotted-vertical" />
+</span>
+<p:commandButton type="push" title="Save" image="ui-icon-disk"/>
+<p:commandButton type="push" title="Delete" image="ui-icon-trash"/>
+<p:commandButton type="push" title="Print" image="ui-icon-print"/>
+</f:facet>
+<f:facet name="right">
+<p:menuButton value="Navigate">
+<p:menuitem value="Home" url="#" />
+<p:menuitem value="Logout" url="#" />
+</p:menuButton>
+</f:facet>
+</p:toolbar>
+        </h:form> 
+</h:body>
+</html>

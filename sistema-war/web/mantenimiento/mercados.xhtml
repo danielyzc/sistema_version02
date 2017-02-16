@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Mercados" >
+
+
+
+         <h:form id="frmbtn">
+
+
+     <center>
+         <h:commandButton title="Nuevo Mercado" image="../images/nuevo.png" action="#{managedBeanMercado.Nuevo}"
+              />
+                </center>
+</h:form>
+
+            <p:separator />
+
+           <h:form id="frmptipo_clientes">
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanMercado.listaMercados}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+                <p:column   style="width:270px; text-align:center; font-size: 13px;" filterBy="#{item.nombreMercado}"
+                headerText="Mercado"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.nombreMercado}" />
+        </p:column>
+
+        <p:column  style="width:150px; text-align:center; font-size: 13px; " filterBy="#{item.descripcion}"
+                   headerText="Descripci&oacute;n"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.descripcion}" />
+        </p:column>
+
+
+         <p:column style="width:121px"
+                headerText="op.">
+             <h:form id="frmmenu">
+             <h:commandButton title="Mostrar"
+             image="../images/mostrar.png" />
+              <h:commandButton title="Editar"
+             image="../images/Editar.png" />
+               <h:commandButton title="Eliminar"
+             image="../images/eliminar.jpg" />
+               </h:form>
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanMercado.Volver_Mercados}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

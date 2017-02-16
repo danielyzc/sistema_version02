@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="PRODUCTOS POR CLIENTE" >
+
+      <h:form id="frm_button" >
+
+
+        <p:fieldset id="fielset"  legend="PRODUCTOS COMPRADOS POR CLIENTE" style="margin-top:10px">
+
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+
+
+
+<h:outputText value="Nombre del Cliente : "/>
+
+ <p:autoComplete id="auroxcomplete_cliente"
+                 value="#{managedBeanVenta.venta.cliente}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Clientes}"
+                 var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
+                  itemValue="#{item_cliente}"
+
+               converter="clienteConverter"  minQueryLength="3"
+               size="42"
+                />
+
+
+             <h:outputText value="Fecha de Inicio" />
+             <p:calendar value="#{managedBeanVenta.fecha_inicial}" pattern="dd/MM/yyyy"/>
+             <h:outputText value="Fecha de Fin" />
+             <p:calendar value="#{managedBeanVenta.fecha_final}" pattern="dd/MM/yyyy"/>
+
+            </h:panelGrid>
+
+            <p:commandButton value="OBTENER LISTA" action="#{managedBeanVenta.filtrarProductosCliente()}"  update="frm_button " />
+            <p:separator />
+ 
+        </p:fieldset>
+           
+              
+
+        <p:separator />
+          
+        <p:dataTable id="tbldatosFiltrados3"   var="item" value="#{managedBeanVenta.lista_detalles}" >
+ <f:facet name="header">
+           Seguimiento de BOLETAS VENTAS.
+        </f:facet>
+
+            <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="PRODUCTO"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.producto.nombreProducto}" />
+                </p:column>
+
+                 <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="CANT"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+            
+            
+            <p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="PRECIO"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.precioVenta}" />
+                </p:column>
+
+<p:column style="text-align: center;">
+                    <f:facet name="header"> <h:outputText value="F.COMPRA"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.venta.fechaVenta}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="EEEE dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+ <f:facet name="footer">
+     La cantidad de Productos #{managedBeanVenta.total_ventas}
+        </f:facet>
+
+            </p:dataTable>
+ </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

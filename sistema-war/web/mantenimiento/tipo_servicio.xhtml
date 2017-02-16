@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+        <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Tipo de Servicios" >
+
+
+
+         <h:form id="frmbPrincipal">
+
+
+     <center>
+         <h:commandButton title="Nuevo Tipo de Servicio" image="../images/nuevo.png" action="#{managedBeanTipoServicio.Nuevo}"
+              />
+                </center>
+
+
+            <p:separator />
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanTipoServicio.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+        <p:column   style="width:300px; text-align:center; font-size: 13px;"
+                    filterBy="#{item.nombreTipoServicio}"
+                headerText="Tipo"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.nombreTipoServicio}" />
+        </p:column>
+
+                <p:column  style="width:120px; text-align:center; font-size: 13px; " filterBy="#{item.descripcion}"
+                   headerText="Descripci&oacute;n"
+                filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcion}" />
+        </p:column>
+
+
+         <p:column style="width:70px; text-align:center;"
+                headerText="op.">
+
+             <h:commandButton title="Editar"
+                              image="../images/Editar.png" action="#{managedBeanTipoServicio.editar}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanTipoServicio.tipo}" />
+              </h:commandButton>
+
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanTipoServicio.Volver_TipoServicios}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+                    
+    <p:panel header="M&oacute;dulo de Producción - Ordenes de Salida de Almacen" >
+
+
+
+         <h:form id="frm2">
+             <p:growl id="growl" showDetail="true"/>
+        <p:growl id="messages" />
+        <p:fieldset id="fielset"  toggleable="true" toggleSpeed="500" legend="Lista de Ordenes de salida - Almacén  por fecha" style="margin-top:10px">
+
+
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+               <h:outputText value="Fecha" />
+               <p:calendar id="FECHA_Orden_salida"  effect="slide" locale="es" value="#{managedBeanOrdenSalidaAlmacen.fecha}" pattern="dd/MM/yyyy"/>
+
+
+            </h:panelGrid>
+
+            <p:commandButton value="Traer Ordenes" action="#{managedBeanOrdenSalidaAlmacen.filtrar_lista}" update="frm2:tbldatosFiltrados " />
+            <p:separator />
+
+
+
+
+
+
+
+            <p:dataTable id="tbldatosFiltrados" var="item" value="#{managedBeanOrdenSalidaAlmacen.lista}"
+
+rowKey="#{item.idOrdenSalidaDetalleAlmacenProductosCostos}"    widgetVar="carsTable"      selection="#{managedBeanOrdenSalidaAlmacen.orden_salida}" selectionMode="single">
+
+                         <p:ajax event="rowSelect" listener="#{managedBeanOrdenSalidaAlmacen.onRowSelect}"
+                    update=":frm2:display :frm2:growl" oncomplete="PF('carDialog').show();" />
+        <p:ajax event="rowUnselect" listener="#{managedBeanOrdenSalidaAlmacen.onRowUnselect}" update=":frm2:growl"/>
+        
+
+
+
+                <p:column headerText="ID" style="width:75px;text-align:center;   font-size: 13px;">
+                    <h:outputText  value="#{item.idOrdenSalidaDetalleAlmacenProductosCostos}" />
+                </p:column>
+
+         <p:column headerText="ALMACEN" style="width:90px;text-align:center;   font-size: 11px;" filterBy="#{item.detalleAlmacenProductos.tienda.nombreTienda}"  filterMatchMode="contains">
+             <h:outputText  value="#{item.detalleAlmacenProductos.tienda.nombreTienda}" />
+                </p:column>
+
+                <p:column headerText=" fecha" style="width:100px;text-align:center;   font-size: 13px;">
+                    <f:facet name="header"> <h:outputText value="Fecha"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.fechaRegistro}" ><f:convertDateTime pattern="EEEE dd MMMM yyyy" /></h:outputText>
+                </p:column>
+
+
+                <p:column style="width:80px;text-align:center;   font-size: 12px;  #{item.estadoOrdenSalidaDetalleAlmacenProductos.idEstadoOrdenSalidaDetalleAlmacenProductos eq 1 ?    'background-color: dodgerblue;' : item.estadoOrdenSalidaDetalleAlmacenProductos.idEstadoOrdenSalidaDetalleAlmacenProductos eq 2 ? 'background-color: #568F23;': null}"
+                      headerText="Estado"
+
+                          >
+                    <h:outputText  value="#{item.estadoOrdenSalidaDetalleAlmacenProductos.nombreEstado}" />
+
+                  </p:column>
+
+
+                <p:column headerText="Lugar" style="width:100px;text-align:center;   font-size: 13px;">
+                    <h:outputText  value="#{item.observacionesUbicacion}" />
+
+                  </p:column>
+
+                <p:column headerText="Producto" style="width:100px;text-align:center;   font-size: 13px;">
+                    <h:outputText  value="#{item.detalleAlmacenProductos.producto.nombreProducto}" />
+
+                  </p:column>
+
+
+
+                <p:column headerText="CANT" style="width:55px;text-align:center;   font-size: 13px;">
+                    <h:outputText style="color: blue;" value="#{item.cantidad}" />
+
+                  </p:column>
+
+
+                <p:column headerText="VENCIMIENTO" style="width:75px;text-align:center;   font-size: 13px;">
+                    <h:outputText style="color: red;" value="#{item.detalleAlmacenProductos.fechaVencimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+             <p:dialog id="dialog" header="Detalle de la orden de Salida." widgetVar="carDialog" resizable="false"
+                      showEffect="explode" hideEffect="explode" height="350" width="440"  >
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+
+
+            <h:outputText value="ID:" />
+            <h:outputText value="#{managedBeanOrdenSalidaAlmacen.orden_salida.idOrdenSalidaDetalleAlmacenProductosCostos}" />
+
+
+            <h:outputText value="Producto:" />
+            <h:outputText value="#{managedBeanOrdenSalidaAlmacen.orden_salida.detalleAlmacenProductos.producto.nombreProducto}" />
+
+            <h:outputText value="ESTADO:" />
+            <p:selectOneMenu  disabled="#{managedBeanOrdenSalidaAlmacen.orden_salida.estadoOrdenSalidaDetalleAlmacenProductos.idEstadoOrdenSalidaDetalleAlmacenProductos eq null ? 'true' : managedBeanOrdenSalidaAlmacen.orden_salida.estadoOrdenSalidaDetalleAlmacenProductos.idEstadoOrdenSalidaDetalleAlmacenProductos eq 2 ? 'true' : 'false'}"  style="width:170px" value="#{managedBeanOrdenSalidaAlmacen.orden_salida.estadoOrdenSalidaDetalleAlmacenProductos}" effect="drop" converter="estadoordensalidaConverter" >
+                <f:selectItems  id="Itemsestadosalida"  value="#{managedBeanEstadoOrdenSalida.estadosalidasItems}"/>
+  </p:selectOneMenu>
+
+
+            <h:outputText value="VENCIMIENTO:" />
+            <h:outputText style="color: red;" value="#{managedBeanOrdenSalidaAlmacen.orden_salida.detalleAlmacenProductos.fechaVencimiento}" >
+            <f:convertDateTime pattern="EEEE dd MMMM yyyy" />
+            </h:outputText>
+
+ <h:outputText value="Almacén:" />
+ <h:outputText value="#{managedBeanOrdenSalidaAlmacen.orden_salida.detalleAlmacenProductos.tienda.nombreTienda}" />
+
+ <h:outputText value="Ubicación:" />
+ <h:outputText style="color: blue;" value="#{managedBeanOrdenSalidaAlmacen.orden_salida.observacionesUbicacion}" />
+
+
+        
+
+         
+        </h:panelGrid>
+
+                <center>        <p:commandButton id="showDialogButton" value="Guardar Cambios" onclick="confirmation.show()" type="button" />
+</center>
+  
+    </p:dialog>
+            <p:confirmDialog id="confirmDialog" message="Desea guardar ???"
+                                 header="Confirmación"  severity="alert" widgetVar="confirmation" width="250" height="220">
+
+          <p:commandButton id="confirm" value="SI" update="frm2:messages frm2:tbldatosFiltrados" oncomplete="carDialog.hide() confirmation.hide()"
+                    actionListener="#{managedBeanOrdenSalidaAlmacen.destroyWorld}" />
+        <p:commandButton id="decline" value="NO" onclick="confirmation.hide()" type="button" />
+
+
+          </p:confirmDialog>
+        </p:fieldset>
+           <p:separator />
+                    </h:form>
+        <h:form id="frm_link">
+            <center>     <h:commandLink  action="#{managedBeanOrdenSalidaAlmacen.Volver_OrdenSalida}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+        </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

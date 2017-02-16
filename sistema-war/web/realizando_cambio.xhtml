@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />  
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Ventas" >
+
+         <h:form id="frmauto">
+
+        <h:panelGrid columns="2" >
+
+
+             <h:outputText value="Motivo : "/>
+             <p:inputText value="#{managedBeanCambio.cambio.motivoCambio}"/>
+
+               <h:outputText value="Producto que Entra : "/>
+
+ <p:autoComplete id="auroxcomplete"
+                 value="#{managedBeanCambio.detalle_cambio_Producto.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                               converter="ProductoConverter"
+               size="42"
+                />
+
+ <h:outputText value="Producto que Sale : "/>
+
+ <p:autoComplete id="auroxcomplete2"
+                 value="#{managedBeanCambio.detalle_cambio_Producto.producto1}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto2" itemLabel="#{item_Producto2.nombreProducto}"
+                  itemValue="#{item_Producto2}"
+                   converter="ProductoConverter"
+               size="42"
+                />
+
+
+</h:panelGrid>
+
+
+
+     <p:separator />
+        <center>
+            <p:commandButton value="Agregar a la Lista" action="#{managedBeanCambio.AgregarDetalleCambioProducto}" update="tabla_detalles" />
+</center>
+             <p:dataTable var="item12" value="#{managedBeanCambio.listaCambios}" id="tabla_detalles" >
+
+        <f:facet name="header">
+           Movimiento de Almacén
+        </f:facet>
+
+        <p:column headerText="Entra" style="width:200px">
+
+            <h:outputText value="#{item12.producto.nombreProducto}" />
+
+        </p:column>
+
+
+                 <p:column headerText="Sale" style="width:200px">
+
+                     <h:outputText value="#{item12.producto1.nombreProducto}" />
+
+        </p:column>
+
+
+
+
+
+                <f:facet name="footer">
+                    Realizando Cambio
+        </f:facet>
+    </p:dataTable>
+
+           <center>     <h:commandButton value="Terminar" action="#{managedBeanCambio.Terminar_cambio}" /> </center>
+
+ </h:form>
+        
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

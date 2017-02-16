@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="290"/>
+	<property name="ireport.y" value="144"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[select c.nombre_cliente,c.razon_social,c.giro_rubro,c.contacto,c.ruc_cliente,c.direccion,
+c.telefono, c.celular, c.nextel,c.correo, v.fecha_venta_emision,ev.nombre_testado_venta,v.total_venta
+, v.observaciones
+from venta v inner join cliente c
+on v.id_cliente = c.id_cliente inner join estado_venta ev on v.id_estado_venta = ev.id_estado_venta
+order by 1]]>
+	</queryString>
+	<field name="NOMBRE_CLIENTE" class="java.lang.String"/>
+	<field name="RAZON_SOCIAL" class="java.lang.String"/>
+	<field name="GIRO_RUBRO" class="java.lang.String"/>
+	<field name="CONTACTO" class="java.lang.String"/>
+	<field name="RUC_CLIENTE" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="TELEFONO" class="java.lang.String"/>
+	<field name="CELULAR" class="java.lang.String"/>
+	<field name="NEXTEL" class="java.lang.String"/>
+	<field name="CORREO" class="java.lang.String"/>
+	<field name="FECHA_VENTA_EMISION" class="java.sql.Date"/>
+	<field name="NOMBRE_TESTADO_VENTA" class="java.lang.String"/>
+	<field name="TOTAL_VENTA" class="java.math.BigDecimal"/>
+	<field name="OBSERVACIONES" class="java.lang.String"/>
+	<variable name="TOTAL_VENTA_1" class="java.math.BigDecimal" resetType="Group" resetGroup="NOMBRE_CLIENTE" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_VENTA}]]></variableExpression>
+	</variable>
+	<group name="NOMBRE_CLIENTE">
+		<groupExpression><![CDATA[$F{NOMBRE_CLIENTE}]]></groupExpression>
+		<groupHeader>
+			<band height="113">
+				<textField>
+					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#006600"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{NOMBRE_CLIENTE}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+				</rectangle>
+				<textField>
+					<reportElement style="Detail" x="87" y="43" width="143" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{RAZON_SOCIAL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="87" y="58" width="114" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{GIRO_RUBRO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="87" y="73" width="110" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CONTACTO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="294" y="43" width="126" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{RUC_CLIENTE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="274" y="58" width="146" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="462" y="43" width="84" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{TELEFONO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="462" y="58" width="84" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CELULAR}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="260" y="73" width="85" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{NEXTEL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="403" y="73" width="143" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CORREO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="5" y="43" width="99" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[RAZÓN SOCIAL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="5" y="58" width="99" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[GIRO o RUBRO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="5" y="73" width="82" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[CONTACTO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="242" y="43" width="42" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[RUC:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="201" y="58" width="87" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[DIRECCIÓN:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="420" y="43" width="42" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[TELF.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="420" y="58" width="42" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[CELL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="206" y="73" width="54" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[NEXTEL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="345" y="73" width="58" height="15"/>
+					<textElement>
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[E-MAIL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="69" y="95" width="128" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[FECHA DE EMISIÓN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="260" y="95" width="75" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[ESTADO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="379" y="93" width="70" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[TIPO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="490" y="93" width="56" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<text><![CDATA[MONTO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24">
+				<textField>
+					<reportElement x="462" y="0" width="87" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{TOTAL_VENTA_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="403" y="0" width="79" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[TOTAL:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="317" height="33"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="15"/>
+				</textElement>
+				<text><![CDATA[Servicios por Clientes.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="5" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="29" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Detail" x="62" y="0" width="139" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{FECHA_VENTA_EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="206" y="0" width="154" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{NOMBRE_TESTADO_VENTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="490" y="0" width="63" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{TOTAL_VENTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="360" y="0" width="130" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{OBSERVACIONES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

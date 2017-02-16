@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  
+    <p:panel header="M&oacute;dulo de Administración" >
+        <h:form id="frm_inicial">
+ <p:growl id="growl" showDetail="true"/>
+
+         <h:panelGrid id="pnlg1" columns="5" style="padding:0 10px 0 145px;" >
+
+
+            <h:panelGroup>
+                <h:commandLink title="Reportes" action="#{managedBeanReportando.Reportes}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/estado_orden_compra.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Reportes"  action="#{managedBeanReportando.Reportes}"/>
+            </h:panelGroup>
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Cierre de Caja" action="#{managedBeanReportando.Caja}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/cierre_caja.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Cierre Caja"  action="#{managedBeanReportando.Caja}"/>
+            </h:panelGroup>
+
+
+
+
+         </h:panelGrid>
+
+
+
+
+ </h:form>
+
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

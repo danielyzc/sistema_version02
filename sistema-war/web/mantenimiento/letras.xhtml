@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+        <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Mantenimiento - Productos" >
+
+
+
+         <h:form id="frmbtn">
+
+
+
+
+        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanCanjeOrdenCompra.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+        <p:column   style="width:300px; text-align:center; font-size: 13px;" 
+                headerText="Estado"  >
+            <h:outputText value="#{item.estadoCanjeOrdenCompra.nombre}" />
+        </p:column>
+
+
+         <p:column style="width:120px; text-align:center; font-size: 13px;"  headerText="Monto">
+             <h:outputText value="#{item.montoCanje}" />
+        </p:column >
+
+         <p:column style="width:120px; text-align:center; font-size: 13px;" headerText="Número de Letras">
+             <h:outputText value="#{item.numeroCuotas}" />
+        </p:column >
+
+        <p:column  style="width:120px; text-align:center; font-size: 13px; " headerText="Banco">
+            <h:outputText value="#{item.nombreBancoPagar}" />
+        </p:column>
+
+
+
+
+
+
+
+         <p:column style="width:157px"
+                headerText="op.">
+
+             
+
+             <h:commandButton title="Editar"
+                              image="../images/Editar.png" action="#{managedBeanCanjeOrdenCompra.Editar}">
+                 <f:setPropertyActionListener value="#{item}" target="#{managedBeanCanjeOrdenCompra.canjeordencompra}" />
+              </h:commandButton>
+
+             
+        </p:column >
+
+    </p:dataTable>
+
+
+        </h:panelGrid>
+
+
+ </h:form>
+
+
+
+
+     <p:separator />
+            <h:form id="frm_link2">
+           <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+
+
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

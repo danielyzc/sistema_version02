@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+       <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción - Nuevo Ingreso a Tienda" >
+
+   <h:form id="frm11">
+        <p:fieldset id="fielset"  legend="Datos de Registro" style="margin-top:5px">
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+<h:outputText value="Nombre de la Tienda: " />
+
+<p:selectOneMenu style="width:320px" value="#{managedBeanStock.tienda}" effect="drop" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+         <h:outputText value="Cantidad de Productos :"/>
+         <p:inputText id="inp4" size="42" value="#{managedBeanStock.cantidad_stock}"/>
+         <h:outputText value="" />
+
+          <h:outputText value="Costo Por Producto :"/>
+          <p:inputText id="inpcosto" size="42" value="#{managedBeanStock.costo}"/>
+         <h:outputText value="" />
+
+
+         <h:outputText value="Ubicación :"/>
+
+         <p:autoComplete id="autocomplete"
+                         value="#{managedBeanStock.ubicacionFisica}"
+                         completeMethod="#{managedBeanUbicacionFisica.completar_filtrado_UbicacionFisica}"
+                         var="item_UbicacionFisica" itemLabel="#{item_UbicacionFisica.nombreUbicacionFisica}"
+                  itemValue="#{item_UbicacionFisica}"
+                               converter="ubicacionFisicaConverter"  minQueryLength="3"
+               size="42"
+                />
+
+        <h:outputText value="" />
+
+
+                 <h:outputText value="Fecha de Vencimiento :"/>
+                 <p:calendar value="#{managedBeanStock.fecha_vencimiento}" pattern="dd/MM/yyyy"/>
+         <h:outputText value="" />
+
+                </h:panelGrid>
+ </p:fieldset>
+
+
+
+
+    <p:fieldset id="fielset2"  legend="Ingreso de Producctos" style="margin-top:5px">
+<p:growl id="messages" showDetail="true"/>
+        <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+
+
+
+  <h:outputText value="Nombre del Producto : "/>
+
+  <h:outputText value="#{managedBeanStock.producto.nombreProducto}" />
+ <h:outputText value=""/>
+
+
+
+
+ </h:panelGrid>
+    </p:fieldset>
+
+
+<br />
+<center>  <h:commandButton value="Terminar Registro" action="#{managedBeanStock.registrar}" />  </center>
+           </h:form>
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

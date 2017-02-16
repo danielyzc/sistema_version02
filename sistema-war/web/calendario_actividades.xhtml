@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+      <h:form id="frm_inicial" >
+          <p:panel id="pnlprincipal" header="M&oacute;dulo de Ventas" style="width:1185px;" >
+      
+<p:growl id="messages" showDetail="true" />
+
+<center>
+    <h:commandButton title="Nueva Actividad" image="images/nuevo.png" action="#{managedBeanActividad.nueva}"
+              />
+                </center>
+<br />
+<p:calendar value="#{managedBeanActividad.fecha_inicial}" lang="es" size="10" pattern="dd/MM/yyyy"/>
+<p:calendar value="#{managedBeanActividad.fecha_final}" lang="es" size="10" pattern="dd/MM/yyyy"/>
+
+<p:commandButton update="frm_inicial" value="Actualizar datos " action="#{managedBeanActividad.filtrar}" />
+ <p:separator />
+
+  <p:tabView >
+    <p:tab title="LUNES">
+          <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_lunes}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             LUNES
+               </f:facet>
+
+
+              <p:column headerText="Fecha" style="text-align: center; width: 35px;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+  </p:dataTable>
+    </p:tab>
+    <p:tab title="MARTES">
+          <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_martes}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             MARTES
+               </f:facet>
+
+
+            <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+  </p:dataTable>
+    </p:tab>
+    <p:tab title="MIÉRCOLES">
+
+           <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_miercoles}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             MÍERCOLES
+               </f:facet>
+
+
+                 <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+
+             
+ </p:dataTable>
+    </p:tab>
+
+
+          <p:tab title="JUEVES">
+       <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_jueves}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             JUEVES
+               </f:facet>
+         <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+  </p:dataTable>
+    </p:tab>
+
+          <p:tab title="VIERNES">
+          <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_viernes}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             VIERNES
+               </f:facet>
+
+                <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+
+
+  </p:dataTable>
+    </p:tab>
+
+          <p:tab title="SÁBADO">
+      <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_sabado}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             SÁBADO
+               </f:facet>
+
+
+            <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+
+
+  </p:dataTable>
+    </p:tab>
+
+          <p:tab title="DOMINGO">
+          <p:dataTable  style="width:100%"   var="item" value="#{managedBeanActividad.lista_domingo}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             DOMINGO
+               </f:facet>
+
+                <p:column headerText="Fecha" style="text-align: center; width: 35%;"  >
+
+                  <h:outputText  style="color: red;" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 65%" >
+
+                  <h:outputText style="color: green;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+
+  </p:dataTable>
+              
+              
+          
+    </p:tab>
+</p:tabView>
+ <p:separator />
+         <p:dataTable id="tbl_semana" style="width:100%"   var="item" value="#{managedBeanActividad.listaTotalSemana}" widgetVar="carsTable"
+
+                  emptyMessage="Vacio"
+                  >
+
+         <f:facet name="header">
+             LISTA DE LA SEMANA
+               </f:facet>
+             
+             
+              <f:facet name="footer">
+              <p:commandButton type="button" value="Imprimir">
+             <p:printer target="tbl_semana" id="impresora"  />
+         </p:commandButton> 
+             
+                   </f:facet>
+         <p:column headerText="Fecha" style="text-align: center; width: 20%;"  >
+
+           
+             <h:outputText  style="color: #{item.fecha.day eq 1 ? 'red;' :item.fecha.day eq 2 ? 'blue;':item.fecha.day eq 3 ? 'green;':item.fecha.day eq 4 ? 'orange;':item.fecha.day eq 5 ? 'gray;':item.fecha.day eq 6 ? 'blue;':'black;'}" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="EEEE dd MMMM yyyy" />
+                   </h:outputText>
+
+                  </p:column>
+
+
+                   <p:column headerText="Hora" style="text-align: center; width: 10%;"  >
+
+
+             <h:outputText  style="color: #{item.fecha.day eq 1 ? 'red;' :item.fecha.day eq 2 ? 'blue;':item.fecha.day eq 3 ? 'green;':item.fecha.day eq 4 ? 'orange;':item.fecha.day eq 5 ? 'gray;':item.fecha.day eq 6 ? 'blue;':'black;'}" value="#{item.fecha}" >
+                   <f:convertDateTime pattern="hh:mm a" />
+                   </h:outputText>
+
+                  </p:column>
+
+
+              <p:column headerText="Descripción" style="text-align: justify; width: 35%" >
+
+                  <h:outputText style="color: green; font-size: 12px;" value="#{item.descripcionActividad}" />
+
+        </p:column>
+
+              <p:column headerText="CLIENTE" style="text-align: justify; width: 30%" >
+
+                  <h:outputText style="color: green;font-size: 12px;" value="#{item.cliente.nombreCliente}" />
+
+         </p:column>
+
+              <p:column headerText="OP" style="text-align: justify; width: 5%" >
+
+                  <p:commandButton value="Ver" icon="ui-icon ui-icon-search"
+                 update=":frm_inicial:display " oncomplete="PF('carDialog').show();" >
+
+                      <f:setPropertyActionListener value="#{item}" target="#{managedBeanActividad.actividad}" />
+
+</p:commandButton>
+        </p:column>
+  </p:dataTable>
+ 
+ 
+ 
+     <center>   
+        
+         
+         <h:commandLink  action="#{managedBeanActividad.Volver_Letras}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+ 
+
+
+
+    </p:panel>
+          <p:dialog id="dialog" header="CLIENTE SELECCIONADO" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="NOMBRE : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanActividad.actividad.cliente.nombreCliente}" style="font-size: 15px;" />
+
+<h:outputText value="RAZON SOCIAL : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.razonSocial}" style="font-size: 15px;" />
+
+<h:outputText value="DIRECCION : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.direccion}" style="font-size: 15px;" />
+
+<h:outputText value="CONTACTO : " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.contacto}" style="font-size: 15px;" />
+
+
+
+<h:outputText value="RUBRO: " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.giroRubro}" style="font-size: 15px;" />
+
+<h:outputText value="TELEFONO: " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.telefono}" style="font-size: 15px;" />
+
+<h:outputText value="CELULAR: " style="font-size: 15px;" />
+<h:outputText value="#{managedBeanActividad.actividad.cliente.celular}" style="font-size: 15px;" />
+
+
+        </h:panelGrid>
+    </p:dialog>
+
+</h:form>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

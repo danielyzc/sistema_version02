@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+   <p:panel header="Producción" >
+
+
+         <h:form id="frm_button" >
+             <p:growl id="growl" showDetail="true"/>
+ <center><h:commandButton title="Registrar Por Primera Vez"
+                   image="../images/nuevo.png" action="#{managedBeanStock.Nuevo_ingreso}" /> </center>
+
+        <p:fieldset id="fielset"  legend="Lista de productos en Tiendas" style="margin-top:10px">
+
+
+
+            <h:panelGrid id="pnl1" columns="1">
+             <p:autoComplete id="auroxcomplete"
+                             value="#{managedBeanStock.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                               converter="ProductoConverter"  minQueryLength="3"
+               size="42"
+               >
+                 <p:ajax event="itemSelect" listener="#{managedBeanStock.handleSelect}" update="frm_button" />  
+
+             </p:autoComplete>
+
+            </h:panelGrid>
+
+
+
+
+            <p:separator />
+
+
+
+
+            <p:dataTable id="tbldatosFiltrados"   var="item" value="#{managedBeanStock.retornaLista}" style="width: 100%;">
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="EDIT"> </h:outputText></f:facet>
+                    
+
+                    <p:commandButton title="EDITAR" icon="ui-icon ui-icon-search"  update=":frm_button:display " oncomplete="PF('carDialog').show();">
+         <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.stockProductoTiendaOrigen}" />
+            </p:commandButton>
+
+                </p:column>
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Tienda"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.tienda.nombreTienda}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Producto"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.producto.nombreProducto}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="MIN"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidadMinimaStock}" style="color: blue;" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="F.VENCIMIENTO"> </h:outputText></f:facet>
+                    <h:outputText value="#{item.ultimaFechaIngreso}" style="font-size: 15px;" >
+ <f:convertDateTime pattern="dd MMMM  yyyy"   />
+</h:outputText>
+                </p:column>
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Cantidad"> </h:outputText></f:facet>
+                    <h:outputText  value="#{item.cantidad}" />
+                </p:column>
+
+
+
+
+                <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opciones"></h:outputText>
+                        </f:facet>
+                    <h:commandButton id="btnSeleccionar" title="Ingreso de Stock" image="${pageContext.request.contextPath}/images/agrega.png" value="Ingreso" action="#{managedBeanStock.entra}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.stockProductoTiendaOrigen}" />
+                        </h:commandButton>
+
+
+                    <h:commandButton id="btnSelecciona2r" title="Salida de Stock" image="${pageContext.request.contextPath}/images/elimina.png" value="Ingreso" action="#{managedBeanStock.sale}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.stockProductoTiendaOrigen}" />
+                        </h:commandButton>
+
+                    <h:commandButton id="btnSelecciona23" title="Actualizar Datos" image="${pageContext.request.contextPath}/images/fecha_vencimiento.jpg" value="Fecha" action="#{managedBeanStock.fecha}">
+                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanStock.stockProductoTiendaOrigen}" />
+                        </h:commandButton>
+                    
+                     </p:column>
+            </p:dataTable>
+
+
+
+
+
+
+
+
+        </p:fieldset>
+
+             <p:dialog id="dialog" header="STOCK SELECCIONADO" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="PRODUCTO : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.producto.nombreProducto}" style="font-size: 15px;" />
+
+            <h:outputText value="TIENDA : " style="font-size: 15px;" />
+            <h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.tienda.nombreTienda}" style="font-size: 15px;" />
+
+<h:outputText value="STOCK MINIMO : " style="font-size: 15px;" />
+<p:inputText value="#{managedBeanStock.stockProductoTiendaOrigen.cantidadMinimaStock}" style="font-size: 15px;" />
+
+ </h:panelGrid>
+                 
+<p:separator />
+<center><p:commandButton value="GUARDAR" action="#{managedBeanStock.editar}" update=":frm_button"/></center>
+       
+    </p:dialog>
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanStock.Volver_Almacen}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

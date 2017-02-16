@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+  <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Producción" >
+        <h:form id="frm_inicial">
+
+
+         <h:panelGrid id="pnlg1" columns="3" style="padding:0 10px 0 145px;" >
+
+
+            <h:panelGroup>
+                <h:commandLink title="Tiendas" action="#{managedBeanStock.Almacen}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/produccion.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Tiendas"  action="#{managedBeanStock.Almacen}"/>
+            </h:panelGroup>
+
+
+         <h:panelGroup>
+             <h:commandLink title="Seguimiento de Producto" action="#{managedBeanStock.seguimiento}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/seguimiento.png" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Seguimiento de Producto"  action="#{managedBeanStock.seguimiento}"/>
+            </h:panelGroup>
+
+             <h:panelGroup>
+                 <h:commandLink title=" INVENTARIO FISICO" action="#{managedBeanInventarioFisico.Inventarios_fisicos}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/inventario.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value=" INVENTARIO FISICO"  action="#{managedBeanInventarioFisico.Inventarios_fisicos }"/>
+            </h:panelGroup>
+
+
+           <h:panelGroup>
+               <h:commandLink title="STOCK Materia Prima" action="#{managedBeanStockMateriaPrima.stock_materia_primas}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/stock_materia_prima.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="STOCK Materia Prima"  action="#{managedBeanStockMateriaPrima.stock_materia_primas}"/>
+            </h:panelGroup>
+       
+
+
+             <h:panelGroup>
+                 <h:commandLink title="Producción" action="#{managedBeanProduccionAlmacen.producciones}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/produccion.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Producción"  action="#{managedBeanProduccionAlmacen.producciones}"/>
+            </h:panelGroup>
+
+
+
+              <h:panelGroup>
+                  <h:commandLink title="Orden Salida" action="#{managedBeanOrdenSalidaAlmacen.Ordenes}"  >
+            <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/orden_salida.jpg" alt="" title="" style="border-width:0px;"/>
+            </h:commandLink><br/>
+            <h:commandLink  styleClass="datagrid_centrar" value="Orden Salida"  action="#{managedBeanOrdenSalidaAlmacen.Ordenes}"/>
+            </h:panelGroup>
+
+         </h:panelGrid>
+
+
+
+
+ </h:form>
+
+
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

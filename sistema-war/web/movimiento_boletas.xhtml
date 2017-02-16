@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Opciones de Boletas" >
+
+      <h:form id="frm_button" >
+
+
+          <p:fieldset id="fielset"  legend="Seguimiento de Pagos Realizados Por Cliente" style="margin-top:10px">
+
+
+
+
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+             <h:outputText value="Fecha de Emisión de la venta" />
+             <p:calendar value="#{managedBeanVenta.fecha_emision}" pattern="dd/MM/yyyy"/>
+            </h:panelGrid>
+
+             <p:separator />
+
+             <p:commandButton value="Listar Boletas" action="#{managedBeanVenta.Filtrar_lista_Fecha}"  update="frm_button " />
+           <br />
+  <p:separator />
+           
+
+
+           <p:dataTable   paginator="true" rows="100"   var="item" value="#{managedBeanVenta.lista}" widgetVar="carsTable"
+                          selection="#{managedBeanVenta.venta}"  selectionMode="single"
+                           emptyMessage="No se Encontraron datos">
+
+         <f:facet name="header">
+             Lista de BOLETAS de Venta.
+        </f:facet>
+
+                <p:column style="width:18px">
+            <p:rowToggler />
+        </p:column>
+        <p:column   style="width:75px; text-align:center; font-size: 13px;" filterBy="#{item.bloqueVenta}"
+                headerText="Bloque"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.bloqueVenta}"  />
+        </p:column>
+
+               <p:column   style="width:75px; text-align:center; font-size: 13px;" filterBy="#{item.numeroVenta}"
+                headerText="Numero"
+                filterMatchMode="contains">
+                   <h:outputText value="#{item.numeroVenta}"  />
+        </p:column>
+
+
+
+
+                <p:column   style="width:90px; text-align:center; font-size: 13px;"   headerText="Fecha Emisión">
+                    <h:outputText value="#{item.fechaVentaEmision}" >
+                    <f:convertDateTime pattern="dd/MM/yyyy"   />
+                    </h:outputText>
+                </p:column>
+
+
+
+               <p:column   style="width:120px; text-align:center; font-size: 13px;" filterBy="#{item.cliente.nombreCliente}"  headerText="Cliente"  filterMatchMode="contains">
+                    <h:outputText value="#{item.cliente.nombreCliente}" />
+                </p:column>
+
+
+                <p:column   style="width:90px; text-align:center; font-size: 13px;"   headerText="Monto">
+                    <h:outputText value="#{item.totalVenta}" />
+                </p:column>
+
+
+         <p:column style="width:60px; text-align: center;"
+                headerText="op.">
+
+             <p:commandButton value="OP" image="ui-icon ui-icon-search"
+                              update="frm_button:display " oncomplete="PF('carDialog').show();" />
+
+
+        </p:column >
+
+
+        <p:rowExpansion>
+
+           
+
+            <p:dataTable   paginator="true" rows="25"   var="item2" value="#{item.detalleVentaProductoList}" widgetVar="formulacionTable"
+                     emptyMessage="No se Encontraron datos" >
+
+
+                  <f:facet name="header">
+           Productos Vendidos
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:100px">
+
+            <h:outputText value="#{item2.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cant." style="width:25px;text-align: left;">
+
+                    <h:outputText value="#{item2.cantidad}" />
+
+
+
+        </p:column>
+
+        <p:column headerText="Precio" style="width:25px;text-align: left;">
+
+                    <h:outputText value="#{item2.precioVenta}" />
+
+        </p:column>
+
+        <p:column headerText="Dscto." style="width:25px;text-align: left;">
+
+                    <h:outputText value="#{item2.descuento}" />
+
+        </p:column>
+
+                 <p:column headerText="Sub.Total" style="width:25px;text-align: left;">
+
+                     <h:outputText value="#{item2.subTotal}" />
+
+        </p:column>
+
+
+                <f:facet name="footer">
+                    La cantidad total es : #{item.totalVenta} SOLES.
+        </f:facet>
+
+
+            </p:dataTable>
+
+        </p:rowExpansion>
+
+
+</p:dataTable>
+   <p:dialog header="BOLETA SELECCIONADA" widgetVar="carDialog" resizable="false"
+              width="450" showEffect="clip" hideEffect="fold">
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+            <h:outputText value="Número de Boleta:" style="font-size: 21px;" />
+            <h:outputText value="#{managedBeanVenta.bloqueBoleta} - #{managedBeanVenta.numeroBoleta}" style="font-size: 21px; color: red;" />
+
+
+        </h:panelGrid>
+    </p:dialog>
+
+ </p:fieldset>
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+
+                 <p:messages showDetail="true" autoUpdate="true"/>
+                <center>     <h:commandLink  action="#{managedBeanReportando.Volver_ReporteVentas}"  >
+       <p:graphicImage  value="/images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

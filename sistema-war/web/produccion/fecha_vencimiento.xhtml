@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción - ACTUALIZAR FECHA DE VENCIMIENTOS" >
+
+   <h:form id="frm2">
+       <h:panelGrid id="padre" columns="2"  >
+
+
+        <h:panelGrid id="pnlg1" columns="2"  >
+
+           <h:outputText value="Producto :"/>
+           <h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.producto.nombreProducto}"/>
+             <h:outputText value="Almacén :"/>
+               <h:outputText value="#{managedBeanStock.stockProductoTiendaOrigen.tienda.nombreTienda}"/>
+
+              <h:outputText value="Productos - Fecha Vencimientos :"/>
+              <p:selectOneMenu  value="#{managedBeanStock.detalle}" effect="drop" style="width:425px" converter="detallealmacenproductosConverter" >
+                  <f:selectItems  id="items_detalle" value="#{managedBeanDetalleAlmacenProductos.DetallesItems(managedBeanStock.stockProductoTiendaOrigen)}"/>
+        </p:selectOneMenu>
+
+
+            <h:outputText value="Actualmente cuenta con :" />
+            <h:outputText style="color: blue;" value="#{managedBeanStock.stockProductoTiendaOrigen.cantidad} como Cantidad de producto" />
+
+            
+        </h:panelGrid>
+           <h:panelGrid id="hijo" columns="2"  >
+
+
+               <center>     <h:commandLink  action="#{managedBeanStock.Volver_Fechas}"  >
+                    <p:graphicImage height="75" width="75" value="../images/inicio1.jpg" />
+</h:commandLink></center>
+               </h:panelGrid>
+</h:panelGrid>
+           <p:separator />
+           <h:panelGrid id="principal_" columns="2"  >
+
+
+           <h:panelGrid id="pnlg2341" columns="2"  >
+               <h:outputText value="FECHA DE VENCIMIENTO" />
+               <p:calendar lang="es" locale="es" pattern="dd/MM/yyyy" value="#{managedBeanStock.fecha_vencimiento}"/>
+               
+           </h:panelGrid>
+
+
+               <h:panelGrid id="interno_2" columns="2"  >
+
+                   <h:commandButton value="EDITAR FECHA" action="#{managedBeanStock.Actualizar_Vencimiento}" image="../images/guardar.png"/>
+
+           </h:panelGrid>
+
+                 </h:panelGrid>
+
+
+
+           </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

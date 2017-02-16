@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+    <p:panel header="M&oacute;dulo de Finanzas - Gastos" >
+
+
+        <h:form id="frmPrincipal" >
+    <p:growl id="growl" showDetail="true"/>        
+            <center>
+                        <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanGastoEconomico.newObject()}" style="margin-right:20px; border:0 none;">  
+                        <p:graphicImage  value="images/nuevo.png"  />
+                        <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                        </p:commandLink>
+                       
+                    </center>
+            
+                   
+
+
+        <p:fieldset id="fielset"  legend="Lista de Gastos" style="margin-top:10px">
+
+
+            <h:panelGrid id="pnl1" columns="2">
+
+               <h:outputText value="Fecha" />
+               <p:calendar id="fecha_gasto"  effect="slide" locale="es" value="#{managedBeanGastoEconomico.fecha}" pattern="dd/MM/yyyy">
+                <p:ajax event="dateSelect" listener="#{managedBeanGastoEconomico.handleDateSelect}" update=":frmPrincipal:tbldatosFiltrados" />
+               </p:calendar>
+
+
+            </h:panelGrid>
+
+            <p:separator />
+
+
+
+
+            <p:dataTable emptyMessage="SIN DATOS" id="tbldatosFiltrados"   var="item" value="#{managedBeanGastoEconomico.lista}" style="width: 100%;" >
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Motivo"> </h:outputText></f:facet>
+                    <h:outputText style="font-size: 15px;" value="#{item.motivo}" />
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header"> <h:outputText value="Fecha"> </h:outputText></f:facet>
+                    <h:outputText style="font-size: 15px;" value="#{item.fechaCreacion}" ><f:convertDateTime pattern="EEEE dd MMMM yyyy" /></h:outputText>
+                </p:column>
+
+
+                 <p:column>
+                    <f:facet name="header"> <h:outputText value="Total"> </h:outputText></f:facet>
+                    <h:outputText  style="font-size: 15px; color: red;" value="#{item.total}" />
+                </p:column>
+
+
+            </p:dataTable>
+
+
+
+
+        </p:fieldset>
+           <p:separator />
+           <center>
+               <h:commandLink  action="#{managedBeanGastoEconomico.Volver_TipoCliente}"  >
+       <p:graphicImage  value="images/inicio1.jpg" />
+</h:commandLink></center>
+
+
+           </h:form>
+
+    </p:panel>
+      <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+     <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Motivo : " />
+ <p:inputTextarea cols="35" value="#{managedBeanGastoEconomico.gastoseconomicos.motivo}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nota extra: " />
+  <p:inputTextarea  value="#{managedBeanGastoEconomico.gastoseconomicos.nota}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Cantidad total de Dinero: " />
+  <p:inputText style="color: red;" size="17" value="#{managedBeanGastoEconomico.gastoseconomicos.total}"/>
+ <h:outputText value="" />
+
+
+
+            </h:panelGrid>
+
+                </h:panelGrid>
+                        <p:separator/>
+                    
+                        <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="Dar Click Agregar Nuevo Item" update=":frmPrincipal" action="#{managedBeanGastoEconomico.crearNew()}" /></center> 
+
+                          
+                    </p:dialog>  
+
+                </h:form>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

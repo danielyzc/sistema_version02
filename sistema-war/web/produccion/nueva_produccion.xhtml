@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+    
+       <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción - Nueva Producción" >
+
+   <h:form id="frm11">
+        <p:fieldset id="fielset"  legend="Datos de Registro" style="margin-top:5px">
+
+            <h:panelGrid id="grid_principal" columns="2" cellpadding="5">
+
+
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+
+                    <h:outputText value="Nombre de la Fórmula" />
+                     <p:autoComplete id="auroxcomplete"
+                                     value="#{managedBeanProduccionAlmacen.produccion.formulacion}"
+                                     completeMethod="#{managedBeanFormulacion.completar_filtrado_Formulacion}"
+                                     var="item_formulacion" itemLabel="#{item_formulacion.producto.nombreProducto} - #{item_formulacion.palabraClave} "
+                  itemValue="#{item_formulacion}"
+                               converter="formulacionConverter"  minQueryLength="3"
+               size="35"
+                />
+<h:outputText value="" />
+
+
+
+
+         <h:outputText value="Cantidad a Producir:"/>
+         <p:inputText id="input_cantidad_producir" size="17" style="color: red;" value="#{managedBeanProduccionAlmacen.produccion.cantidadProductoTerminado}"/>
+         <h:outputText value="" />
+
+         <h:outputText value="Descripción :"/>
+         <p:inputTextarea  style="color: green;" cols="35" rows="2"  value="#{managedBeanProduccionAlmacen.produccion.descripcion}"/>
+         <h:outputText value="" />
+
+
+         <h:outputText value="Nombre del Local: " />
+
+         <p:selectOneMenu style="width:320px" value="#{managedBeanProduccionAlmacen.produccion.tienda}" effect="drop" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+
+
+                </h:panelGrid>
+
+                <h:panelGrid id="pnlg2" columns="1" cellpadding="5">
+                <center>  <h:commandButton value="Terminar Registro" action="#{managedBeanProduccionAlmacen.crear}" image="../images/guardar.png" />  </center>
+</h:panelGrid>
+                </h:panelGrid>
+ </p:fieldset>
+
+
+
+
+
+
+
+<br />
+           </h:form>
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

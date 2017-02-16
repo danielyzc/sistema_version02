@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />  
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="../index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="../ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="../compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="../almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="../finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+   
+    <p:panel header="M&oacute;dulo de Mantenimiento- NUEVA PROMOCION" >
+
+          <h:form id="frm11Editar">
+               <p:growl id="growl" showDetail="true"/>
+    <p:growl id="messages" showDetail="true"/>
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset"  legend="Datos de la Venta" style="margin-top:5px">
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+                    <h:outputText value="Nombre de la Tienda. " />
+
+                    <p:selectOneMenu value="#{managedBeanPromocion.promocion.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+
+
+<h:outputText value="Vendedor" />
+<p:selectOneMenu  value="#{managedBeanPromocion.promocion.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+
+<h:outputText value="FECHA INICIO:" />
+<p:calendar id="FECHA_INICIO"  required="true"  effect="slide" locale="es" value="#{managedBeanPromocion.promocion.fechaInicio}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+<h:outputText value="FECHA DE FIN:" />
+<p:calendar id="FECHA_FIN"  required="true"  effect="slide" locale="es" value="#{managedBeanPromocion.promocion.fechaFin}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+
+
+       
+         <h:outputText value="NOMBRE PROMOCION"/>
+         <p:inputTextarea id="inp4"  value="#{managedBeanPromocion.promocion.observaciones}"/>
+         <h:outputText value="" />
+        </h:panelGrid>
+ </p:fieldset>
+
+
+
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset2"  legend="LISTA DE PRODUCTOS" style="margin-top:5px">
+
+        <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+
+
+
+  <h:outputText value="Nombre del Producto : "/>
+
+ <p:autoComplete id="auroxcomplete"
+                 value="#{managedBeanPromocion.detalle_editar.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                 minQueryLength="3"
+               converter="ProductoConverter" 
+               size="42" 
+              
+               >
+     
+              
+ </p:autoComplete>
+ <h:outputText value=""/>
+
+ <h:outputText value="% DESCUENTO"/>
+ <p:inputText id="i1npss" size="42" value="#{managedBeanPromocion.detalle_editar.descuentoPorcentaje}"/>
+ <h:outputText value=""/>
+
+ 
+
+
+ 
+ <h:outputText value=""/>
+ <p:commandButton value="Agregar a la Lista" action="#{managedBeanPromocion.agregarDetalleEditar()}" update=":frm11Editar:detalleslist" />
+
+ </h:panelGrid>
+    </p:fieldset>
+
+    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset3"  legend="Lista de Productos" style="margin-top:5px">
+    <p:growl id="messages2" />
+    <p:dataTable var="item" value="#{managedBeanPromocion.lista_detalles_editar}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="DESCUENTO" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.descuentoPorcentaje}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.descuentoPorcentaje}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        
+        <p:column headerText="" style="width:100px">
+           
+            <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanPromocion.removerDetalleEditar()}" update=":frm11Editar" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanPromocion.detalle_editar}" />
+            </p:commandButton>
+
+
+
+        </p:column>
+
+                <f:facet name="footer">
+                    NUM PRODUCTOS EN LISTA : #{managedBeanPromocion.tamlistaEditar()}.
+        </f:facet>
+    </p:dataTable>
+
+    </p:fieldset>
+<br />
+<center>  <h:commandButton value="EDITAR REGISTRO" action="#{managedBeanPromocion.editar}" />  </center>
+         </h:form>
+  <p:separator />
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

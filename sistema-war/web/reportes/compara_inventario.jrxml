@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="id_tienda" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_inventario" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombre_inventario" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombre_tienda" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select p.nombre_producto,detufp.id_producto as producto_inventario,sum(detufp.cantidad) as cantidad_inventario
+,stk.id_producto as producto_stock,stk.cantidad as cantidad_stock,sum(detufp.cantidad)-stk.cantidad as resultado
+from detalle_ubicacion_fisica_producto detufp
+inner join detalle_inventario_ubicacion_fisica dtiuf on
+detufp.id_detalle_inventario_ubicacion_fisica= dtiuf.id_detalle_inventario_ubicacion_fisica
+inner join inventario_fisico ifs on ifs.id_inventario_fisico=dtiuf.id_inventario_fisico
+inner join stock_producto_tienda_origen stk on stk.id_producto = detufp.id_producto
+inner join producto p on p.id_producto = detufp.id_producto
+where ifs.id_inventario_fisico =$P{id_inventario} and ifs.id_tienda=$P{id_tienda} and stk.id_tienda_origen=$P{id_tienda}
+
+group by p.nombre_producto,detufp.id_producto,stk.id_producto,stk.cantidad
+
+having sum(detufp.cantidad)-stk.cantidad !=0
+order by 2]]>
+	</queryString>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<field name="producto_inventario" class="java.lang.Integer"/>
+	<field name="cantidad_inventario" class="java.math.BigDecimal"/>
+	<field name="producto_stock" class="java.lang.Integer"/>
+	<field name="cantidad_stock" class="java.lang.Integer"/>
+	<field name="resultado" class="java.math.BigDecimal"/>
+	<background>
+		<band height="575" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="475" width="105" height="100" backcolor="#666666"/>
+				<textField>
+					<reportElement style="Column header" x="0" y="0" width="104" height="73" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="58" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="0" y="77" width="104" height="20" forecolor="#000000"/>
+					<box leftPadding="4" rightPadding="4"/>
+					<textElement textAlignment="Center">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement mode="Transparent" x="42" y="73" width="20" height="1" backcolor="#FFFFFF"/>
+				</line>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="50" splitType="Prevent">
+			<staticText>
+				<reportElement x="469" y="0" width="331" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[COMPARAR INVENTARIO FISICO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="0" width="275" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[BIOAGROTECK]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="0" width="705" height="25" backcolor="#666666"/>
+				<staticText>
+					<reportElement style="Column header" x="0" y="0" width="372" height="25"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="11"/>
+					</textElement>
+					<text><![CDATA[PRODUCTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="372" y="0" width="81" height="25"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="11"/>
+					</textElement>
+					<text><![CDATA[FISICO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="453" y="0" width="75" height="25"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="11"/>
+					</textElement>
+					<text><![CDATA[SISTEMA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="528" y="0" width="91" height="25"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="11"/>
+					</textElement>
+					<text><![CDATA[SOBRA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="619" y="0" width="84" height="25"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="11"/>
+					</textElement>
+					<text><![CDATA[FALTA]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="0" width="705" height="21"/>
+				<textField>
+					<reportElement style="Detail" x="0" y="0" width="372" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="372" y="0" width="81" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cantidad_inventario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="453" y="0" width="75" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cantidad_stock}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" mode="Transparent" x="528" y="0" width="91" height="15" forecolor="#005FD9">
+						<printWhenExpression><![CDATA[$F{resultado}.intValueExact()>0]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{resultado}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="623" y="0" width="80" height="15" forecolor="#FF0000">
+						<printWhenExpression><![CDATA[$F{resultado}.intValueExact()<0]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{resultado}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="671" y="0" width="131" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="4" width="152" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nombre_tienda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="3" width="216" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nombre_inventario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="4" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Inventario:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

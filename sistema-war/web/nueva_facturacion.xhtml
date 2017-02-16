@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Facturación de la Orden de Compra Seleccionada" >
+
+        <h:form id="frm_nuevo_cliente">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Número de Orden de Compra: " />
+<h:outputText value="#{managedBeanFacturaCompra.facturacompra.ordenCompra.idOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Proveedor: " />
+  <h:outputText value="#{managedBeanFacturaCompra.facturacompra.ordenCompra.proveedor.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Estado Orden de Compra: " />
+  <h:outputText value="#{managedBeanFacturaCompra.facturacompra.ordenCompra.estadoOrdenCompra.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. a Pagar: " />
+  <h:outputText value="#{managedBeanFacturaCompra.facturacompra.ordenCompra.totalOrdenCompra}" />
+ <h:outputText value="" />
+
+
+ <h:outputText value="Empleado que Recibe los productos: " />
+ <p:selectOneMenu  value="#{managedBeanFacturaCompra.facturacompra.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+
+  <h:outputText value="Número de FACTURA del PROVEEDOR: " />
+  <p:inputText size="35" value="#{managedBeanFacturaCompra.facturacompra.numeroFacturaCompra}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Número de GUIA del PROVEEDOR: " />
+  <p:inputText size="35" value="#{managedBeanFacturaCompra.facturacompra.numeroGuiaRemision}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea  value="#{managedBeanFacturaCompra.facturacompra.descripcion}" />
+ <h:outputText value="" />
+
+  
+
+
+            </h:panelGrid>
+
+                <h:commandButton title="Facturar la Orden de Compra" image="images/guardar.png"  action="#{managedBeanFacturaCompra.crear}"/>
+
+
+                <p:dataTable var="item" value="#{managedBeanFacturaCompra.facturacompra.ordenCompra.detalleOrdenCompraProductoList}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Recibir
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cantidad" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.precioVenta}" />
+                </f:facet>
+                <f:facet name="input">
+                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+
+                 <p:column headerText="Sub.Total" style="width:75px">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+    </p:dataTable>
+<h:outputText value="" />
+<h:outputText value="" />
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="/master/master.xhtml">
+
+            <ui:define name="datos">
+
+                <h:form id="frmPrincipal">
+                    <p:panel header="REPORTES" >
+                        <p:growl id="growl" showDetail="true"/>
+
+                        <h:panelGrid id="pnlg1" columns="4" style="padding:0 10px 0 100px;" >
+
+
+
+                            <h:panelGroup>
+                                <p:commandLink ajax="false"  id="newArea" update=":frmReporte1" actionListener="#{managedBeanReportando.rep1()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/stock.jpg" width="120" height="120" />
+                                    <p:tooltip for="newArea"  value="REPORTE DE STOCK" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup>
+                                <p:commandLink  oncomplete="PF('dlgNewReporte1').show();" id="rep2" update=":frmReporte1" actionListener="#{managedBeanVenta.newObject()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/ventasRep.jpg" width="120" height="120" />
+                                    <p:tooltip for="rep2"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup>
+                                <p:commandLink  oncomplete="PF('dlgRepIngresos').show();" id="rep3" update=":frmReporteIngresos" actionListener="#{managedBeanReportando.resetarFechas()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/stock_repo.jpg" width="120" height="120" />
+                                    <p:tooltip for="rep3"  value="REPORTE DE INGRESOS" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:commandLink  ajax="false" id="rep4" update=":frmReporte1" actionListener="#{managedBeanReportando.rep2()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/stock_minimo.jpg" width="120" height="120" />
+                                    <p:tooltip for="rep4"  value="STOCK MINIMO" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+
+                        </h:panelGrid>
+
+                        <p:separator />
+
+
+                        <h:panelGrid id="pnlg2" columns="4" style="padding:0 10px 0 100px;" >
+
+
+                            <h:panelGroup>
+                                <p:commandLink  oncomplete="PF('dlgNewReporte1').show();" id="rep5" update=":frmReporte1" actionListener="#{managedBeanVenta.newObject()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/stockMoney.jpg" width="120" height="120" />
+                                    <p:tooltip for="rep5"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:commandLink  oncomplete="PF('dlgNewReporte1').show();" id="rep6" update=":frmReporte1" actionListener="#{managedBeanVenta.newObject()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/proveedoresRep.png" width="120" height="120" />
+                                    <p:tooltip for="rep6"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:commandLink  oncomplete="PF('dlgNewReporte1').show();" id="rep7" update=":frmReporte1" actionListener="#{managedBeanVenta.newObject()}" style="margin-right:20px; border:0 none;">  
+                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/clientesRep.png" width="120" height="120" />
+                                    <p:tooltip for="rep7"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                                </p:commandLink>
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+
+
+
+                    </p:panel>
+
+
+                </h:form>
+
+                <h:form id="frmReporte1">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO REPORTE" widgetVar="dlgNewReporte1" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+
+
+                    </p:dialog>  
+                </h:form>
+
+                <h:form id="frmReporteIngresos">
+
+                    <p:dialog resizable="false" width="350px;" id="dialog" header="NUEVO REPORTE" widgetVar="dlgRepIngresos" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+                        <h:panelGrid id="datos" columns="2">
+                            <h:outputText value="INICIO: "/>
+                            <p:calendar value="#{managedBeanReportando.fecha_inicio}" pattern="dd/MM/yyyy" locale="es" showOn="button"/>
+                            <h:outputText value="FINAL: "/>
+                            <p:calendar value="#{managedBeanReportando.fecha_fin}" pattern="dd/MM/yyyy" locale="es" showOn="button"/>
+                        </h:panelGrid>
+                        <p:separator />
+                        <center> <p:commandButton value="GENERAR" ajax="false" actionListener="#{managedBeanReportando.rep3()}" onclick="PF('dlgRepIngresos').hide();"/>
+                        </center>
+
+                    </p:dialog>  
+                </h:form>
+
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

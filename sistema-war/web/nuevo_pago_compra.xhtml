@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Pago de la Orden de Compra Selccionada" >
+
+        <h:form id="frm_nuevo_cliente">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Orden de Compra: " />
+ <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.idOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre del Proveedor: " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.proveedor.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Estado : " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.estadoFacturacionOrdenCompra.nombre}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. de la Compra: " />
+  <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.totalOrdenCompra}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Total de SOLES.. que ya se ha pagado: " />
+   <h:outputText value="#{managedBeanPagoCompraCredito.pagocompracredito.ordenCompra.totalPagosCreditoOrdenCompra}" />
+ <h:outputText value="" />
+
+
+   <h:outputText value="Total de SOLES.. que aún faltan : " />
+   <h:outputText style="color: red;" value="#{managedBeanPagoCompraCredito.debito}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Empleado Realiza el Pago: " />
+ <p:selectOneMenu  value="#{managedBeanPagoCompraCredito.pagocompracredito.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios : " />
+  <p:inputTextarea value="#{managedBeanPagoCompraCredito.pagocompracredito.observaciones}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Cantidad de SOLES.. a  Abonar : " />
+ <p:inputText size="21" value="#{managedBeanPagoCompraCredito.pagocompracredito.cantidad}" />
+ <h:outputText value="" />
+
+
+
+            </h:panelGrid>
+
+                <h:commandButton title="Realizar el Pago" image="images/guardar.png"  action="#{managedBeanPagoCompraCredito.Crear}"/>
+
+            
+<h:outputText value="" />
+<h:outputText value="" />
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

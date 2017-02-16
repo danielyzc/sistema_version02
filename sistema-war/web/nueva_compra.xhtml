@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+      <h:form id="frm11">
+          <p:panel id="panel_general" header="M&oacute;dulo de Compras" >
+
+        
+        <p:fieldset id="fielset" toggleable="true" toggleSpeed="500" legend="Datos de la Compra" style="margin-top:5px">
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+                 
+
+
+<h:outputText value="Proveedor : "/>
+
+ <p:autoComplete id="auroxcomplete_Proveedores"
+                 value="#{managedBeanOrdenCompra.ordencompra.proveedor}"
+
+                 completeMethod="#{managedBeanProveedor.completar_filtrado_Proveedores}"
+                 var="item_proveedor" itemLabel="#{item_proveedor.nombre}"
+                  itemValue="#{item_proveedor}"
+                  converter="proveedorConverter"
+               size="42"
+                />
+ <h:outputText value=""/>
+
+
+ <h:outputText value="Fecha que se Espera Recibir:" />
+<p:calendar id="FECHA_Espera" required="true"  effect="slide" locale="es" value="#{managedBeanOrdenCompra.ordencompra.fechaEntregaOrdenCompra}" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+
+ <h:outputText value="Estado de la Orden de Compra :"/>
+ <p:selectOneMenu value="#{managedBeanOrdenCompra.ordencompra.estadoOrdenCompra}" effect="drop" style="width:425px" converter="estadoordencompraConverter" >
+     <f:selectItems  id="temsestadoOrdenes" value="#{managedBeanEstadoOrdenCompra.estadoordencompraItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+
+         <h:outputText value="Observaciones:"/>
+         <p:inputText id="inp4" size="42" value="#{managedBeanOrdenCompra.ordencompra.observaciones}"/>
+         <h:outputText value="" />
+        </h:panelGrid>
+ </p:fieldset>
+
+
+
+
+    <p:fieldset id="fielset2" toggleable="true" toggleSpeed="500" legend="Ingreso de Productos" style="margin-top:5px">
+<p:growl id="messages" showDetail="true"/>
+        <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+
+
+
+  <h:outputText value="Nombre del Producto : "/>
+
+
+  <p:autoComplete id="auroxcomplete"
+                 value="#{managedBeanOrdenCompra.detalleorrdencompraproducto.producto}"
+                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                  itemValue="#{item_Producto}"
+                  converter="ProductoConverter"  minQueryLength="3"
+               size="42"
+                />
+
+ <h:outputText value=""/>
+
+ <h:outputText value="Cantidad"/>
+ <p:inputText id="i1npss" size="42" value="#{managedBeanOrdenCompra.detalleorrdencompraproducto.cantidad}"/>
+ <h:outputText value=""/>
+
+<h:outputText value="Precio de venta"/>
+<p:inputText id="i1npss32" size="42" value="#{managedBeanOrdenCompra.detalleorrdencompraproducto.precioVenta}"/>
+ <h:outputText value=""/>
+
+
+ <h:outputText value=""/>
+ <p:commandButton value="Agregar a la Lista" action="#{managedBeanOrdenCompra.AgregarDetalleProducto}" update="frm11" />
+
+ </h:panelGrid>
+    </p:fieldset>
+
+        <p:fieldset id="fielset3"  toggleable="true" toggleSpeed="500" legend="Lista de Productos" style="margin-top:5px">
+    <p:growl id="messages2" />
+    <p:dataTable var="item" value="#{managedBeanOrdenCompra.lista_detalles}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Comprar
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:350px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cantidad" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.precioVenta}" />
+                </f:facet>
+                <f:facet name="input">
+                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+       
+                 <p:column headerText="Sub.Total" style="width:75px">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+
+        <p:column headerText="" style="width:100px">
+            <p:commandButton title="Editar éste Producto" icon="ui-icon ui-icon-arrowrefresh-1-w"  action="#{managedBeanOrdenCompra.EliminarLista}" update=":frm11" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanOrdenCompra.detalleorrdencompraproducto}" />
+            </p:commandButton>
+            <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanOrdenCompra.EliminarLista}" update=":frm11" >
+                <f:setPropertyActionListener value="#{item}" target="#{managedBeanOrdenCompra.detalleorrdencompraproducto}" />
+            </p:commandButton>
+
+
+
+        </p:column>
+
+                <f:facet name="footer">
+                    La cantidad a pagar es : #{managedBeanOrdenCompra.venta_total_detalles} SOLES.
+        </f:facet>
+    </p:dataTable>
+
+    </p:fieldset>
+<br />
+<center>  <h:commandButton value="Terminar Compra" action="#{managedBeanOrdenCompra.editar_guardar_compra}" />  </center>
+         
+  <p:separator />
+    </p:panel>
+          </h:form>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

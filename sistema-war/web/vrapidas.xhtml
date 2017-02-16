@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="/master/master.xhtml">
+
+           
+            <ui:define name="datos">
+
+
+                <h:form id="frmbtn">
+                    <p:growl id="growl" showDetail="true"/>
+                    <p:panel header="VENTAS - VENTAS RAPIDAS" >
+
+                        <center>
+                          
+                            <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanVentaRapida.crearNueva()}" style="margin-right:20px; border:0 none;">  
+                                <p:graphicImage  value="/images/nuevo.png"  />
+                                <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+
+                            </p:commandLink>
+                        </center>
+
+
+                        <p:separator />
+
+
+
+                        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 10px;width:100%;" >
+
+
+
+                            <p:dataTable   paginator="true" rows="17"   var="item" value="#{managedBeanVentaRapida.lista}" widgetVar="carsTable"
+                                           emptyMessage="No se Encontraron datos">
+
+                                <f:facet name="header">
+                                    Seleccione una Opci&oacute;n de Filtrado
+                                </f:facet>
+
+                                <p:column   style="width:75px; text-align:center; font-size: 13px;" filterBy="#{item.fechaVenta}"
+                                            headerText="FECHA"
+                                            filterMatchMode="contains"
+
+                                            >
+                                    <h:outputText value="#{item.fechaVenta}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+
+                                </p:column>
+
+
+
+
+
+                                <p:column   style="width:200px; text-align:center; font-size: 13px;" filterBy="#{item.tienda.nombreTienda}"
+                                            headerText="TIENDA"
+                                            filterMatchMode="contains">
+                                    <h:outputText value="#{item.tienda.nombreTienda}" />
+                                </p:column>
+
+
+
+                                <p:column style="width:100px; text-align:center;"
+                                          headerText="op.">
+
+                                    <h:commandButton title="IMPRIMIR"
+                                                     image="/images/impresora_mini.png" action="#{managedBeanReportando.generar_Ventas_Rapidas}">
+                                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanReportando.ventaRapida}" />
+                                    </h:commandButton>
+
+                                    <h:commandButton title="REGISTRAR PRODUCTOS"
+                                                     image="/images/lector_mini.jpg" action="#{managedBeanVentaRapida.ingreso_productos}">
+                                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanVentaRapida.ventaRapida}" />
+                                    </h:commandButton>
+
+
+
+                                </p:column >
+
+
+
+                            </p:dataTable>
+
+
+                        </h:panelGrid>
+
+
+
+
+
+
+
+                        <p:separator />
+
+                        <center>     <h:commandLink  action="#{managedBeanProducto.Volver_Producto}"  >
+                                <p:graphicImage  value="../images/inicio1.jpg" />
+                            </h:commandLink></center>
+
+                    </p:panel>
+                </h:form>
+
+
+         
+                <h:form id="Form2">
+
+                    <p:dialog width="350px;" id="dialog" header="NUEVO ITEM" widgetVar="dlgnewArea" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+
+                         <h:panelGrid columns="2" >
+
+
+            <h:panelGrid id="pnlg1" columns="2"  >
+
+            <h:outputText value="TIENDA" />
+
+            <p:selectOneMenu value="#{managedBeanVentaRapida.ventaRapida.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
+            <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="FECHA DE ATENCION" />
+            <p:calendar id="FECHA_VENTA_RAPIDA"  required="true"  effect="slide" locale="es" value="#{managedBeanVentaRapida.fecha}" pattern="dd/MM/yyyy"/>
+
+</h:panelGrid>
+
+
+               
+ </h:panelGrid>
+                        <p:separator/>
+                        
+                         <center>   <p:commandButton value="GRABAR"  oncomplete="PF('dlgnewArea').hide();" title="CREAR NUEVO ITEM" update=":frmbtn" actionListener="#{managedBeanVentaRapida.crear}" /></center> 
+
+
+                    </p:dialog>  
+
+                </h:form>
+ 
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

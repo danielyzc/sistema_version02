@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Producción - Nuevo Stock en Materia Prima" >
+
+   <h:form id="frm11">
+        <p:fieldset id="fielset"  legend="Datos de Registro" style="margin-top:5px">
+
+            <h:panelGrid id="pnlPrincipal" columns="2" cellpadding="5">
+
+
+                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+
+                    <h:outputText value="Nombre de Materia Prima: " />
+                     <p:autoComplete id="auroxcomplete"
+                                     value="#{managedBeanStockMateriaPrima.stock_materia_prima.materiaPrima}"
+                                     completeMethod="#{managedBeanMateriaPrima.completar_filtrado_Materia_prima}"
+                                     var="item_materia" itemLabel="#{item_materia.nombreMateriaPrima}"
+                  itemValue="#{item_materia}"
+                               converter="materiaPrimaConverter"  minQueryLength="3"
+               size="35"
+                />
+<h:outputText value="" />
+
+
+<h:outputText value="Nombre del Local: " />
+
+<p:selectOneMenu style="width:320px" value="#{managedBeanStockMateriaPrima.stock_materia_prima.tienda}" effect="drop" converter="tiendaConverter" >
+     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
+        </p:selectOneMenu>
+<h:outputText value="" />
+
+         <h:outputText value="Cantidad - Materia Prima :"/>
+         <p:inputText id="input_cantidad" size="17" style="color: red;" value="#{managedBeanStockMateriaPrima.stock_materia_prima.cantidad}"/>
+         <h:outputText value="" />
+
+         <h:outputText value="Descripción :"/>
+         <p:inputTextarea cols="35" rows="2"  style="color: green;" value="#{managedBeanStockMateriaPrima.stock_materia_prima.descripcion}"/>
+         <h:outputText value="" />
+
+
+                 <h:outputText value="Ultima Fecha de Ingreso :"/>
+                 <p:calendar value="#{managedBeanStockMateriaPrima.stock_materia_prima.ultimaFechaIngreso}" pattern="dd/MM/yyyy"/>
+         <h:outputText value="" />
+
+                </h:panelGrid>
+
+
+                <h:panelGrid id="pnlg122" columns="1" cellpadding="5">
+
+                    <center>  <h:commandButton value="Terminar Registro" action="#{managedBeanStockMateriaPrima.registrar}" image="../images/guardar.png"/>  </center>
+
+                </h:panelGrid>
+                  </h:panelGrid>
+
+
+ </p:fieldset>
+
+
+
+
+    
+
+
+<br />
+           </h:form>
+    </p:panel>
+
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

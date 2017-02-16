@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style forecolor="#A4AEB4" backcolor="#C3E4FB"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="id_inventario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select ifs.id_inventario_fisico as id,ifs.obervaciones as nombre,
+ifs.fecha_inicio as inicio, ifs.fecha_termino as termino
+,t.nombre_tienda as tienda, ubf.nombre_ubicacion_fisica as ubicacion
+,p.nombre_producto as producto, sum(dufp.cantidad) as cantidad
+from inventario_fisico ifs
+inner join detalle_inventario_ubicacion_fisica diuf
+on ifs.id_inventario_fisico =diuf.id_inventario_fisico
+inner join detalle_ubicacion_fisica_producto dufp on
+diuf.id_detalle_inventario_ubicacion_fisica =dufp.id_detalle_inventario_ubicacion_fisica
+inner join tienda t on t.id_tienda =ifs.id_tienda
+inner join ubicacion_fisica ubf on ubf.id_ubicacion_fisica =diuf.id_ubicacion_fisica
+inner join producto p on p.id_producto=dufp.id_producto
+group by ifs.id_inventario_fisico,ifs.obervaciones,ifs.fecha_inicio,ifs.fecha_termino,
+t.nombre_tienda,ubf.nombre_ubicacion_fisica,p.nombre_producto
+having ifs.id_inventario_fisico=$P{id_inventario}
+order by 5]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="inicio" class="java.sql.Date"/>
+	<field name="termino" class="java.sql.Date"/>
+	<field name="tienda" class="java.lang.String"/>
+	<field name="ubicacion" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="cantidad" class="java.math.BigDecimal"/>
+	<group name="UBICACION">
+		<groupExpression><![CDATA[$F{ubicacion}]]></groupExpression>
+		<groupHeader>
+			<band height="61">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="20" width="460" height="20" forecolor="#010000"/>
+					<textElement>
+						<font size="16" isBold="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{ubicacion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="152" y="40" width="111" height="15" forecolor="#010000"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[PRODUCTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="444" y="41" width="111" height="15" forecolor="#010000"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[CANTIDAD]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement style="Detail" x="0" y="26" width="257" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="19" isBold="true"/>
+					<paragraph tabStopWidth="50"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tienda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SubTitle" x="1" y="2" width="552" height="24" forecolor="#006600"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="Detail" x="305" y="32" width="72" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="Detail" x="449" y="32" width="80" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{termino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="258" y="26" width="62" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[INICIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="386" y="29" width="65" height="19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[TERMINO:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="28"/>
+				<textField>
+					<reportElement style="Detail" x="1" y="0" width="332" height="26"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{producto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="444" y="0" width="111" height="26"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{cantidad}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="27" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="1" y="-1" width="552" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="510" y="0" width="30" height="24"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Serif" size="9" isBold="false"/>
+					<paragraph tabStopWidth="50"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="3" y="3" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="459" y="0" width="66" height="24"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Serif" size="9" isBold="false"/>
+					<paragraph tabStopWidth="100"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="4" y="0" width="552" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="/master/master.xhtml">
+
+            <ui:define name="datos">
+
+                <h:form id="frmPrincipal">
+                    <p:panel header="MODULO DE VENTAS" >
+                       
+                        <p:growl id="growl" showDetail="true"/>
+
+                        <h:panelGrid id="pnlg1" columns="3" style="padding:0 10px 0 100px;" >
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="newBOLETA" title="Ventas por Boleta" action="#{managedBeanVenta.Nueva_venta}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/boleta.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="newBOLETA"  value="NUEVA VENTA CON BOLETA" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Ventas con Boleta" action="#{managedBeanVenta.Nueva_venta}"/>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup style="margin-left: 21px;">
+                                <h:commandLink id="newFACTURA"  title="Ventas por Factura" action="#{managedBeanFacturaVenta.Nueva}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/ventas_factura.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="newFACTURA"  value="NUEVA VENTA CON FACTURA" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Ventas por Factura" action="#{managedBeanFacturaVenta.Nueva}"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup style="margin-left: 21px;">
+                                <h:commandLink id="newVRapida"  title="VENTAS RAPIDAS" action="#{managedBeanVentaRapida.nueva()}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/lector.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="newVRapida"  value="NUEVA VENTA RAPIDA" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="VENTAS RAPIDAS" action="#{managedBeanVentaRapida.nueva()}"/>
+                            </h:panelGroup>
+                            
+
+                           
+
+                            <h:panelGroup>
+                                <h:commandLink id="cobros" title="Cobros de Credito" action="#{managedBeanVenta.Cobros}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/cobros.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="cobros"  value="NUEVO COBRO DE CREDITO" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Cobros de Credito" action="#{managedBeanVenta.Cobros}"/>
+                            </h:panelGroup>
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="precios" title="Precios" action="#{managedBeanVenta.Precios}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/precio_productos.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="precios"  value="CONSULTAR PRECIOS" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Precios" action="#{managedBeanVenta.Precios}"/>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="reportes" title="REPORTES" action="#{managedBeanVenta.ReportesEsp}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/reportes_01.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="reportes"  value="REPORTES" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="REPORTES" action="#{managedBeanVenta.ReportesEsp}"/>
+                            </h:panelGroup>
+
+
+                        </h:panelGrid>
+
+
+
+                        <p:separator />
+
+
+                        <h:panelGrid id="pnlg23" columns="4" style="padding:0 10px 0 100px;" >
+
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="NewCliente" title="Nuevo Cliente" action="#{managedBeanCliente.Nuevo}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/nuevo_cliente.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="NewCliente"  value="REGISTRAR NUEVO CLIENTE" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Nuevo Cliente" action="#{managedBeanCliente.Nuevo}"/>
+                            </h:panelGroup>
+
+
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="segPagos" title="Seg. Pagos" action="#{managedBeanPagoVentaCredito.Seguimiento}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/pagos.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="segPagos"  value="VER SEGUIMIENTO DE PAGOS" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Seg. Pagos" action="#{managedBeanPagoVentaCredito.Seguimiento}"/>
+                            </h:panelGroup>
+
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="cierre" title="Cierre de Caja" action="#{managedBeanReportando.CajaEmpleados}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/cierre_caja_empleado.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="cierre"  value="GENERAR CIERRE DE CAJA" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Cierre-Caja" action="#{managedBeanReportando.CajaEmpleados}"/>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="clientesProductos" title="CLIENTES-PRODUCTOS" action="#{managedBeanVenta.ProductosClientes}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/ClientesProductos.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="clientesProductos"  value="BUSCAR CLIENTES POR VENTAS DE PRODUCTOS" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="CLIENTES-PRODUCTOS" action="#{managedBeanVenta.ProductosClientes}"/>
+                            </h:panelGroup>
+                            
+                             <!--
+                            <p:commandLink  oncomplete="PF('dlgnewArea').show();" id="newArea" update=":Form2" actionListener="#{managedBeanVenta.newObject()}" style="margin-right:20px; border:0 none;">  
+                                                    <p:graphicImage  value="${pageContext.request.contextPath}/images/ventas_boleta.gif"  />
+                                                    <p:tooltip for="newArea"  value="NUEVO ITEM" showEffect="slide" hideEffect="explode" /> 
+                            
+                                                    </p:commandLink>
+                            -->
+
+                        </h:panelGrid>
+                        
+                        
+                    </p:panel>
+
+
+                </h:form>
+
+
+
+
+
+             
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

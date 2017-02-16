@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Nuevo Cliente" >
+
+        <h:form id="frm_nuevo_cliente">
+
+            <h:panelGrid id="pnlPadre" columns="2" cellpadding="5">
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ <h:outputText value="Nombre del Cliente: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.nombreCliente}" />
+ <h:outputText value="" />
+
+ <h:outputText value="Razón Social: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.razonSocial}" />
+ <h:outputText value="" />
+ <h:outputText value="Giro - Rubro: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.giroRubro}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Nombre/Contacto: " />
+ <p:inputText size="35" value="#{managedBeanCliente.cliente.contacto}" />
+ <h:outputText value="" />
+  <h:outputText value="Tipo de Cliente: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.tipoCliente}" effect="drop" converter="tipoClienteConverter" >
+  <f:selectItems  id="temsripoclientes"  value="#{managedBeanTipoCliente.tipoclientesItems}"/>
+  </p:selectOneMenu>
+ <h:outputText value="" />
+
+  <h:outputText value="RUC: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.rucCliente}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Dirección: " />
+  <p:inputTextarea cols="35" style="color: blue;" value="#{managedBeanCliente.cliente.direccion}"/>
+ <h:outputText value="" />
+
+  <h:outputText value="Zona: " />
+  <p:selectOneMenu  style="width:350px" value="#{managedBeanCliente.cliente.zonaCiudad}" effect="drop" converter="zonaConverter" >
+      <f:selectItems  id="Itemszonas"  value="#{managedBeanZona.zonasItems}"/>
+  </p:selectOneMenu>
+ <h:outputText value="" />
+
+  <h:outputText value="Teléfono: " />
+  <p:inputText size="35" value="#{managedBeanCliente.cliente.telefono}" />
+ <h:outputText value="" />
+
+   <h:outputText value="Celular: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.celular}"/>
+ <h:outputText value="" />
+   <h:outputText value="Nextel: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.nextel}"/>
+ <h:outputText value="" />
+   <h:outputText value="Correo: " />
+   <p:inputText size="35" value="#{managedBeanCliente.cliente.correo}" />
+ <h:outputText value="" />
+
+            </h:panelGrid>
+
+                <h:commandButton title="Agregar un Nuevo Cliente" image="images/guardar.png"  action="#{managedBeanCliente.Crear}"/>
+
+                </h:panelGrid>
+
+       </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

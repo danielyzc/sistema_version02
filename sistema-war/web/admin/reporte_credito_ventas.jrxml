@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="245"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="fecha1" class="java.util.Date"/>
+	<parameter name="fecha2" class="java.util.Date"/>
+	<parameter name="imagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+
+concat( concat(substring(concat('000',cast(v.bloque_venta as char)),length(concat('000',cast(v.bloque_venta as char)))-2),'-'),
+substring(concat('000000',cast(v.numero_venta as char)),length(concat('000000',cast(v.numero_venta as char)))-5))
+
+ as 'numero',ev.nombre_testado_venta as 'estado',v.fecha_venta_emision  as 'fecha_emicion',v.fecha_venta as 'fecha',c.nombre_cliente as 'cliente', t.nombre_tienda as 'tienda',tp.nombre_tipo_venta as 'tipo',v.total_venta as 'total', p.nombre_producto as 'producto' ,
+dt.cantidad, dt.precio_venta, dt.descuento, dt.sub_total from venta v inner join detalle_venta_producto dt
+on dt.id_venta = v.id_venta inner join tienda t on t.id_tienda = v.id_tienda
+inner join tipo_venta tp on tp.id_tipo_venta=v.id_tipo_venta
+inner join producto p on dt.id_producto=p.id_producto
+inner join cliente c on v.id_cliente= c.id_cliente
+inner join estado_venta ev on ev.id_estado_venta=v.id_estado_venta
+where (v.fecha_venta between $P{fecha1} and $P{fecha2})  and v.id_estado_venta=2
+
+union
+select concat( concat(substring(concat('000',cast(v.bloque_factura as char)),length(concat('000',cast(v.bloque_factura as char)))-2),'-'),
+substring(concat('000000',cast(v.numero_factura as char)),length(concat('000000',cast(v.numero_factura as char)))-5))
+ as 'numero'
+
+,ev.nombre_testado_venta as 'estado',v.fecha_venta_emision  as 'fecha_emicion',v.fecha_venta as 'fecha',c.nombre_cliente as 'cliente', t.nombre_tienda as 'tienda',tp.nombre_tipo_venta as 'tipo',v.total_venta as 'total', p.nombre_producto as 'producto' ,
+dt.cantidad, dt.precio_venta, dt.descuento, dt.sub_total from factura_venta v inner join detalle_factura_venta_producto dt
+on dt.id_factura_venta = v.id_factura_venta inner join tienda t on t.id_tienda = v.id_tienda
+inner join tipo_venta tp on tp.id_tipo_venta=v.id_tipo_venta
+inner join producto p on dt.id_producto=p.id_producto
+inner join cliente c on v.id_cliente= c.id_cliente
+inner join estado_venta ev on ev.id_estado_venta=v.id_estado_venta
+where (v.fecha_venta between $P{fecha1} and $P{fecha2})  and v.id_estado_venta=2
+order by 3]]>
+	</queryString>
+	<field name="numero" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha_emicion" class="java.sql.Timestamp"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="tienda" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="precio_venta" class="java.math.BigDecimal"/>
+	<field name="descuento" class="java.math.BigDecimal"/>
+	<field name="sub_total" class="java.math.BigDecimal"/>
+	<variable name="TOTAL_1" class="java.math.BigDecimal" resetType="Page" incrementType="Group" incrementGroup="NUMERO" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_2" class="java.math.BigDecimal" resetType="Group" resetGroup="FECHA" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="SUB_TOTAL_3" class="java.math.BigDecimal" resetType="Group" resetGroup="FECHA" calculation="Sum">
+		<variableExpression><![CDATA[$F{sub_total}]]></variableExpression>
+	</variable>
+	<variable name="total_totales" class="java.math.BigDecimal" incrementType="Group" incrementGroup="NUMERO" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<group name="FECHA">
+		<groupExpression><![CDATA[$F{fecha}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="SubTitle" x="194" y="12" width="229" height="24" forecolor="#006600"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+				</rectangle>
+				<staticText>
+					<reportElement style="SubTitle" x="47" y="13" width="141" height="22" forecolor="#006600"/>
+					<textElement>
+						<font size="15" isBold="true" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[FECHA ENTREGA:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="-1" y="1" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="-1" y="20" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="47" y="2" width="182" height="20" forecolor="#666666"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ese Día se Vendio un total de :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="226" y="2" width="126" height="19" forecolor="#FC0101"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{SUB_TOTAL_3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="362" y="1" width="66" height="20" forecolor="#FC0101"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SOLES.]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="NUMERO">
+		<groupExpression><![CDATA[$F{numero}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<textField>
+					<reportElement style="SubTitle" x="75" y="3" width="70" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{numero}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="3" y="34" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="SubTitle" x="5" y="4" width="70" height="17"/>
+					<textElement>
+						<font size="10" isBold="true" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Cod. VENTA :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="2" y="21" width="34" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[TIPO :]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Detail" x="27" y="21" width="51" height="12" forecolor="#666666"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="4" y="0" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="128" y="20" width="92" height="15"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[PRODUCTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="240" y="18" width="66" height="15"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="391" y="18" width="77" height="15"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[DESCUENTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="470" y="18" width="78" height="15"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[SUB-TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="312" y="19" width="52" height="14"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[P.Venta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="146" y="3" width="44" height="15"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Cliente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="SubTitle" x="183" y="3" width="212" height="15"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{cliente}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="454" y="3" width="93" height="14" forecolor="#666666"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha_emicion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="399" y="2" width="65" height="16"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Emitido El:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="65" y="21" width="67" height="16" forecolor="#375E90"/>
+					<textElement textAlignment="Center">
+						<font fontName="Serif" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{estado}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="65" y="20" width="3" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement x="412" y="2" width="80" height="18" forecolor="#666666"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL(SOLES..):]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="484" y="2" width="69" height="18" forecolor="#FF0000"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="TOTAL">
+		<groupExpression><![CDATA[$F{total}]]></groupExpression>
+	</group>
+	<group name="TIENDA">
+		<groupExpression><![CDATA[$F{tienda}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{imagePath}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="3" y="2" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[Reporte de Crédito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="65" y="20" width="142" height="22"/>
+				<textElement/>
+				<text><![CDATA[Argolux Software]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="SubTitle" x="3" y="44" width="112" height="20" forecolor="#006600"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="SubTitle" x="159" y="44" width="112" height="20" forecolor="#006600"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="120" y="44" width="36" height="20" forecolor="#006600"/>
+				<textElement>
+					<font size="9" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[HASTA:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement style="Detail" x="243" y="2" width="57" height="15" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="311" y="1" width="63" height="15" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{precio_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="391" y="2" width="54" height="15" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{descuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" mode="Transparent" x="469" y="3" width="79" height="15" forecolor="#13273B"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{sub_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SubTitle" x="17" y="3" width="212" height="15"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="29" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="312" y="0" width="201" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="120" y="0" width="134" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="1" y="0" width="99" height="20"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Fecha de Impresión"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="28">
+			<textField>
+				<reportElement x="408" y="4" width="146" height="20" forecolor="#FC0101"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{total_totales}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="279" y="5" width="132" height="18" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Dinero del Reporte = ]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="SubTitle" x="166" y="5" width="112" height="20" forecolor="#006600"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="125" y="5" width="36" height="20" forecolor="#006600"/>
+				<textElement>
+					<font size="9" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[HASTA:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="SubTitle" x="8" y="5" width="112" height="20" forecolor="#006600"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

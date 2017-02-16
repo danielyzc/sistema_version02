@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />  
+<p:dock position="top" id="dock_menu" itemWidth="75" >
+    <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="index.jsf"/>
+    <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="ventas.jsf"/>
+    <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="compras.jsf"/>
+    <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="almacen.jsf"/>
+    <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="finanzas.jsf"/>
+
+</p:dock>
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+    <div class="logo">
+       </div>
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Ventas" >
+
+
+    <h:form id="frm123">
+
+
+
+        <p:fieldset id="fielset"  legend="Datos de Busqueda" style="margin-top:10px">
+
+            <h:panelGrid columns="3" id="pnlgrid_cambios23">
+                <h:outputText value="Código de la venta :" />
+ <p:inputText value="#{managedBeanCambio.codigo_venta}" />
+   <p:commandButton value="Buscar Venta" action="#{managedBeanCambio.Buscar_venta}"
+                     update="frm123:fielset" />
+            </h:panelGrid>
+
+
+
+            <p:separator />
+
+               <h:panelGrid columns="2" id="pnlgrid_cambios">
+
+                <h:outputText value="Código de la venta :" />
+                <h:outputText value="#{managedBeanCambio.venta.idVenta}" />
+                <h:outputText value="Tienda :" />
+                <h:outputText value="#{managedBeanCambio.venta.tienda.nombreTienda}" />
+  <h:outputText value="Nombre Cliente:" />
+  <h:outputText value="#{managedBeanCambio.venta.cliente.nombreCliente}" />
+                  <h:outputText value="Total:" />
+                  <h:outputText value="#{managedBeanCambio.venta.totalVenta}" />
+                   <h:outputText value="Fecha Venta:" />
+                   <h:outputText value="#{managedBeanCambio.venta.fechaVenta}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+
+
+            </h:panelGrid>
+
+
+        <p:dataTable id="tblListas" value="#{managedBeanCambio.venta.detalleVentaProductoList}" var="item">
+        <f:facet name="header">  Productos Vendidos   </f:facet>
+
+         <p:column headerText="Nombre" style="width:200px">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+  <p:column headerText="Cantidad" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.precioVenta}" />
+                </f:facet>
+                <f:facet name="input">
+                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Dscto." style="width:75px">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.descuento}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.descuento}" style="width:100%" label="Descuento"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+                 <p:column headerText="Sub.Total" style="width:75px">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+         <f:facet name="footer">
+             Total Pagado fue : #{managedBeanCambio.venta.totalVenta} SOLES.
+        </f:facet>
+
+        </p:dataTable>
+
+
+
+
+            <p:separator />
+
+
+           <center>   <h:commandButton value="Realizar Cambio" action="#{managedBeanCambio.realizar_cambio2}" />
+             </center>
+        </p:fieldset>
+    <p:separator />
+<center >
+    <h:commandLink  action="#{managedBeanCambio.Volver_Venta}"  >
+       <p:graphicImage  value="/images/inicio1.jpg" />
+</h:commandLink>
+</center >
+
+     </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

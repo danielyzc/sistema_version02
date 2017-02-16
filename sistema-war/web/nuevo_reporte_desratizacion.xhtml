@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />  <meta http-equiv="refresh" content="#{session.maxInactiveInterval};url=index.jsf" />
+
+</h:head>
+<h:body>
+<div class="main">
+  <div class="header">
+   
+    <div class="menu">
+
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="block_header">
+    <div class="slider">
+    <p:growl id="growl" showDetail="true"/>
+    <p:panel header="Reporte DESRATIZACION ( CONTRATO :#{managedBeanContratoFumigacion.Formato(managedBeanContratoFumigacion.desratizacion.contratoFumigacion)} ) - DETALLE DE ACTIVIDADES" >
+
+        <h:form id="frm_nuevo_rep1">
+
+            <p:fieldset id="fielset" toggleable="true" legend="Datos del Cliente" style="margin-top:1px">
+                  <h:panelGrid id="pnlcliente" columns="3" cellpadding="5">
+                      
+                  
+                    <h:outputText value="Nombre del Cliente: " />
+ <h:outputText  style="color: blue; font-weight: bold;" value="#{managedBeanContratoFumigacion.desratizacion.contratoFumigacion.venta.cliente.nombreCliente}" />
+ <h:outputText value="" />
+ 
+ 
+ <h:outputText value="RUC del Cliente: " />
+ <h:outputText  style="color: blue; font-weight: bold;" value="#{managedBeanContratoFumigacion.desratizacion.contratoFumigacion.venta.cliente.rucCliente}" />
+ <h:outputText value="" />
+ 
+ <h:outputText value="DIRECCION: " />
+ <h:outputText  style="color: blue; font-weight: bold;" value="#{managedBeanContratoFumigacion.desratizacion.contratoFumigacion.venta.cliente.direccion}" />
+ <h:outputText value="" />
+ 
+ 
+ 
+ <h:outputText value="Raz. Social: " />
+ <h:outputText  style="color: blue; font-weight: bold;" value="#{managedBeanContratoFumigacion.desratizacion.contratoFumigacion.venta.cliente.razonSocial}" />
+ <h:outputText value="" />
+ </h:panelGrid>
+                </p:fieldset>
+
+
+
+                <p:fieldset id="fielset2" toggleable="true" legend="Lista de Productos" style="margin-top:1px">
+
+                    <p:dataTable id="basic" var="item" value="#{managedBeanContratoFumigacion.desratizacion.contratoFumigacion.detalleFumigacionProductoList}">
+                <p:column id="modelHeader" style="width: 75%;">
+            <f:facet  name="header">
+                    PRODUCTO
+            </f:facet>
+            <h:outputText style="color: blue;" value="#{item.producto.nombreProducto}" />
+        </p:column>
+
+                <p:column style="text-align: center; width: 18%">
+            <f:facet name="header">
+                    CANTIDAD
+            </f:facet>
+                    <h:outputText style="color: blue;" value="#{item.cantidad}" />
+        </p:column>
+
+
+                          <p:column style="text-align: center; width: 18%">
+            <f:facet name="header">
+                   UTILIZADO
+            </f:facet>
+                              <h:inputText style="color: red;" value="#{item.utilizo}" />
+        </p:column>
+
+
+
+    </p:dataTable>
+
+
+
+                </p:fieldset>
+
+            <h:panelGrid id="pnlPadre" columns="3" cellpadding="5">
+
+              
+                
+            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+
+ 
+
+ <h:outputText value="Técnico" />
+ <p:selectOneMenu  value="#{managedBeanContratoFumigacion.desratizacion.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
+    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
+</p:selectOneMenu>
+<h:outputText value="" />
+
+
+ <h:outputText value="Fecha:" />
+ <p:calendar value="#{managedBeanContratoFumigacion.desratizacion.fecha}" lang="es" size="10" pattern="dd/MM/yyyy"/>
+<h:outputText value="" />
+
+   
+<h:outputText value="" />
+<p:separator  />
+
+<h:outputText value="" />
+            
+<h:outputText value="Datos extra CLIENTE:" />
+<p:inputTextarea cols="35" style="color: green;"   value="#{managedBeanContratoFumigacion.desratizacion.descripcionCliente}" />
+ <h:outputText value="" />
+            
+<h:outputText value="Hora de Inicio:" />
+<p:inputText size="17"  style="color: green;" value="#{managedBeanContratoFumigacion.desratizacion.horaInicio}" />
+ <h:outputText value="" />
+
+
+ <h:outputText value="Duracion (MIN):" />
+ <p:inputText size="17"   value="#{managedBeanContratoFumigacion.desratizacion.duracionMinutos}" />
+ <h:outputText value="" />
+
+ <h:outputText value="ESTACIONES inst.:" />
+ <p:inputText size="17"   value="#{managedBeanContratoFumigacion.desratizacion.numeroEstacionesInstaladas}" />
+ <h:outputText value="" />
+
+  <h:outputText value="Cant Prod. UTILIZADO:" />
+  <p:inputText size="25"   value="#{managedBeanContratoFumigacion.desratizacion.cantidadProductoUtilizado}" />
+ <h:outputText value="" />
+
+ <h:outputText value="AVANCE (%):" />
+ <p:inputText size="17"   value="#{managedBeanContratoFumigacion.desratizacion.porcentajeAvance}" />
+ <h:outputText value="" />
+
+
+  <h:outputText value="Comentarios CLIENTE:" />
+  <p:inputTextarea cols="35" style="color: green;"   value="#{managedBeanContratoFumigacion.desratizacion.comentariosCliente}" />
+ <h:outputText value="" />
+
+ <h:outputText value="OBSERVACIONES:" />
+ <p:inputTextarea cols="35" style="color: blue;"   value="#{managedBeanContratoFumigacion.desratizacion.observacionesCliente}" />
+ <h:outputText value="" />
+            </h:panelGrid>
+                <h:commandButton title="Guardar Datos" image="images/guardar.png"  action="#{managedBeanContratoFumigacion.crear_rep_desrat}"/>
+
+                </h:panelGrid>
+            <p:separator />
+            <h:outputText style="color: blue;" value="Requerimientos y consideraciones del Técnico para el Día siguiente:" />
+<br />
+<br />
+             <p:inputTextarea cols="75" style="color: red;"   value="#{managedBeanContratoFumigacion.desratizacion.requerimientosDiaSiguiente}" />
+<br />
+
+       </h:form>
+    </p:panel>
+    </div>
+  </div>
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+
+  <div class="clr"></div>
+</div>
+
+</h:body>
+</html>

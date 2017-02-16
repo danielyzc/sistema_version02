@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>redmond</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
+    <mime-mapping> <extension>ico</extension> <mime-type>image/vnd.microsoft.icon</mime-type> </mime-mapping>
+    
+    <context-param>
+        <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.ajax4jsf.handleViewExpiredOnClient</param-name> 
+        <param-value>true</param-value>     
+    </context-param>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsf</welcome-file>
+    </welcome-file-list>
+    <ejb-local-ref>
+        <ejb-ref-name>MateriaPrimaFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>bc.MateriaPrimaFacadeLocal</local>
+        <ejb-link>sistema-ejb.jar#MateriaPrimaFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>FormulacionFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>bc.FormulacionFacadeLocal</local>
+        <ejb-link>sistema-ejb.jar#FormulacionFacade</ejb-link>
+    </ejb-local-ref>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/login.xhtml?faces-redirect=true</location>
+    </error-page>
+        
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+  
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Allowed resources</web-resource-name>
+            <url-pattern>/javax.faces.resource/*</url-pattern>
+        </web-resource-collection>
+        <!-- No Auth Contraint! -->
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Allowed resources</web-resource-name>
+            <url-pattern>/css/*</url-pattern>
+        </web-resource-collection>
+        <!-- No Auth Contraint! -->
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AllPages</web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>administrador</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+   
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>jdbcRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/login.jsf</form-login-page>
+            <form-error-page>/login.jsf</form-error-page>
+        </form-login-config>
+    </login-config>
+
+</web-app>

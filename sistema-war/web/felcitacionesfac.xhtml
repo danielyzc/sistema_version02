@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="/master/master.xhtml">
+            
+         <ui:define name="datos">
+     <p:growl id="growl" showDetail="true"/>
+    <p:panel header="M&oacute;dulo de Ventas - Confirmaci&oacute;n de la Venta con Facturas" >
+
+           <h:form id="frm11">
+        <p:fieldset id="fielset"  legend="Datos de la Venta" style="margin-top:5px">
+                <h:panelGrid id="pnlg1" columns="2" cellpadding="5">
+
+                    <h:panelGrid id="pnlg12" columns="3" cellpadding="5">
+
+
+                        <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.nombreTienda}" />
+                     <h:outputText value="" />
+                       <h:outputText value="" />
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.direccion}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.distrito}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+                   
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.telefonos}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.ciudad}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+                    <h:outputText value="Fecha:" />
+                      <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.ciudad}" />
+                    <h:outputText value="#{managedBeanFacturaVenta.factura.fechaVenta}"  >
+                        <f:convertDateTime pattern="EEEEE dd MMMMM yyyy" />
+                    </h:outputText>
+                  
+
+           </h:panelGrid>
+
+
+
+
+
+
+
+
+                     <h:panelGrid id="pnlg123" columns="2" cellpadding="5">
+
+
+                    <h:outputText value="Negocio:" />
+                    <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.negocio.nombreNegocio}" />
+
+      
+
+                    <h:outputText value="FACTURA:" />
+                    <h:outputText value="#{managedBeanFacturaVenta.bloqueFactura} - #{managedBeanFacturaVenta.numeroFactura}" />
+                    
+                    <h:outputText value="Cliente:"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.nombreCliente}"/>
+
+ <h:outputText value="RUC-Cliente:"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.rucCliente}"/>
+
+ <h:outputText value="Dir.Cliente :"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.direccion}"/>
+
+         <h:outputText value="Obs:"/>
+         <h:outputText value="#{managedBeanFacturaVenta.factura.observaciones}"/>
+         <h:outputText value="" />
+           <h:outputText value="" />
+
+
+             </h:panelGrid>
+
+
+
+
+        </h:panelGrid>
+
+            <p:dataTable var="item" value="#{managedBeanFacturaVenta.lista_detalles_mostrar}" id="detalleslist" >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:200px; text-align:  center;">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cant." style="width:50px;text-align: center;">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Precio" style="width:75px;text-align: center;">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.precioVenta}" />
+                </f:facet>
+                <f:facet name="input">
+                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Dscto." style="width:75px;text-align: center;">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.descuento}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.descuento}" style="width:100%" label="Descuento"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+                 <p:column headerText="Sub.Total" style="width:50px;text-align: center;">
+
+                     <h:outputText value="#{item.subTotal}" />
+
+        </p:column>
+
+
+                <f:facet name="footer">
+
+                    Monto SIN IGV : #{managedBeanFacturaVenta.factura.totalVenta} SOLES..; TOTAL(+IGV) = #{managedBeanFacturaVenta.factura.totalVentaIncluidoIgv} SOLES..  </f:facet>
+ 
+               
+    </p:dataTable>
+
+    </p:fieldset>
+<br />
+
+
+ <p:fieldset id="fielset2"  legend="Datos de la GUIA" style="margin-top:5px">
+                <h:panelGrid id="pnlg1bb" columns="2" cellpadding="5">
+
+                    <h:panelGrid id="pnlg12bb" columns="3" cellpadding="5">
+
+
+                        <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.negocio.nombreNegocio}" />
+                     <h:outputText value="" />
+                       <h:outputText value="" />
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.direccion}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.distrito}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.telefonos}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+
+
+                       <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.ciudad}" />
+                      <h:outputText value="" />
+                       <h:outputText value="" />
+
+                
+                      <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.ciudad}," />
+                    <h:outputText value="#{managedBeanFacturaVenta.factura.fechaVenta}"  >
+                        <f:convertDateTime pattern="EEEEE dd MMMMM yyyy" />
+                    </h:outputText>
+                      <h:outputText value="" />
+
+
+           </h:panelGrid>
+
+
+
+
+
+
+
+
+                     <h:panelGrid id="pnlg123bb" columns="2" cellpadding="5">
+
+
+                          <h:outputText value="PARTIDA" />
+                          <h:outputText value="#{managedBeanFacturaVenta.guia.puntoPartida}" />
+
+
+                           <h:outputText value="LLEGADA" />
+                           <h:outputText value="#{managedBeanFacturaVenta.guia.puntoLlegada}" />
+
+ <h:outputText value="Fecha Inicio Translado" />
+ <h:outputText value="#{managedBeanFacturaVenta.guia.fechaInicioTranslado}"  >
+                        <f:convertDateTime pattern="EEEEE dd MMMMM yyyy" />
+                    </h:outputText>
+
+
+
+  <h:outputText value="MARCA" />
+  <h:outputText value="#{managedBeanFacturaVenta.guia.unidadTransporte.marca}" />
+
+ <h:outputText value="NUMERO DE PLACA" />
+ <h:outputText value="#{managedBeanFacturaVenta.guia.unidadTransporte.numeroPlaca}" />
+
+
+  <h:outputText value="MOTIVO TRANSLADO" />
+  <h:outputText value="#{managedBeanFacturaVenta.guia.motivoTransladoFactura.motivo}" />
+
+
+                    <h:outputText value="RUC:" />
+                    <h:outputText value="#{managedBeanFacturaVenta.factura.tienda.numeroRuc}" />
+
+
+                    <h:outputText value="NÚMERO DE GUÍA:" />
+                    <h:outputText value="#{managedBeanFacturaVenta.bloqueGuia} - #{managedBeanFacturaVenta.numeroGuia}" />
+
+                    <h:outputText value="Nombre o razón social del destinatario:"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.nombreCliente}"/>
+
+ <h:outputText value="RUC-Cliente:"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.rucCliente}"/>
+
+ <h:outputText value="Dir.Cliente :"/>
+ <h:outputText value="#{managedBeanFacturaVenta.factura.cliente.direccion}"/>
+
+         <h:outputText value="Obs:"/>
+         <h:outputText value="#{managedBeanFacturaVenta.factura.observaciones}"/>
+         <h:outputText value="" />
+           <h:outputText value="" />
+
+
+             </h:panelGrid>
+
+
+
+
+        </h:panelGrid>
+
+            <p:dataTable var="item" value="#{managedBeanFacturaVenta.lista_detalles_mostrar}" id="detalleslistbb" >
+
+        <f:facet name="header">
+            Productos a Vender
+        </f:facet>
+
+        <p:column headerText="Nombre" style="width:200px; text-align:  center;">
+
+            <h:outputText value="#{item.producto.nombreProducto}" />
+
+        </p:column>
+
+        <p:column headerText="Cant." style="width:50px;text-align: center;">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{item.cantidad}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+
+
+    </p:dataTable>
+
+    </p:fieldset>
+
+
+<center >
+
+
+    <h:outputLink onclick="window.open('facturas/factura'+#{managedBeanFacturaVenta.factura.idFacturaVenta}+'.txt','','height=375,width=240,scrollbars=1') ; return false;" value="#">
+        <h:graphicImage title="FACTURA" alt="FACTURA" value="/images/impresora_matricial.jpg" width="120 px" height="120 px"/>
+</h:outputLink>
+    
+<h:outputLink id="lnk" value="#">
+    <p:printer target="fielset" />
+    <p:graphicImage width="45 px" height="40 px" value="/images/imprimir3.jpg" />
+</h:outputLink>
+
+
+    <h:commandLink  action="#{managedBeanFacturaVenta.Volver_Factura}"  >
+       <p:graphicImage  value="/images/inicio1.jpg" />
+</h:commandLink>
+</center >
+         </h:form>
+
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>

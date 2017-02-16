@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"    
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head> 
+</h:head>
+<h:body>
+    
+    <ui:composition template="./../master/master.xhtml">
+            
+         <ui:define name="datos">
+      <p:panel header="Producción - Lista Detallada de Almacén" >
+
+
+         <h:form id="frm_button" prependId="false" >
+<p:growl id="growl" showDetail="true"/>
+ <p:growl id="messages" />
+
+            <p:separator />
+
+
+
+            <p:dataTable  id="tabla_principal" paginator="true" rows="100"   var="item" value="#{managedBeanDetalleAlmacenProductosCostos.lista}" widgetVar="carsTable"
+            emptyMessage="No se Encontraron datos"
+            selection="#{managedBeanDetalleAlmacenProductosCostos.detalle}" selectionMode="single"
+            >
+
+                <p:ajax event="rowSelect" listener="#{managedBeanDetalleAlmacenProductosCostos.onRowSelect}"
+                    update=":frm_button:display :frm_button:growl" oncomplete="PF('carDialog').show();" />
+        <p:ajax event="rowUnselect" listener="#{managedBeanDetalleAlmacenProductosCostos.onRowUnselect}" update=":frm_button:growl"/>
+        <p:ajax event="rowDblselect" listener="#{managedBeanDetalleAlmacenProductosCostos.onRowDblselect}" />
+
+
+         <f:facet name="header">
+             Seleccione una Opci&oacute;n de Filtrado
+        </f:facet>
+
+         <p:column style="width:15px;"
+                headerText="ID">
+
+             <h:outputText value="#{item.idDetalleAlmacenProductosCostos}" />
+
+
+             </p:column>
+
+
+        <p:column   style="width:180px; text-align:center; font-size: 13px;" filterBy="#{item.tienda.nombreTienda}"
+                headerText="Almacén"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.tienda.nombreTienda}" />
+        </p:column>
+
+
+        <p:column   style="width:180px; text-align:center; font-size: 13px;" filterBy="#{item.producto.nombreProducto}"
+                headerText="Producto"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.producto.nombreProducto}" />
+        </p:column>
+
+
+
+                <p:column style="width:70px; text-align:center; font-size: 13px;" filterBy="#{item.costo}"
+                  headerText="Costo:"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.costo}" />
+        </p:column >
+
+
+
+
+        <p:column style="width:100px;text-align:center; font-size: 13px;" filterBy="#{item.observaciones}"
+                  headerText="OBS"
+                filterMatchMode="contains">
+            <h:outputText value="#{item.observaciones}" />
+        </p:column >
+
+
+         <p:column style="width:75px;"
+                headerText="Estado">
+             <h:outputText value="#{item.estadoProductoCostoAlmacen.nombre}" />
+             </p:column>
+
+
+
+    </p:dataTable>
+
+            <p:dialog id="dialog" header="Producto al Detalle" widgetVar="carDialog" resizable="false" 
+                      showEffect="explode" hideEffect="explode" height="320" width="420" >
+
+        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+
+
+            <h:outputText value="Entrada:" />
+             <h:outputText value="#{managedBeanDetalleAlmacenProductosCostos.detalle.idDetalleAlmacenProductosCostos}" />
+
+            
+            <h:outputText value="Producto:" />
+            <h:outputText value="#{managedBeanDetalleAlmacenProductosCostos.detalle.producto.nombreProducto}" />
+
+            <h:outputText value="Estado:" />
+<p:selectOneMenu  style="width:170px" value="#{managedBeanDetalleAlmacenProductosCostos.detalle.estadoProductoCostoAlmacen}" effect="drop" converter="estadoproductocostoalmacenConverter" >
+      <f:selectItems  id="Itemsestado43"  value="#{managedBeanEstadoProductoCostoAlmacen.estadoproductosItems}"/>
+  </p:selectOneMenu>
+
+
+            <h:outputText value="Fecha Entrada:" />
+            <h:outputText style="color: blue;" value="#{managedBeanDetalleAlmacenProductosCostos.detalle.fechaEntrada}" >
+            <f:convertDateTime pattern="EEEE dd MMMM yyyy" />
+            </h:outputText>
+
+ <h:outputText value="Almacén:" />
+ <h:outputText value="#{managedBeanDetalleAlmacenProductosCostos.detalle.tienda.nombreTienda}" />
+
+
+
+          <p:confirmDialog id="confirmDialog" message="Esta apunto de realizar un cambio, Desea guardar ???"
+                                 header="Confirmación"  severity="alert" widgetVar="confirmation" width="250" height="220">
+
+        <p:commandButton id="confirm" value="SI" update="frm_button:messages frm_button:tabla_principal" oncomplete="carDialog.hide()"
+                    actionListener="#{managedBeanDetalleAlmacenProductosCostos.destroyWorld}" />
+        <p:commandButton id="decline" value="NO" onclick="confirmation.hide()" type="button" />
+
+    </p:confirmDialog>  
+        </h:panelGrid>
+
+                <center>        <p:commandButton id="showDialogButton" value="Guardar Cambios" onclick="confirmation.show()" type="button" />
+</center>
+
+                 
+  
+    </p:dialog>
+
+ 
+
+       
+               </h:form>
+
+        <p:separator />
+            <h:form id="frm_link2">
+                <center>     <h:commandLink  action="#{managedBeanStock.Volver_Almacen}"  >
+       <p:graphicImage  value="../images/inicio1.jpg" />
+</h:commandLink></center>
+            </h:form>
+    </p:panel>
+</ui:define>
+    </ui:composition>
+       
+</h:body>
+</html>
