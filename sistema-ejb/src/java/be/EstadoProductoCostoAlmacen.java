@@ -44,12 +44,12 @@ public class EstadoProductoCostoAlmacen implements Serializable {
     private Integer idEstadoProductoCostoAlmacen;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(mappedBy = "estadoProductoCostoAlmacen", fetch = FetchType.LAZY)

@@ -53,7 +53,7 @@ public class PagoFacturaVentaCredito implements Serializable {
     private Date fechaIngreso;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "observaciones")
     private String observaciones;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

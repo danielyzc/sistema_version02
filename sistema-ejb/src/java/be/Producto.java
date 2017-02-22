@@ -51,7 +51,7 @@ public class Producto implements Serializable {
     private Integer idProducto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "nombre_producto")
     private String nombreProducto;
     @Basic(optional = false)

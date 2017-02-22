@@ -48,7 +48,7 @@ public class OrdenSalidaDetalleAlmacenProductos implements Serializable {
     private Integer idOrdenSalidaDetalleAlmacenProductosCostos;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "observaciones_ubicacion")
     private String observacionesUbicacion;
     @Basic(optional = false)
@@ -58,7 +58,7 @@ public class OrdenSalidaDetalleAlmacenProductos implements Serializable {
     private Date fechaRegistro;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "codigo_factura_boleta")
     private String codigoFacturaBoleta;
     @Basic(optional = false)

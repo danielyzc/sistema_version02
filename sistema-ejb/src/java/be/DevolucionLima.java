@@ -51,7 +51,7 @@ public class DevolucionLima implements Serializable {
     private Date fechaDevolucion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "motivo_devolucion")
     private String motivoDevolucion;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")

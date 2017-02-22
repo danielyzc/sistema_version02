@@ -55,52 +55,52 @@ public class Cliente implements Serializable {
     private Integer idCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "nombre_cliente")
     private String nombreCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "razon_social")
     private String razonSocial;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "giro_rubro")
     private String giroRubro;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "contacto")
     private String contacto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 0, max = 40)
     @Column(name = "ruc_cliente")
     private String rucCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
+    @Size(min = 0, max = 25)
     @Column(name = "telefono")
     private String telefono;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
+    @Size(min = 0, max = 25)
     @Column(name = "celular")
     private String celular;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
+    @Size(min = 0, max = 25)
     @Column(name = "nextel")
     private String nextel;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "correo")
     private String correo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)

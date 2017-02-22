@@ -50,32 +50,32 @@ public class Proveedor implements Serializable {
     private Integer idProveedor;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 48)
+    @Size(min = 0, max = 48)
     @Column(name = "telefono")
     private String telefono;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 48)
+    @Size(min = 0, max = 48)
     @Column(name = "celular")
     private String celular;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 48)
+    @Size(min = 0, max = 48)
     @Column(name = "nextel")
     private String nextel;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 68)
+    @Size(min = 0, max = 68)
     @Column(name = "correo")
     private String correo;
     @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)

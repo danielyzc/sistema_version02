@@ -48,12 +48,12 @@ public class CuentaContable implements Serializable {
     private int numero;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "nombre_cuenta_contable")
     private String nombreCuentaContable;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "id_tipo_cuenta_contable", referencedColumnName = "id_tipo_cuenta_contable")

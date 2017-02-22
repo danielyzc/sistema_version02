@@ -80,7 +80,7 @@ public class Venta implements Serializable {
     private BigDecimal totalVenta;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "observaciones")
     private String observaciones;
     @Basic(optional = false)

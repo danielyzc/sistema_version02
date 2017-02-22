@@ -45,12 +45,12 @@ public class Grupo implements Serializable {
     private Integer idGrupo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre_grupo")
     private String nombreGrupo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "descripcion_grupo")
     private String descripcionGrupo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo", fetch = FetchType.LAZY)

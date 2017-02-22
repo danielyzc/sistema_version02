@@ -70,7 +70,7 @@ public class Promocion implements Serializable {
     private Integer estadoPromocion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "id_tienda", referencedColumnName = "id_tienda")

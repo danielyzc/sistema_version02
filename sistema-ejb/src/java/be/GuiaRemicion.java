@@ -48,17 +48,17 @@ public class GuiaRemicion implements Serializable {
     private Integer idGuiaRemicion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "punto_partida")
     private String puntoPartida;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "punto_llegada")
     private String puntoLlegada;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "observaciones")
     private String observaciones;
     @Basic(optional = false)

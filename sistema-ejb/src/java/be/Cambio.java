@@ -55,7 +55,7 @@ public class Cambio implements Serializable {
     private Date fechaCambio;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "motivo_cambio")
     private String motivoCambio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cambio", fetch = FetchType.LAZY)

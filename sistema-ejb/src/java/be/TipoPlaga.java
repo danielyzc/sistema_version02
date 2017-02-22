@@ -40,12 +40,12 @@ public class TipoPlaga implements Serializable {
     private Integer idTipoPlaga;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "nombre_tipo_plaga")
     private String nombreTipoPlaga;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
 

@@ -56,12 +56,12 @@ public class Formulacion implements Serializable {
     private Date fechaRegistro;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "palabra_clave")
     private String palabraClave;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 800)
+    @Size(min = 0, max = 800)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulacion", fetch = FetchType.LAZY)

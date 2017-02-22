@@ -75,17 +75,17 @@ public class CanjeOrdenCompra implements Serializable {
     private int numeroCuotas;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "nombre_banco_pagar")
     private String nombreBancoPagar;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 210)
+    @Size(min = 0, max = 210)
     @Column(name = "numero_cuenta")
     private String numeroCuenta;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "id_orden_compra", referencedColumnName = "id_orden_compra")

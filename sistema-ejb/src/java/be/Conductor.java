@@ -51,22 +51,22 @@ public class Conductor implements Serializable {
     private Integer idConductor;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "ruc")
     private String ruc;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "numero_licencia_conducir")
     private String numeroLicenciaConducir;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "observaciones")
     private String observaciones;
     @Basic(optional = false)

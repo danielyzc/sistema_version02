@@ -66,27 +66,27 @@ public class ReporteFumigacion implements Serializable {
     private Date fecha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 350)
+    @Size(min = 0, max = 350)
     @Column(name = "descripcion_cliente")
     private String descripcionCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "caracteristicas_albiente")
     private String caracteristicasAlbiente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "area_estimada")
     private String areaEstimada;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "area_tratada")
     private String areaTratada;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "tipo_plaga")
     private String tipoPlaga;
     @Basic(optional = false)
@@ -99,7 +99,7 @@ public class ReporteFumigacion implements Serializable {
     private int porcentajeCantidadFuentesAlimentarias;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 0, max = 45)
     @Column(name = "manejo_residuos_alimenticios")
     private String manejoResiduosAlimenticios;
     @Basic(optional = false)
@@ -108,12 +108,12 @@ public class ReporteFumigacion implements Serializable {
     private int porcentajeHigiene;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "mobiliario")
     private String mobiliario;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 400)
+    @Size(min = 0, max = 400)
     @Column(name = "dispercion")
     private String dispercion;
     @Basic(optional = false)
@@ -126,17 +126,17 @@ public class ReporteFumigacion implements Serializable {
     private int porcentajeHembras;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "tapado_grietas")
     private String tapadoGrietas;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 370)
+    @Size(min = 0, max = 370)
     @Column(name = "zonas_equipos")
     private String zonasEquipos;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "utilizacion_producto")
     private String utilizacionProducto;
     @JoinColumn(name = "id_contrato_fumigacion", referencedColumnName = "id_contrato_fumigacion")

@@ -46,7 +46,7 @@ public class Actividad implements Serializable {
     private Integer idActividad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "descripcion_actividad")
     private String descripcionActividad;
     @Basic(optional = false)

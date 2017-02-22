@@ -45,12 +45,12 @@ public class ZonaCiudad implements Serializable {
     private Integer idZonaCiudad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "descripcion_zona_ciudad")
     private String descripcionZonaCiudad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
+    @Size(min = 0, max = 2)
     @Column(name = "flag_estado")
     private String flagEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zonaCiudad", fetch = FetchType.LAZY)

@@ -66,7 +66,7 @@ public class DetalleAlmacenProductosCostos implements Serializable {
     private Date fechaSalida;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")

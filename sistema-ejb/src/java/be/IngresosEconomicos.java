@@ -46,12 +46,12 @@ public class IngresosEconomicos implements Serializable {
     private Integer idIngresosEconomicos;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "motivo")
     private String motivo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "nota")
     private String nota;
     @Basic(optional = false)

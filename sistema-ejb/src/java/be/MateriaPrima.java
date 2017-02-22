@@ -47,12 +47,12 @@ public class MateriaPrima implements Serializable {
     private Integer idMateriaPrima;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "nombre_materia_prima")
     private String nombreMateriaPrima;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materiaPrima", fetch = FetchType.LAZY)

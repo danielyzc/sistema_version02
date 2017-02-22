@@ -53,17 +53,17 @@ public class FacturaCompra implements Serializable {
     private Date fechaRecepcion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 68)
+    @Size(min = 0, max = 68)
     @Column(name = "numero_factura_compra")
     private String numeroFacturaCompra;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 68)
+    @Size(min = 0, max = 68)
     @Column(name = "numero_guia_remision")
     private String numeroGuiaRemision;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "id_orden_compra", referencedColumnName = "id_orden_compra")

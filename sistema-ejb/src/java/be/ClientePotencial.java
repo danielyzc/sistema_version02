@@ -53,7 +53,7 @@ public class ClientePotencial implements Serializable {
     private Date fechaRegistro;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "cliente_razon_social")
     private String clienteRazonSocial;
     @Basic(optional = false)
@@ -63,12 +63,12 @@ public class ClientePotencial implements Serializable {
     private Date fechaCumpleanios;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 350)
+    @Size(min = 0, max = 350)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 12)
+    @Size(min = 0, max = 12)
     @Column(name = "dni")
     private String dni;
     @Basic(optional = false)
@@ -77,7 +77,7 @@ public class ClientePotencial implements Serializable {
     private int estado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "telefono")
     private String telefono;
 

@@ -51,32 +51,32 @@ public class Tienda implements Serializable {
     private Integer idTienda;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 350)
+    @Size(min = 0, max = 350)
     @Column(name = "nombre_tienda")
     private String nombreTienda;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "ciudad")
     private String ciudad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "distrito")
     private String distrito;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 400)
+    @Size(min = 0, max = 400)
     @Column(name = "telefonos")
     private String telefonos;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "numero_ruc")
     private String numeroRuc;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tienda", fetch = FetchType.LAZY)

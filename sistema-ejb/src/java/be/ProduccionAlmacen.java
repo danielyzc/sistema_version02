@@ -56,7 +56,7 @@ public class ProduccionAlmacen implements Serializable {
     private int cantidadProductoTerminado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 350)
+    @Size(min = 0, max = 350)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "id_formulacion", referencedColumnName = "id_formulacion")

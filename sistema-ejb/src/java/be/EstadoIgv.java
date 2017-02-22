@@ -45,12 +45,12 @@ public class EstadoIgv implements Serializable {
     private Integer idEstadoIgv;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre_estado")
     private String nombreEstado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoIgv", fetch = FetchType.LAZY)

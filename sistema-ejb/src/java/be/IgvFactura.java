@@ -53,7 +53,7 @@ public class IgvFactura implements Serializable {
     private BigDecimal monto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "id_estado_igv", referencedColumnName = "id_estado_igv")

@@ -45,12 +45,12 @@ public class MotivoTransladoFactura implements Serializable {
     private Integer idMotivoTransladoFactura;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "motivo")
     private String motivo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motivoTransladoFactura", fetch = FetchType.LAZY)

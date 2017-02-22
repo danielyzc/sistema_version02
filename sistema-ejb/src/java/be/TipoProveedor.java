@@ -44,12 +44,12 @@ public class TipoProveedor implements Serializable {
     private Integer idTipoProveedor;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(mappedBy = "tipoProveedor", fetch = FetchType.LAZY)

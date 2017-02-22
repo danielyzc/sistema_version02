@@ -44,12 +44,12 @@ public class UnidadMedida implements Serializable {
     private Integer idUnidadMedida;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "nombre_unidad_medida")
     private String nombreUnidadMedida;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(mappedBy = "unidadMedida", fetch = FetchType.LAZY)

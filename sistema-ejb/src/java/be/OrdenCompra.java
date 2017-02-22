@@ -73,7 +73,7 @@ public class OrdenCompra implements Serializable {
     private BigDecimal totalPagosCreditoOrdenCompra;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "observaciones")
     private String observaciones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordenCompra", fetch = FetchType.LAZY)

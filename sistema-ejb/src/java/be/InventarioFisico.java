@@ -51,7 +51,7 @@ public class InventarioFisico implements Serializable {
     private Integer idInventarioFisico;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "obervaciones")
     private String obervaciones;
     @Basic(optional = false)

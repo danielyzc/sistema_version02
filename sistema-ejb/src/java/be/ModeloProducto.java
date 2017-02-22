@@ -45,12 +45,12 @@ public class ModeloProducto implements Serializable {
     private Integer idModeloProducto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre_modelo_producto")
     private String nombreModeloProducto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modeloProducto", fetch = FetchType.LAZY)

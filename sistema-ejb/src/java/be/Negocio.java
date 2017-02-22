@@ -43,7 +43,7 @@ public class Negocio implements Serializable {
     private Integer idNegocio;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 350)
+    @Size(min = 0, max = 350)
     @Column(name = "nombre_negocio")
     private String nombreNegocio;
     @OneToMany(mappedBy = "negocio", fetch = FetchType.LAZY)

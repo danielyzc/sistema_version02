@@ -64,7 +64,7 @@ public class LetrasPagoCanje implements Serializable {
     private BigDecimal totalLetra;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "id_estado_letras_pago_canje", referencedColumnName = "id_estado_letras_pago_canje")

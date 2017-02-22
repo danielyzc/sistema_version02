@@ -45,12 +45,12 @@ public class EstadoProducto implements Serializable {
     private Integer idEstadoProducto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre_estado_producto")
     private String nombreEstadoProducto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoProducto", fetch = FetchType.LAZY)

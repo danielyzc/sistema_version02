@@ -45,12 +45,12 @@ public class UbicacionFisica implements Serializable {
     private Integer idUbicacionFisica;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "nombre_ubicacion_fisica")
     private String nombreUbicacionFisica;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "descripcion_ubicacion_fisica")
     private String descripcionUbicacionFisica;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ubicacionFisica", fetch = FetchType.LAZY)

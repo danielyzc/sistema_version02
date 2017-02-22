@@ -58,7 +58,7 @@ public class SalidaMateriaPrimaTienda implements Serializable {
     private Date fechaSalida;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "motivo")
     private String motivo;
     @JoinColumn(name = "id_materia_prima", referencedColumnName = "id_materia_prima")

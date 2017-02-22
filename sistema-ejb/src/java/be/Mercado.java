@@ -45,12 +45,12 @@ public class Mercado implements Serializable {
     private Integer idMercado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "nombre_mercado")
     private String nombreMercado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mercado", fetch = FetchType.LAZY)

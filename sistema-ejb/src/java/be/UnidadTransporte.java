@@ -51,22 +51,22 @@ public class UnidadTransporte implements Serializable {
     private Integer idUnidadTransporte;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "marca")
     private String marca;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "numero_placa")
     private String numeroPlaca;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "numero_constancia_inscripcion")
     private String numeroConstanciaInscripcion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "observaciones")
     private String observaciones;
     @Basic(optional = false)

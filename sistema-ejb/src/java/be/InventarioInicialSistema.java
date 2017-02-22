@@ -46,7 +46,7 @@ public class InventarioInicialSistema implements Serializable {
     private Integer idInventarioInicialSistema;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "obervaciones")
     private String obervaciones;
     @Basic(optional = false)

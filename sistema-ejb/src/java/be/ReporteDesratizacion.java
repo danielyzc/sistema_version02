@@ -59,12 +59,12 @@ public class ReporteDesratizacion implements Serializable {
     private Date fecha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "descripcion_cliente")
     private String descripcionCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "hora_inicio")
     private String horaInicio;
     @Basic(optional = false)
@@ -77,7 +77,7 @@ public class ReporteDesratizacion implements Serializable {
     private int numeroEstacionesInstaladas;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 35)
+    @Size(min = 0, max = 35)
     @Column(name = "cantidad_producto_utilizado")
     private String cantidadProductoUtilizado;
     @Basic(optional = false)
@@ -86,17 +86,17 @@ public class ReporteDesratizacion implements Serializable {
     private int porcentajeAvance;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "comentarios_cliente")
     private String comentariosCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "observaciones_cliente")
     private String observacionesCliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 0, max = 500)
     @Column(name = "requerimientos_dia_siguiente")
     private String requerimientosDiaSiguiente;
     @JoinColumn(name = "id_contrato_fumigacion", referencedColumnName = "id_contrato_fumigacion")

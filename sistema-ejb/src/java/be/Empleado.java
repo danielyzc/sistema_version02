@@ -54,32 +54,32 @@ public class Empleado implements Serializable {
     private Integer idEmpleado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 0, max = 150)
     @Column(name = "nombre_empleado")
     private String nombreEmpleado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 0, max = 250)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 48)
+    @Size(min = 0, max = 48)
     @Column(name = "telefono")
     private String telefono;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 68)
+    @Size(min = 0, max = 68)
     @Column(name = "correo")
     private String correo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 0, max = 100)
     @Column(name = "usuario")
     private String usuario;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 170)
+    @Size(min = 0, max = 170)
     @Column(name = "password")
     private String password;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

@@ -64,7 +64,7 @@ public class IngresoProductoTienda implements Serializable {
     private Date fechaVencimiento;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 0, max = 300)
     @Column(name = "motivo")
     private String motivo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
