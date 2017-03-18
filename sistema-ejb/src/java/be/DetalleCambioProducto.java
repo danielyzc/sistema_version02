@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Entity
 @Table(name = "detalle_cambio_producto")

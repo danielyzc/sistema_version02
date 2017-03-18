@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Embeddable
 public class StockProductoTiendaOrigenPK implements Serializable {

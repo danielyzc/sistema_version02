@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Entity
 @Table(name = "detalle_almacen_productos_costos")

@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Entity
 @Table(name = "detalle_ubicacion_fisica_producto")

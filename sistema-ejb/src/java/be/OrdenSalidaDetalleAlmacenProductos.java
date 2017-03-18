@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Entity
 @Table(name = "orden_salida_detalle_almacen_productos")

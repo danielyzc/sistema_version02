@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author developer
+ * @author argos
  */
 @Entity
 @Table(name = "estado_facturacion_orden_compra")
