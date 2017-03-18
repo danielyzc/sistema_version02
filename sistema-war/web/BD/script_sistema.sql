@@ -1347,12 +1347,14 @@ descripcion_motivo varchar(370) default '',
 id_ubicacion_fisica int(11) not null ,
 id_procedencia_producto_almacen int(11) not null ,
 id_estado_producto_costo_almacen int(3),
+id_ingreso_producto_tienda int(11) not null ,
 foreign key (id_estado_producto_costo_almacen) references estado_producto_costo_almacen (id_estado_producto_costo_almacen),
 primary key (id_detalle_almacen_productos),
 foreign key (id_producto) references producto (id_producto),
 foreign key (id_procedencia_producto_almacen) references procedencia_producto_almacen (id_procedencia_producto_almacen),
 foreign key (id_tienda) references tienda (id_tienda),
-foreign key (id_ubicacion_fisica) references ubicacion_fisica (id_ubicacion_fisica)
+foreign key (id_ubicacion_fisica) references ubicacion_fisica (id_ubicacion_fisica),
+foreign key (id_ingreso_producto_tienda) references ingreso_producto_tienda (id_ingreso_producto_tienda)
 )engine=innodb;
 
 
