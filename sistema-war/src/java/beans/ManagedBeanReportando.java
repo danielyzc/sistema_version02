@@ -548,8 +548,9 @@ public class ManagedBeanReportando implements Serializable {
             fileList.add("reporte_existencias.pdf");
             fileList.add("reporte_ventas_productos.pdf");
 
-            OUTPUT_ZIP_FILE = extContext.getRealPath("//pdfs//reportes_" + cadena_fecha1_11.toString() + "_HASTA_" + cadena_fecha2_11.toString() + ".zip");
             SOURCE_FOLDER = extContext.getRealPath("//pdfs");
+            //OUTPUT_ZIP_FILE = extContext.getRealPath("//pdfs//reportes_" + cadena_fecha1_11.toString() + "_HASTA_" + cadena_fecha2_11.toString() + ".zip");
+            OUTPUT_ZIP_FILE = SOURCE_FOLDER + "/" + "reportes_" + cadena_fecha1_11.toString() + "_HASTA_" + cadena_fecha2_11.toString() + ".zip";
 //this.generateFileList(new File(SOURCE_FOLDER));
             this.zipIt(OUTPUT_ZIP_FILE);
             nombre_reporte = "reportes_" + cadena_fecha1_11.toString() + "_HASTA_" + cadena_fecha2_11.toString() + ".zip";
@@ -923,8 +924,8 @@ public class ManagedBeanReportando implements Serializable {
             //     parameters.put("id_inventario", inventarioFisico.getIdInventarioFisico());
             JasperReport report = JasperCompileManager.compileReport(extContext.getRealPath("//reportes//fechasVencimiento.jrxml"));
             JasperPrint print = JasperFillManager.fillReport(report, parameters, conn);
-           // JasperExportManager.exportReportToPdfFile(print, extContext.getRealPath("//pdfs//fechasVencimiento.pdf"));
- JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/fechasVencimiento.pdf");
+            // JasperExportManager.exportReportToPdfFile(print, extContext.getRealPath("//pdfs//fechasVencimiento.pdf"));
+            JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/fechasVencimiento.pdf");
             return "fechas_vencimiento?faces-redirect=true";
 
         } catch (Exception e) {
@@ -979,7 +980,7 @@ public class ManagedBeanReportando implements Serializable {
             JasperReport report = JasperCompileManager.compileReport(extContext.getRealPath("//reportes//compara_inventario.jrxml"));
             JasperPrint print = JasperFillManager.fillReport(report, parameters, conn);
            // JasperExportManager.exportReportToPdfFile(print, extContext.getRealPath("//pdfs//COMPARA_INVENTARIO_" + inventarioFisico.getIdInventarioFisico() + ".pdf"));
-JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/COMPARA_INVENTARIO_" + inventarioFisico.getIdInventarioFisico() + ".pdf");
+            JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/COMPARA_INVENTARIO_" + inventarioFisico.getIdInventarioFisico() + ".pdf");
             return "compara_inventario?faces-redirect=true";
 
         } catch (Exception e) {
@@ -1029,7 +1030,7 @@ JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/COMPARA_INVENTAR
             JasperReport report = JasperCompileManager.compileReport(extContext.getRealPath("//reportes//ventas_rapidas.jrxml"));
             JasperPrint print = JasperFillManager.fillReport(report, parameters, conn);
            // JasperExportManager.exportReportToPdfFile(print, extContext.getRealPath("//pdfs//VENTA_RAPIDA_" + ventaRapida.getIdVentaRapida() + ".pdf"));
-JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/VENTA_RAPIDA_" + ventaRapida.getIdVentaRapida() + ".pdf");
+            JasperExportManager.exportReportToPdfFile(print, path_ + "/pdfs/VENTA_RAPIDA_" + ventaRapida.getIdVentaRapida() + ".pdf");
             return "venta_rapida";
 
         } catch (Exception e) {
