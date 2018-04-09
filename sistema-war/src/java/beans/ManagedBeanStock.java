@@ -612,7 +612,12 @@ public class ManagedBeanStock implements Serializable {
             ingresotiendaProducto.setFechaVencimiento(fecha_vencimiento);
             // YALTA AQUI
             //  ingresotiendaProducto.setUbicacion(ubicacion);
-            ingresotiendaProducto.setUbicacionFisica(ubicacionFisica);
+
+            if (ubicacionFisica != null) {
+                ingresotiendaProducto.setUbicacionFisica(ubicacionFisica);
+            } else {
+                ingresotiendaProducto.setUbicacionFisica(new UbicacionFisica(1));
+            }
             ingresotiendaProducto.setProducto(stockProductoTiendaOrigen.getProducto());
             ingresotiendaProducto.setTienda(stockProductoTiendaOrigen.getTienda());
             ingresotiendaProducto.setMotivo(motivo);
@@ -757,11 +762,11 @@ public class ManagedBeanStock implements Serializable {
         try {
             stockProductoTiendaOrigen.setCantidad(stockProductoTiendaOrigen.getCantidad() + cantidad_stock);
             stockProductoTiendaOrigenFacade.edit(stockProductoTiendaOrigen);
-            
+
             ingresotiendaProducto.setCantidad(cantidad_stock);
             ingresotiendaProducto.setFechaVencimiento(fecha_vencimiento);
             // FALTA AQUI
-             //   ingresotiendaProducto.setUbicacion(descripcion);
+            //   ingresotiendaProducto.setUbicacion(descripcion);
             //System.out.println(" UBICACION FISICA : " + ubicacionFisica);
             ingresotiendaProducto.setUbicacionFisica(ubicacionFisica);
             ingresotiendaProducto.setCostoUnitario(costo);
@@ -883,4 +888,5 @@ public class ManagedBeanStock implements Serializable {
 
 //System.out.println("Salio");
     }
+
 }

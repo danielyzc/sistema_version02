@@ -6,193 +6,244 @@ and open the template in the editor.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-          xmlns:p="http://primefaces.org/ui"    
-          xmlns:f="http://java.sun.com/jsf/core"
-          xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head> 
-</h:head>
-<h:body>
-    
-    <ui:composition template="/master/master.xhtml">
-            
-         <ui:define name="datos">
-      <p:panel header="M&oacute;dulo de Ventas" >
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
 
-          <h:form id="frm11">
-               <p:growl id="growl" showDetail="true"/>
-    <p:growl id="messages" showDetail="true"/>
-    <p:fieldset toggleable="true" collapsed="true" toggleSpeed="500" id="fielset"  legend="Datos de la Venta" style="margin-top:5px">
-                <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
-                    <h:outputText value="Nombre de la Tienda. " />
+        <ui:composition template="/master/master.xhtml">
 
-<p:selectOneMenu value="#{managedBeanVenta.venta.tienda}" effect="drop" style="width:425px" converter="tiendaConverter" >
-     <f:selectItems  id="temsTien" value="#{managedBeanTienda.tiendasItems}"/>
-        </p:selectOneMenu>
-<h:outputText value="" />
+            <ui:define name="datos">
+                <p:panel header="M&oacute;dulo de Ventas" >
 
+                    <h:form id="frm11">
+                        <p:hotkey bind="f2" update="frm11" actionListener="#{managedBeanVenta.AgregarDetalleProducto_FinalDZ}"/>
+                        <p:growl id="growl" showDetail="true"/>
+                        <p:growl id="messages" showDetail="true"/>
 
+                        <h:outputText style="color: red; font-size: 1.1em;" value="#{managedBeanVenta.venta.tienda.nombreTienda} - VENDEDOR(A): #{managedBeanVenta.venta.empleado.nombreEmpleado} "/>
+                        <p:fieldset toggleable="true" collapsed="true" toggleSpeed="500" id="fielset"  legend="Datos de la Venta" style="margin-top:5px">
+                            <h:panelGrid id="pnlg1" columns="3" cellpadding="5">
+                                <h:outputText value="Fecha para Entregar:" />
+                                <p:calendar id="FECHA_ENTEGA"  required="true"  effect="slide" locale="es" value="#{managedBeanVenta.venta.fechaVenta}" pattern="dd/MM/yyyy"/>
+                                <h:outputText value="" />
 
-<h:outputText value="Vendedor" />
-<p:selectOneMenu  value="#{managedBeanVenta.venta.empleado}" effect="drop" style="width:425px" converter="empleadoConverter" >
-    <f:selectItems  id="temsempleados"  value="#{managedBeanEmpleado.empleados_VendedorItems}"/>
-</p:selectOneMenu>
-<h:outputText value="" />
+                                <h:outputText value="Nombre del Cliente : "/>
 
+                                <p:autoComplete required="true" id="auroxcomplete_cliente"
+                                                value="#{managedBeanVenta.venta.cliente}"
+                                                completeMethod="#{managedBeanVenta.completar_filtrado_Clientes}"
+                                                var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
+                                                itemValue="#{item_cliente}"
+                                                converter="clienteFinalConverter"  minQueryLength="3"
+                                                size="42"
+                                                />
+                                <h:outputText value=""/>
 
-<h:outputText value="Fecha para Entregar:" />
-<p:calendar id="FECHA_ENTEGA"  required="true"  effect="slide" locale="es" value="#{managedBeanVenta.venta.fechaVenta}" pattern="dd/MM/yyyy"/>
-<h:outputText value="" />
+                                <h:outputText value="Estado de Venta :"/>
+                                <p:selectOneMenu value="#{managedBeanVenta.venta.estadoVenta}" effect="drop" style="width:425px" converter="estadoventaConverter" >
+                                    <f:selectItems  id="temsTipoVentas" value="#{managedBeanEstadoVenta.estadoventaItems}"/>
+                                </p:selectOneMenu>
+                                <h:outputText value="" />
 
-<h:outputText value="Nombre del Cliente : "/>
+                                <h:outputText value="DOCUMENTO REFERIDO:"/>
+                                <p:selectOneMenu id="console" value="#{managedBeanVenta.venta.tipoDocumento}" style="width:125px">
+                                    <f:selectItem itemLabel="BOLETA" itemValue="1" />
+                                    <f:selectItem itemLabel="FACTURA" itemValue="2" />
+                                    <f:selectItem itemLabel="NOTA DE VENTA" itemValue="3" />
+                                  
+                                </p:selectOneMenu>
+                                <h:outputText value="" />
 
-<p:autoComplete required="true" id="auroxcomplete_cliente"
-                 value="#{managedBeanVenta.venta.cliente}"
-                 completeMethod="#{managedBeanVenta.completar_filtrado_Clientes}"
-                 var="item_cliente" itemLabel="#{item_cliente.nombreCliente}"
-                  itemValue="#{item_cliente}"
-                 
-               converter="clienteConverter"  minQueryLength="3"
-               size="42"
-                />
- <h:outputText value=""/>
+                                <h:outputText value="NÚMERO DEL DOCUMENTO" />
+                                <p:inputText value="#{managedBeanVenta.venta.datoDocumento}" />
+                                <h:outputText value="" />
 
- <h:outputText value="Estado de Venta :"/>
- <p:selectOneMenu value="#{managedBeanVenta.venta.estadoVenta}" effect="drop" style="width:425px" converter="estadoventaConverter" >
-     <f:selectItems  id="temsTipoVentas" value="#{managedBeanEstadoVenta.estadoventaItems}"/>
-        </p:selectOneMenu>
-<h:outputText value="" />
-
-       
-         <h:outputText value="Observaciones:"/>
-         <p:inputTextarea id="inp4"  value="#{managedBeanVenta.venta.observaciones}"/>
-         <h:outputText value="" />
-        </h:panelGrid>
- </p:fieldset>
+                                <h:outputText value="Observaciones:"/>
+                                <p:inputTextarea id="inp4"  value="#{managedBeanVenta.venta.observaciones}"/>
+                                <h:outputText value="" />
+                            </h:panelGrid>
+                        </p:fieldset>
 
 
 
 
-    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset2"  legend="Ingreso de Productos" style="margin-top:5px">
+                        <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset2"  legend="Ingreso de Productos" style="margin-top:5px">
 
-        <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
+                            <h:panelGrid id="pnlg34" columns="3" cellpadding="5" >
 
 
 
-  <h:outputText value="Nombre del Producto : "/>
+                                <h:outputText value="Nombre del Producto : "/>
 
- <p:autoComplete id="auroxcomplete"
-                 value="#{managedBeanVenta.detalle_venta_Producto.producto}"
-                 completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
-                 var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
-                  itemValue="#{item_Producto}"
-                 minQueryLength="3"
-               converter="ProductoConverter" 
-               size="42" 
-              
-               >
-     
-     <p:ajax event="itemSelect" listener="#{managedBeanVenta.handleSelectPRECIO}" update="frm11:txtinpPrecio frm11:messages" />  
-            
- </p:autoComplete>
- <h:outputText value=""/>
+                                <p:autoComplete id="auroxcomplete"
+                                                value="#{managedBeanVenta.detalle_venta_Producto.producto}"
+                                                completeMethod="#{managedBeanVenta.completar_filtrado_Producto}"
+                                                var="item_Producto" itemLabel="#{item_Producto.nombreProducto}"
+                                                itemValue="#{item_Producto}"
+                                                minQueryLength="3"
+                                                converter="ProductoConverter" 
+                                                size="42" 
 
- <h:outputText value="Cantidad"/>
- <p:inputText id="i1npss" size="42" value="#{managedBeanVenta.detalle_venta_Producto.cantidad}"/>
- <h:outputText value=""/>
+                                                >
 
+                                    <p:ajax event="itemSelect" listener="#{managedBeanVenta.handleSelectPRECIO}" update=":frm11:txtinpPrecio :frm11:messages" />  
+
+                                </p:autoComplete>
+                                <h:outputText value=""/>
+
+                                <h:outputText value="Cantidad"/>
+                                <p:inputText id="i1npss" size="42" value="#{managedBeanVenta.detalle_venta_Producto.cantidad}"/>
+                                <h:outputText value=""/>
+
+
+                                <h:outputText value="Precio de venta"/>
+                                <p:inputText id="txtinpPrecio" style="color: red;" size="42" value="#{managedBeanVenta.detalle_venta_Producto.precioVenta}"/>
+                                <h:outputText value=""/>
+
+                                <h:outputText style="display: none;" value="Descuento Unitario"/>
+                                <p:inputText style="display: none;" id="i1aa3" size="42" value="#{managedBeanVenta.detalle_venta_Producto.descuento}"/>
+                                <h:outputText style="display: none;" value=""/>
+                                <h:outputText value=""/>
+                                <p:commandButton value="Agregar a la Lista" action="#{managedBeanVenta.AgregarDetalleProducto_FinalDZ}" update="frm11" />
  
-<h:outputText value="Precio de venta"/>
-<p:inputText id="txtinpPrecio" style="color: red;" size="42" value="#{managedBeanVenta.detalle_venta_Producto.precioVenta}"/>
- <h:outputText value=""/>
+                            </h:panelGrid>
+                        </p:fieldset>
 
- <h:outputText value="Descuento Unitario"/>
- <p:inputText id="i1aa3" size="42" value="#{managedBeanVenta.detalle_venta_Producto.descuento}"/>
- <h:outputText value=""/>
- <h:outputText value=""/>
- <p:commandButton value="Agregar a la Lista" action="#{managedBeanVenta.AgregarDetalleProducto_FinalDZ}" update="frm11" />
+                        <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset3"  legend="Lista de Productos" style="margin-top:5px">
+                            <p:growl id="messages2" />
+                            <p:dataTable var="item" value="#{managedBeanVenta.lista_detalles}" id="detalleslist" >
 
- </h:panelGrid>
-    </p:fieldset>
+                                <f:facet name="header">
+                                    Productos a Vender
+                                </f:facet>
 
-    <p:fieldset  toggleable="true" toggleSpeed="500" id="fielset3"  legend="Lista de Productos" style="margin-top:5px">
-    <p:growl id="messages2" />
-            <p:dataTable var="item" value="#{managedBeanVenta.lista_detalles}" id="detalleslist" >
+                                <p:column headerText="Nombre" style="width:350px">
 
-        <f:facet name="header">
-            Productos a Vender
-        </f:facet>
+                                    <h:outputText value="#{item.producto.nombreProducto}" />
 
-        <p:column headerText="Nombre" style="width:350px">
+                                </p:column>
 
-            <h:outputText value="#{item.producto.nombreProducto}" />
+                                <p:column headerText="Cantidad" style="width:75px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.cantidad}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
 
-        </p:column>
+                                <p:column headerText="Precio" style="width:75px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.precioVenta}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
 
-        <p:column headerText="Cantidad" style="width:75px">
-            <p:cellEditor>
-                <f:facet name="output">
-                    <h:outputText value="#{item.cantidad}" />
-                </f:facet>
-                <f:facet name="input">
-                    <p:inputText value="#{item.cantidad}" style="width:100%" label="Cantidad"/>
-                </f:facet>
-            </p:cellEditor>
-        </p:column>
+                                <p:column headerText="Dscto." style="width:75px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.descuento}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.descuento}" style="width:100%" label="Descuento"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
 
-        <p:column headerText="Precio" style="width:75px">
-            <p:cellEditor>
-                <f:facet name="output">
-                    <h:outputText value="#{item.precioVenta}" />
-                </f:facet>
-                <f:facet name="input">
-                     <p:inputText value="#{item.precioVenta}" style="width:100%" label="Precio"/>
-                </f:facet>
-            </p:cellEditor>
-        </p:column>
+                                <p:column headerText="Sub.Total" style="width:75px">
 
-        <p:column headerText="Dscto." style="width:75px">
-            <p:cellEditor>
-                <f:facet name="output">
-                    <h:outputText value="#{item.descuento}" />
-                </f:facet>
-                <f:facet name="input">
-                    <p:inputText value="#{item.descuento}" style="width:100%" label="Descuento"/>
-                </f:facet>
-            </p:cellEditor>
-        </p:column>
+                                    <h:outputText value="#{item.subTotal}" />
 
-                 <p:column headerText="Sub.Total" style="width:75px">
-
-                     <h:outputText value="#{item.subTotal}" />
-
-        </p:column>
+                                </p:column>
 
 
-        <p:column headerText="" style="width:100px">
-            <p:commandButton title="Editar éste Producto" icon="ui-icon ui-icon-arrowrefresh-1-w"  action="#{managedBeanVenta.EliminarLista}" update=":frm11" >
-                <f:setPropertyActionListener value="#{item}" target="#{managedBeanVenta.detalle_venta_Producto}" />
-            </p:commandButton>
-            <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanVenta.EliminarLista}" update=":frm11" >
-                <f:setPropertyActionListener value="#{item}" target="#{managedBeanVenta.detalle_venta_Producto}" />
-            </p:commandButton>
+                                <p:column headerText="" style="width:100px">
+                                    <p:commandButton title="Editar éste Producto" icon="ui-icon ui-icon-arrowrefresh-1-w"  action="#{managedBeanVenta.EliminarLista}" update=":frm11" >
+                                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanVenta.detalle_venta_Producto}" />
+                                    </p:commandButton>
+                                    <p:commandButton title="Eliminar éste Producto" icon="ui-icon ui-icon-close"  action="#{managedBeanVenta.EliminarLista}" update=":frm11" >
+                                        <f:setPropertyActionListener value="#{item}" target="#{managedBeanVenta.detalle_venta_Producto}" />
+                                    </p:commandButton>
 
 
 
-        </p:column>
+                                </p:column>
 
-                <f:facet name="footer">
-                    La cantidad a pagar es : #{managedBeanVenta.venta_total_detalles} SOLES.
-        </f:facet>
-    </p:dataTable>
+                                <f:facet name="footer">
+                                    La cantidad a pagar es : #{managedBeanVenta.venta_total_detalles} SOLES.
+                                </f:facet>
+                            </p:dataTable>
 
-    </p:fieldset>
-<br />
-<center>  <h:commandButton value="Terminar Venta" action="#{managedBeanVenta.editar_guardar_venta_FinalDZ}" />  </center>
-         </h:form>
-  <p:separator />
-    </p:panel>
-</ui:define>
-    </ui:composition>
-       
-</h:body>
+                        </p:fieldset>
+                        <br />
+                        <center>  <h:commandButton value="Terminar Venta" action="#{managedBeanVenta.editar_guardar_venta_FinalDZ}" />  </center>
+                    </h:form>
+                    <p:separator />
+                </p:panel>
+                <h:form id="dialogo_">
+
+                    <p:dialog id="dialog" width="450" header="SELECCIONE ALMACEN" widgetVar="dlg_ayudaStock" showEffect="fade" hideEffect="fade" modal="true" >  
+                        <h:panelGrid id="pnlgprincipal" columns="1">
+                            <h:outputText style="font-size: 1em; color: green;" value="#{managedBeanVenta.detalle_venta_Producto.producto.nombreProducto}" />
+                            <h:outputText style="font-size: 1em; color: red;" value="FALTAN : #{managedBeanVenta.stock_faltante}" />
+                            <h:outputText style="font-size: 1em; color: blue;" value="ASIGNADOS : #{managedBeanVenta.asignados}" />
+
+                            <p:dataTable  style="font-size: 0.7em;" paginator="true" rows="75"   var="item" value="#{managedBeanVenta.listaAyuda}" emptyMessage="No se Encontraron datos">
+                                <p:column headerText="TIENDA" >
+                                    <h:outputText value="#{item.stock.tienda.nombreTienda}" />
+                                </p:column>
+                                <p:column headerText="TIENE">
+                                    <center> <h:outputText value="#{item.stock.cantidad}" /> </center>
+                                </p:column>
+                                <p:column headerText="ASIGNACION">
+                                    <center> <h:outputText style="color: orangered;" value="#{item.cantidad_ayuda}" /> </center>
+                                </p:column>
+                                <p:column headerText="">    
+                                    <p:commandButton value="ELEGIR" actionListener="#{managedBeanVenta.preparaAyuda(item)}" oncomplete="PF('dlg_ayudaStock02').show();" update=":dialogo_:datosPrincipal"/>
+                                </p:column>
+                            </p:dataTable>
+
+
+
+                        </h:panelGrid>
+                        <p:separator/>
+
+                        <center>   <p:commandButton rendered="#{managedBeanVenta.stock_faltante eq managedBeanVenta.asignados ? 'true':'false'}" value="GRABAR"  oncomplete="PF('dlg_ayudaStock').hide();" update=":frm11" actionListener="#{managedBeanVenta.asignacionFinal()}" /></center> 
+
+
+                    </p:dialog>  
+
+                    <p:dialog id="dialog02" width="450" header="ASIGNACIÓN" widgetVar="dlg_ayudaStock02" showEffect="fade" hideEffect="fade" modal="true" >
+                        <h:panelGrid id="datosPrincipal" columns="1">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="DISPONIBLE:"/>
+                                <h:outputText value="#{managedBeanVenta.objetoAyuda.stock.cantidad}"/>
+                                <h:outputText value="DETALLE UBICACION"/>
+                                <p:selectOneMenu  value="#{managedBeanVenta.objetoAyuda.detalle}" effect="drop" style="width:425px" converter="detallealmacenproductosConverter" >
+                                    <f:selectItems  id="items_detalle" value="#{managedBeanDetalleAlmacenProductos.DetallesItems(managedBeanVenta.objetoAyuda.stock)}"/>
+                                </p:selectOneMenu>
+                                <h:outputText value="PARA ASIGNAR:"/>
+                                <p:inputText value="#{managedBeanVenta.objetoAyuda.cantidad_ayuda}"/>
+                            </h:panelGrid>
+                            <p:separator />
+                            <center>   <p:commandButton value="GUARDAR"  oncomplete="PF('dlg_ayudaStock02').hide();" update=":dialogo_:pnlgprincipal" /></center> 
+
+                        </h:panelGrid>
+
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
 </html>

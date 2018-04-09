@@ -78,8 +78,7 @@ public class ManagedBeanProducto implements Serializable {
     private PrecioProductoFacadeLocal precioProductoFacade;
     private Producto Producto;
     private List<SelectItem> ProductosItems = new LinkedList<SelectItem>();
-    private HashMap<Integer, Producto> myProductos = new HashMap<Integer, Producto>();
-    private List<Producto> lista;
+   private List<Producto> lista;
 
     public ManagedBeanProducto() {
         Producto = new Producto();
@@ -100,21 +99,12 @@ public class ManagedBeanProducto implements Serializable {
         return ProductoFacade.find(id);
     }
 
-    public HashMap<Integer, Producto> getMyProductos() {
-        return myProductos;
-    }
-
-    public void setMyProductos(HashMap<Integer, Producto> myProductos) {
-        this.myProductos = myProductos;
-    }
-
-    public List<SelectItem> getProductosItems() {
+      public List<SelectItem> getProductosItems() {
         lista = new ArrayList<Producto>();
         ProductosItems = new LinkedList<SelectItem>();
         lista = ProductoFacade.findAll();
         for (Producto p : lista) {
-            myProductos.put(p.getIdProducto(), p);
-            ProductosItems.add(new SelectItem(p, p.getNombreProducto()));
+           ProductosItems.add(new SelectItem(p, p.getNombreProducto()));
         }
 
         return ProductosItems;
@@ -151,19 +141,23 @@ public class ManagedBeanProducto implements Serializable {
         try {
             Producto.setEstadoProducto(new EstadoProducto(1));
             Producto.setFechaIngreso(new Date());
-            Producto.setModeloProducto(new ModeloProducto(1));
-            Producto.setTallaProducto(new TallaProducto(1));
+            //Producto.setModeloProducto(new ModeloProducto(1));
+            //Producto.setTallaProducto(new TallaProducto(1));
             Producto.setColorProducto(new ColorProducto(1));
             Producto.setMaterialProducto(new MaterialProducto(1));
+            Producto.setNombreProducto(Producto.getNombreProducto()+" "+Producto.getMarcaProducto().getNombre()+" ; "+Producto.getModeloProducto().getNombreModeloProducto()+" ; "+Producto.getTallaProducto().getNombreTallaProducto());
             ProductoFacade.create(Producto);
             // actualizando codigo de barras:
 
-            Producto.setNombreProducto(CodigoBarrasFinal().concat("-" + Producto.getNombreProducto()));
-
-            ProductoFacade.edit(Producto);
+            // Ya no codigo aqui. Producto.setNombreProducto(CodigoBarrasFinal().concat("-" + Producto.getNombreProducto()));
+            // ProductoFacade.edit(Producto);
 
             /*Agregado aqui*/
-            precioProductoFacade.create(new PrecioProducto(Producto.getIdProducto(), new Date(), BigDecimal.ZERO));
+            PrecioProducto objPrecioProducto = new PrecioProducto();
+            objPrecioProducto.setProducto(Producto);
+            objPrecioProducto.setFechaActualizacion(new Date());
+            objPrecioProducto.setPrecioProducto(BigDecimal.ZERO);
+            precioProductoFacade.create(objPrecioProducto);
 
             FacesMessage msg = new FacesMessage("CREADO CON EXITO", "CORRECTO");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -243,11 +237,9 @@ public class ManagedBeanProducto implements Serializable {
 
     public List<Producto> completar_filtrado_Producto(String nombre) {
         System.out.println(" entramos a filtrar Producto");
-        myProductos = new HashMap<Integer, Producto>();
         lista = new LinkedList<Producto>();
         for (Producto p : ProductoFacade.findAll()) {
-            myProductos.put(p.getIdProducto(), p);
-            if (p.getNombreProducto().toUpperCase().indexOf(nombre.toUpperCase()) != -1) {
+           if (p.getNombreProducto().toUpperCase().indexOf(nombre.toUpperCase()) != -1) {
                 lista.add(p);
 
             }

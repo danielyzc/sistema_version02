@@ -5,21 +5,32 @@
 package beans;
 
 import bc.ClienteFacadeLocal;
+import bc.DetalleAlmacenProductosFacadeLocal;
 import bc.DetalleVentaProductoFacadeLocal;
+import bc.IngresoProductoTiendaFacadeLocal;
 import bc.ProductoFacadeLocal;
 import bc.PromocionFacadeLocal;
+import bc.SalidaProductoTiendaFacadeLocal;
+import bc.StockProductoTiendaOrigenFacadeLocal;
 import bc.TiendaFacadeLocal;
 import bc.VentaFacadeLocal;
 import be.Cliente;
+import be.DetalleAlmacenProductos;
 import be.DetallePromocionProducto;
 import be.DetalleVentaProducto;
 
 import be.Empleado;
+import be.EstadoProductoCostoAlmacen;
 import be.EstadoVenta;
+import be.IngresoProductoTienda;
 import be.Producto;
 import be.Promocion;
+import be.SalidaProductoTienda;
+import be.StockProductoTiendaOrigen;
+import be.StockProductoTiendaOrigenPK;
 import be.Tienda;
 import be.TipoVenta;
+import be.UbicacionFisica;
 import be.Venta;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -35,6 +46,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.el.ValueExpression;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -47,9 +59,11 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.SelectableDataModel;
+import utils.StockProductoTiendaOrigen_ayuda;
 
 /**
  *
@@ -67,6 +81,11 @@ import org.primefaces.model.SelectableDataModel;
 public class ManagedBeanVenta implements Serializable {
 
     @EJB
+    private StockProductoTiendaOrigenFacadeLocal stockProductoTiendaOrigenFacade;
+
+    @EJB
+    private IngresoProductoTiendaFacadeLocal ingresoProductoTiendaFacade;
+    @EJB
     private PromocionFacadeLocal promocionFacade;
     @EJB
     private VentaFacadeLocal ventaFacade;
@@ -78,6 +97,12 @@ public class ManagedBeanVenta implements Serializable {
     private TiendaFacadeLocal TiendaFacade;
     @EJB
     private DetalleVentaProductoFacadeLocal detalleVentaProductoFacade;
+
+    @EJB
+    private SalidaProductoTiendaFacadeLocal salidaProductoTiendaFacade;
+
+    @EJB
+    private DetalleAlmacenProductosFacadeLocal detalleAlmacenProductosFacade;
 
     private Date fecha_para_ventas = new Date();
     private Venta venta;
@@ -114,6 +139,10 @@ public class ManagedBeanVenta implements Serializable {
     private Modelo_Servicios_lista lista_modelos;
     private String CodigoBarras = "";
     private String ventaFormateada = "";
+    private List<StockProductoTiendaOrigen_ayuda> listaAyuda;
+    private List<StockProductoTiendaOrigen_ayuda> listaAyuda_Final;
+    private StockProductoTiendaOrigen_ayuda objetoAyuda;
+    private int stock_faltante = 0;
 
     public ManagedBeanVenta() {
         venta = new Venta();
@@ -132,6 +161,33 @@ public class ManagedBeanVenta implements Serializable {
         fecha_final = new Date();
         lista_detalles_mostrar = new LinkedList<DetalleVentaProducto>();
         lista_modelos = new Modelo_Servicios_lista();
+        listaAyuda = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+        objetoAyuda = new StockProductoTiendaOrigen_ayuda();
+        listaAyuda_Final = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+    }
+
+    public StockProductoTiendaOrigen_ayuda getObjetoAyuda() {
+        return objetoAyuda;
+    }
+
+    public void setObjetoAyuda(StockProductoTiendaOrigen_ayuda objetoAyuda) {
+        this.objetoAyuda = objetoAyuda;
+    }
+
+    public int getStock_faltante() {
+        return stock_faltante;
+    }
+
+    public void setStock_faltante(int stock_faltante) {
+        this.stock_faltante = stock_faltante;
+    }
+
+    public List<StockProductoTiendaOrigen_ayuda> getListaAyuda() {
+        return listaAyuda;
+    }
+
+    public void setListaAyuda(List<StockProductoTiendaOrigen_ayuda> listaAyuda) {
+        this.listaAyuda = listaAyuda;
     }
 
     public String getVentaFormateada() {
@@ -304,7 +360,7 @@ public class ManagedBeanVenta implements Serializable {
 
     public void newObject() {
         venta = new Venta();
-    // siempre publico en general
+        // siempre publico en general
         // Cliente cli = clienteFacade.find(1);
         String texto = "";
         Cliente cli = new Cliente(1, "PUBLICO", texto, texto, texto, texto, texto, texto, texto, texto, texto);
@@ -333,8 +389,15 @@ public class ManagedBeanVenta implements Serializable {
     }
 
     public String Nueva_venta() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ValueExpression vex = ctx.getApplication().getExpressionFactory().createValueExpression(ctx.getELContext(), "#{managedBeanLogin}", ManagedBeanLogin.class);
+        ManagedBeanLogin bean = (ManagedBeanLogin) vex.getValue(ctx.getELContext());
+        stock_faltante = 0;
+        listaAyuda = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+        listaAyuda_Final = new LinkedList<StockProductoTiendaOrigen_ayuda>();
         venta = new Venta();
-    // siempre publico en general
+
+        // siempre publico en general
         // Cliente cli = clienteFacade.find(1);
         String texto = "";
         Cliente cli = new Cliente(1, "PUBLICO", texto, texto, texto, texto, texto, texto, texto, texto, texto);
@@ -342,10 +405,12 @@ public class ManagedBeanVenta implements Serializable {
         venta.setFacturaRelacionada("");
 
         // Aqui tienes que agregar al empleado de la empresa que usa el sistema en ese momento
-        venta.setEmpleado(new Empleado(1));
+        venta.setEmpleado(bean.getObjetoEmpleado());
+        venta.setTienda(bean.getObjetoEmpleado().getTienda());
+
         venta.setEstadoVenta(new EstadoVenta(1));
         venta.setObservaciones("");
-        venta.setTienda(new Tienda(1));
+
         venta.setTipoVenta(new TipoVenta(1));
         venta.setTotalVenta(new BigDecimal("0"));
         venta.setFechaVenta(fecha_para_ventas);
@@ -364,7 +429,7 @@ public class ManagedBeanVenta implements Serializable {
 
     public String NewVentaMobile() {
         venta = new Venta();
-    // siempre publico en general
+        // siempre publico en general
         // Cliente cli = clienteFacade.find(1);
         String texto = "";
 
@@ -447,7 +512,7 @@ public class ManagedBeanVenta implements Serializable {
     public String editar_guardar_venta() {
         try {
 
-   //  this.calcular_total_venta();
+            //  this.calcular_total_venta();
             // venta.setEstadoVenta(new EstadoVenta(1));
             venta.setTotalVenta(this.calcular_total_venta());
             venta.setDetalleVentaProductoList(lista_detalles);
@@ -488,6 +553,53 @@ public class ManagedBeanVenta implements Serializable {
     public String editar_guardar_venta_FinalDZ() {
         try {
 
+            // vamos a utilizar la funcion ayuda., esto debe de ser antes de la venta
+            for (StockProductoTiendaOrigen_ayuda det : listaAyuda_Final) {
+                //SALIDA
+                StockProductoTiendaOrigen stk_ = det.getStock();
+                stk_.setCantidad(stk_.getCantidad() - det.getCantidad_ayuda());
+                stockProductoTiendaOrigenFacade.edit(stk_);
+                SalidaProductoTienda salida_ = new SalidaProductoTienda();
+                salida_.setCantidad(det.getCantidad_ayuda());
+                salida_.setFechaSalida(new Date());
+                salida_.setProducto(stk_.getProducto());
+                salida_.setTienda(stk_.getTienda());
+                salida_.setMotivo("PRESTAMO_TIENDA:" + venta.getTienda().getIdTienda());
+                salidaProductoTiendaFacade.create(salida_);
+                /*
+                 Agregando la prueba con los productos.
+                 * se tiene que filtrar por la fecha de vencimiento
+                 */
+                DetalleAlmacenProductos detalle_ = new DetalleAlmacenProductos();
+                detalle_ = det.getDetalle();
+                detalle_.setSalieron(detalle_.getSalieron() + det.getCantidad_ayuda());
+                detalle_.setQuedaron(detalle_.getCantidad() - detalle_.getSalieron());
+
+                if (detalle_.getQuedaron() <= 0) {
+                    // el estado 2 significa que se acabaron los productos de esa ubicacion
+                    detalle_.setEstadoProductoCostoAlmacen(new EstadoProductoCostoAlmacen(2));
+                }
+                detalleAlmacenProductosFacade.edit(detalle_);
+
+                // INGRESO 
+                StockProductoTiendaOrigen stk02_ = det.getStock_tienda_actual();
+                stk02_.setCantidad(stk02_.getCantidad() + det.getCantidad_ayuda());
+                stockProductoTiendaOrigenFacade.edit(stk02_);
+                IngresoProductoTienda ingreso_ = new IngresoProductoTienda();
+                ingreso_.setCantidad(det.getCantidad_ayuda());
+                ingreso_.setCostoUnitario(new BigDecimal(BigInteger.ZERO));
+                ingreso_.setFechaIngreso(new Date());
+                ingreso_.setFechaVencimiento(new Date());
+                // SETEAMOS TIENDA SISTEMA POR DEFECTO.
+                ingreso_.setUbicacionFisica(new UbicacionFisica(1));
+                ingreso_.setProducto(stk02_.getProducto());
+                ingreso_.setTienda(venta.getTienda());
+                ingreso_.setMotivo("RECIBIENDO DESDE :" + stk02_.getTienda().getIdTienda());
+                ingresoProductoTiendaFacade.create(ingreso_);
+            }
+
+            venta.setEstadoExistencia(1);
+            venta.setFecReg(new Date());
             venta.setTotalVenta(this.calcular_total_venta());
 
             ventaFacade.create(venta);
@@ -503,6 +615,9 @@ public class ManagedBeanVenta implements Serializable {
             this.generar_boleta_unica_texto();
             lista_detalles_mostrar = new LinkedList<DetalleVentaProducto>();
             lista_detalles_mostrar = lista_detalles;
+            listaAyuda = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+            listaAyuda_Final = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+            objetoAyuda = new StockProductoTiendaOrigen_ayuda();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -513,7 +628,7 @@ public class ManagedBeanVenta implements Serializable {
     public String editar_guardar_ventaFactura() {
         try {
 
-   //  this.calcular_total_venta();
+            //  this.calcular_total_venta();
             // venta.setEstadoVenta(new EstadoVenta(1));
             venta.setTotalVenta(this.calcular_total_venta());
             venta.setDetalleVentaProductoList(lista_detalles);
@@ -535,7 +650,7 @@ public class ManagedBeanVenta implements Serializable {
     }
 
     public void AgregarDetalleProducto() {
-    //Solo cuando es nulo
+        //Solo cuando es nulo
         if (venta.getIdVenta() == null) {
 //venta.setIdVenta(100);
 
@@ -549,7 +664,7 @@ public class ManagedBeanVenta implements Serializable {
             detalle_venta_Producto.setSubTotal((detalle_venta_Producto.getPrecioVenta().subtract(detalle_venta_Producto.getDescuento())).multiply(cantidad));
             DetalleVentaProducto dt = new DetalleVentaProducto();
             dt = detalle_venta_Producto;
- //dt.setDetalleVentaProductoPK(new DetalleVentaProductoPK(venta.getIdVenta(), detalle_venta_Producto.getProducto().getIdProducto()));
+            //dt.setDetalleVentaProductoPK(new DetalleVentaProductoPK(venta.getIdVenta(), detalle_venta_Producto.getProducto().getIdProducto()));
             // Prueba Aqui
             dt.setVenta(venta);
             lista_detalles.add(dt);
@@ -573,25 +688,88 @@ public class ManagedBeanVenta implements Serializable {
             FacesMessage msg = new FacesMessage("Duplicado", "El Producto ya ha sido Ingresado");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            BigDecimal cantidad = new BigDecimal(detalle_venta_Producto.getCantidad());
-            detalle_venta_Producto.setSubTotal((detalle_venta_Producto.getPrecioVenta().subtract(detalle_venta_Producto.getDescuento())).multiply(cantidad));
-            DetalleVentaProducto dt = new DetalleVentaProducto();
-            dt = detalle_venta_Producto;
+            // vamos a validar el stock a ver si no se sobrepasa.
+            int resp_stock = stock_suficiente(detalle_venta_Producto);
 
- //asignandole el tipo de servicio
-// venta.setObservaciones(detalle_venta_Producto.getProducto().getTipoProducto().getNombreTipoProducto());
-            dt.setVenta(venta);
+            if (resp_stock == 1) {
+                // todo bien
+                BigDecimal cantidad = new BigDecimal(detalle_venta_Producto.getCantidad());
+                detalle_venta_Producto.setSubTotal((detalle_venta_Producto.getPrecioVenta().subtract(detalle_venta_Producto.getDescuento())).multiply(cantidad));
+                DetalleVentaProducto dt = new DetalleVentaProducto();
+                dt = detalle_venta_Producto;
 
-            lista_detalles.add(dt);
-            Producto p = new Producto();
-            p = detalle_venta_Producto.getProducto();
-            detalle_venta_Producto = new DetalleVentaProducto();
-            detalle_venta_Producto.setProducto(p);
-            detalle_venta_Producto.setCantidad(1);
-            detalle_venta_Producto.setDescuento(new BigDecimal("0"));
-            detalle_venta_Producto.setPrecioVenta(new BigDecimal("0"));
-            venta_total_detalles = this.calcular_total_venta();
-// te quedaste aqui
+                //asignandole el tipo de servicio
+                // venta.setObservaciones(detalle_venta_Producto.getProducto().getTipoProducto().getNombreTipoProducto());
+                dt.setVenta(venta);
+
+                lista_detalles.add(dt);
+                Producto p = new Producto();
+                p = detalle_venta_Producto.getProducto();
+                detalle_venta_Producto = new DetalleVentaProducto();
+                detalle_venta_Producto.setProducto(p);
+                detalle_venta_Producto.setCantidad(1);
+                detalle_venta_Producto.setDescuento(new BigDecimal("0"));
+                detalle_venta_Producto.setPrecioVenta(new BigDecimal("0"));
+                venta_total_detalles = this.calcular_total_venta();
+
+            }
+            if (resp_stock == 2) {
+// mostrar_pantallaAyudaStock
+                // vamos a cargar los stocks de ayuda.
+                listaAyuda = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+                StockProductoTiendaOrigen mistock_ = new StockProductoTiendaOrigen();
+                for (StockProductoTiendaOrigen s : stockProductoTiendaOrigenFacade.lista_stock_producto(detalle_venta_Producto.getProducto())) {
+                    if (s.getTienda().getIdTienda().equals(venta.getTienda().getIdTienda()) == false) {
+                        StockProductoTiendaOrigen_ayuda obj = new StockProductoTiendaOrigen_ayuda();
+                        obj.setStock(s);
+                        obj.setCantidad_ayuda(0);
+                        listaAyuda.add(obj);
+                    } else {
+                        mistock_ = s;
+                    }
+                }
+                for (StockProductoTiendaOrigen_ayuda p : listaAyuda) {
+                    p.setStock_tienda_actual(mistock_);
+                }
+                RequestContext.getCurrentInstance().update("dialogo_:pnlgprincipal");
+                RequestContext.getCurrentInstance().execute("PF('dlg_ayudaStock').show()");
+            }
+            if (resp_stock == -1) {
+// mostrar_pantalla ayuda y registrar por primera vez el stock
+                StockProductoTiendaOrigen stk = new StockProductoTiendaOrigen();
+                stk.setCantidad(0);
+                stk.setCantidadMinimaStock(0);
+                stk.setDescripcion("DESDE AYUDA STOCK");
+                stk.setProducto(detalle_venta_Producto.getProducto());
+                stk.setTienda(venta.getTienda());
+                stk.setUltimaFechaIngreso(new Date());
+                stk.setStockProductoTiendaOrigenPK(new StockProductoTiendaOrigenPK(detalle_venta_Producto.getProducto().getIdProducto(), venta.getTienda().getIdTienda()));
+                try {
+                    stockProductoTiendaOrigenFacade.create(stk);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // vamos a cargar los stocks de ayuda.
+                listaAyuda = new LinkedList<StockProductoTiendaOrigen_ayuda>();
+                StockProductoTiendaOrigen mistock_ = new StockProductoTiendaOrigen();
+                for (StockProductoTiendaOrigen s : stockProductoTiendaOrigenFacade.lista_stock_producto(detalle_venta_Producto.getProducto())) {
+                    if (s.getTienda().getIdTienda().equals(venta.getTienda().getIdTienda()) == false) {
+                        StockProductoTiendaOrigen_ayuda obj = new StockProductoTiendaOrigen_ayuda();
+                        obj.setStock(s);
+                        obj.setCantidad_ayuda(0);
+                        listaAyuda.add(obj);
+                    } else {
+                        mistock_ = s;
+                    }
+                }
+                for (StockProductoTiendaOrigen_ayuda p : listaAyuda) {
+                    p.setStock_tienda_actual(mistock_);
+                }
+                RequestContext.getCurrentInstance().update("dialogo_:pnlgprincipal");
+                RequestContext.getCurrentInstance().execute("PF('dlg_ayudaStock').show()");
+
+            }
+
         }
 
     }
@@ -608,7 +786,7 @@ public class ManagedBeanVenta implements Serializable {
             DetalleVentaProducto dt = new DetalleVentaProducto();
             dt = detalle_venta_Producto;
 
- //asignandole el tipo de servicio
+            //asignandole el tipo de servicio
             venta.setObservaciones(detalle_venta_Producto.getProducto().getTipoProducto().getNombreTipoProducto());
 
             dt.setVenta(venta);
@@ -627,7 +805,7 @@ public class ManagedBeanVenta implements Serializable {
     }
 
     public void AgregarDetalleProducto_Mejorado() {
-    //Solo cuando es nulo
+        //Solo cuando es nulo
         if (venta.getIdVenta() == null) {
 //venta.setIdVenta(100);
             ventaFacade.create(venta);
@@ -739,7 +917,7 @@ public class ManagedBeanVenta implements Serializable {
     }
 
     public List<Venta> getListaFiltradaVentas() {
- // lista= new LinkedList<Venta>();
+        // lista= new LinkedList<Venta>();
         BigDecimal cero = new BigDecimal(BigInteger.ZERO);
         int comp;
         lista.clear();
@@ -1012,7 +1190,7 @@ public class ManagedBeanVenta implements Serializable {
 
     public String Formato(Venta v) {
 
-        System.out.println(" recibiendo en venta " + v);
+       // System.out.println(" recibiendo en venta " + v);
 
         if (v != null) {
             String bloque = "000";
@@ -1042,7 +1220,7 @@ public class ManagedBeanVenta implements Serializable {
         FileWriter fichero = null;
         PrintWriter pw = null;
         SimpleDateFormat fecha_boleta = new SimpleDateFormat("dd/MM/yyyy");
-       // System.out.println(" en la venta tenemos " + venta);
+        // System.out.println(" en la venta tenemos " + venta);
         StringBuilder cadena_fecha_buscar = new StringBuilder(fecha_boleta.format(venta.getFechaVenta()));
         try {
             //System.out.println("en el path tenemos:" + FacesContext.getCurrentInstance().getExternalContext().getRealPath("//boletas//"));
@@ -1053,7 +1231,7 @@ public class ManagedBeanVenta implements Serializable {
             String producto_string = "";
 
             venta.setTienda(TiendaFacade.find(venta.getTienda().getIdTienda()));
-           // System.out.println("TEST:" + venta.getTienda().getNegocio());
+            // System.out.println("TEST:" + venta.getTienda().getNegocio());
             pw.println(venta.getTienda().getNegocio().getNombreNegocio());
 
             pw.println("SISTEMAS INTEGRADOS");
@@ -1086,7 +1264,7 @@ public class ManagedBeanVenta implements Serializable {
             e.printStackTrace();
         } finally {
             try {
-           // Nuevamente aprovechamos el finally para
+                // Nuevamente aprovechamos el finally para
                 // asegurarnos que se cierra el fichero.
                 if (null != fichero) {
                     fichero.close();
@@ -1214,7 +1392,7 @@ public class ManagedBeanVenta implements Serializable {
 
             List<Venta> servicios = (List<Venta>) this.getWrappedData();
 
-        // List<OrdenSalidaDetalleAlmacenProductos> ordenes = ordenSalidaDetalleAlmacenProductosFacade.findAll();
+            // List<OrdenSalidaDetalleAlmacenProductos> ordenes = ordenSalidaDetalleAlmacenProductosFacade.findAll();
             for (Venta v : servicios) {
                 if (v.getIdVenta().toString().equalsIgnoreCase(rowKey)) {
                     return v;
@@ -1239,14 +1417,18 @@ public class ManagedBeanVenta implements Serializable {
     public void handleSelectPRECIO(SelectEvent event) {
         // System.out.println(" entramos al handled ... ");
         Producto pro = (Producto) event.getObject();
-        detalle_venta_Producto.setPrecioVenta(pro.getPrecioProducto().getPrecioProducto());
+        BigDecimal precio_final = new BigDecimal(BigInteger.ZERO);
+        if (pro.getPrecioProductoList().size() > 0) {
+            precio_final = pro.getPrecioProductoList().get(0).getPrecioProducto();
+        }
+        detalle_venta_Producto.setPrecioVenta(precio_final);
         // vamos a verificar si existe promocion con este producto.
         for (Promocion p : promocionFacade.findAll()) {
             if (p.getEstadoPromocion() == 1) {
                 for (DetallePromocionProducto det : p.getDetallePromocionProductoList()) {
 
                     if (det.getProducto().getIdProducto() == detalle_venta_Producto.getProducto().getIdProducto()) {
-      // se ecnontro el producto en la prommocion
+                        // se ecnontro el producto en la prommocion
 
                         FacesMessage msg = new FacesMessage("PROMOCION ", p.getObservaciones() + " DESC " + det.getDescuentoPorcentaje().toString() + "%");
 
@@ -1287,4 +1469,73 @@ public class ManagedBeanVenta implements Serializable {
         return lista_detalles.size();
     }
 
+    public int stock_suficiente(DetalleVentaProducto det) {
+        int res = 0;
+        stock_faltante = 0;
+        List<StockProductoTiendaOrigen> resp_ = stockProductoTiendaOrigenFacade.lista_stock_tienda_producto(venta.getTienda(), det.getProducto());
+        if (resp_.size() > 0) {
+            if (resp_.get(0).getCantidad() >= det.getCantidad()) {
+                // todo bien.
+                res = 1;
+            } else {
+                //mostrar pantalla de stock ayuda.
+                res = 2;
+                if (resp_.get(0).getCantidad() > 0) {
+                    stock_faltante = det.getCantidad() - resp_.get(0).getCantidad();
+                } else {
+                    stock_faltante = det.getCantidad();
+                }
+
+            }
+
+        } else {
+            // nunca se registro en esta tienda.
+            res = -1;
+            stock_faltante = det.getCantidad();
+        }
+        return res;
+    }
+
+    public int getAsignados() {
+        int res = 0;
+        for (StockProductoTiendaOrigen_ayuda p : listaAyuda) {
+            if (p.getCantidad_ayuda() > 0) {
+                res = res + p.getCantidad_ayuda();
+            }
+        }
+
+        return res;
+    }
+
+    public void preparaAyuda(StockProductoTiendaOrigen_ayuda sa) {
+        objetoAyuda = sa;
+    }
+
+    public void asignacionFinal() {
+        
+        for (StockProductoTiendaOrigen_ayuda p : listaAyuda) {
+            if (p.getCantidad_ayuda() > 0) {
+                listaAyuda_Final.add(p);
+            }
+        }
+        // ahora si pasamos el producto normalmente:
+        BigDecimal cantidad = new BigDecimal(detalle_venta_Producto.getCantidad());
+        detalle_venta_Producto.setSubTotal((detalle_venta_Producto.getPrecioVenta().subtract(detalle_venta_Producto.getDescuento())).multiply(cantidad));
+        DetalleVentaProducto dt = new DetalleVentaProducto();
+        dt = detalle_venta_Producto;
+
+        //asignandole el tipo de servicio
+        // venta.setObservaciones(detalle_venta_Producto.getProducto().getTipoProducto().getNombreTipoProducto());
+        dt.setVenta(venta);
+
+        lista_detalles.add(dt);
+        Producto p = new Producto();
+        p = detalle_venta_Producto.getProducto();
+        detalle_venta_Producto = new DetalleVentaProducto();
+        detalle_venta_Producto.setProducto(p);
+        detalle_venta_Producto.setCantidad(1);
+        detalle_venta_Producto.setDescuento(new BigDecimal("0"));
+        detalle_venta_Producto.setPrecioVenta(new BigDecimal("0"));
+        venta_total_detalles = this.calcular_total_venta();
+    }
 }

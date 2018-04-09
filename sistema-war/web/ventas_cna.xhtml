@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head> 
+    </h:head>
+    <h:body>
+
+        <ui:composition template="/master/master.xhtml">
+
+            <ui:define name="datos">
+
+                <h:form id="frmPrincipal">
+                    <p:panel header="MODULO DE VENTAS" >
+
+                        <p:growl id="growl" showDetail="true"/>
+
+                        <h:panelGrid id="pnlg1" columns="1" style="padding:0 10px 0 100px;" >
+
+
+
+                            <h:panelGroup>
+                                <h:commandLink id="newBOLETA" title="Ventas por Boleta" action="#{managedBeanVenta.Nueva_venta}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/boleta.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="newBOLETA"  value="NUEVA VENTA CON BOLETA" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Ventas con Boleta" action="#{managedBeanVenta.Nueva_venta}"/>
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <h:commandLink id="precios" title="Precios" action="#{managedBeanVenta.Precios}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/precio_productos.png" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="precios"  value="CONSULTAR PRECIOS" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Precios" action="#{managedBeanVenta.Precios}"/>
+                            </h:panelGroup>
+
+
+                            <h:panelGroup >
+                                <h:commandLink id="NewCliente" title="Nuevo Cliente" action="#{managedBeanCliente.Nuevo}"  >
+                                    <h:graphicImage width="135 px" height="100 px" value="${pageContext.request.contextPath}/images/nuevo_cliente.jpg" alt="" title="" style="border-width:0px;"/>
+                                    <p:tooltip for="NewCliente"  value="REGISTRAR NUEVO CLIENTE" showEffect="slide" hideEffect="explode" /> 
+                                </h:commandLink><br/>
+                                <h:commandLink  styleClass="datagrid_centrar" value="Nuevo Cliente" action="#{managedBeanCliente.Nuevo}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup >
+                                <h:commandLink  actionListener="#{managedBeanReportes.inventario()}">
+                                    <p:graphicImage width="135 px" height="100 px" value="#{resource['images/adobe-pdf-icon.png']}" />
+                                    <br/>
+                                    <h:outputText value="DESCARGAR INVENTARIO" style="color :red;"/>
+                                </h:commandLink>
+                            </h:panelGroup>
+
+
+                        </h:panelGrid>
+
+
+
+                        <p:separator />
+
+                    </p:panel>
+
+
+                </h:form>
+
+
+
+
+
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

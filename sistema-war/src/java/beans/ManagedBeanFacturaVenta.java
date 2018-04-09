@@ -427,7 +427,11 @@ public class ManagedBeanFacturaVenta implements Serializable {
     public void handleSelectPRECIO(SelectEvent event) {
         //  System.out.println(" entramos al handled ... ");
         Producto pro = (Producto) event.getObject();
-        detalle_factura_venta_Producto.setPrecioVenta(pro.getPrecioProducto().getPrecioProducto());
+        BigDecimal precio_final= new BigDecimal(BigInteger.ZERO);
+        if( pro.getPrecioProductoList().size() >0){
+        precio_final=pro.getPrecioProductoList().get(0).getPrecioProducto();
+        }
+        detalle_factura_venta_Producto.setPrecioVenta(precio_final);
         // vamos a verificar si existe promocion con este producto.
         for (Promocion p : promocionFacade.findAll()) {
             if (p.getEstadoPromocion() == 1) {
