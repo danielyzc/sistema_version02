@@ -19,7 +19,10 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     
-    <mime-mapping> <extension>ico</extension> <mime-type>image/vnd.microsoft.icon</mime-type> </mime-mapping>
+    <mime-mapping> 
+        <extension>ico</extension> 
+        <mime-type>image/vnd.microsoft.icon</mime-type> 
+    </mime-mapping>
     
     <context-param>
         <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
@@ -94,6 +97,13 @@
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
    
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>webservice</web-resource-name>
+            <url-pattern>/Servicio</url-pattern>
+        </web-resource-collection>
+        <!-- OMIT auth-constraint -->
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
