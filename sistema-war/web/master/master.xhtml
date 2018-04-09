@@ -8,16 +8,11 @@
         <link rel="shortcut icon" href="favicon.ico" /> <title>Sistema Integrado 2.0 </title>
         <h:outputScript name="js/calendar_es.js" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-
-
-
-
-
+        <h:outputText style="display: none;" value="#{managedBeanLogin.traerDatosPersonal(request.remoteUser)}"/>
         <p:dock position="top" id="dock_menu" itemWidth="75" >
 
             <p:menuitem value="Inicio"  icon="/images/casa_final.jpg" url="${pageContext.request.contextPath}/index.jsf"/>
-            <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="${pageContext.request.contextPath}/ventas.jsf"/>
+            <p:menuitem value="Ventas"  icon="/images/ventas_final.jpg" url="${pageContext.request.contextPath}/ventas_cna.jsf"/>
             <p:menuitem value="Compras" icon="/images/compras_final.jpg" url="${pageContext.request.contextPath}/compras.jsf"/>
             <p:menuitem value="Almac&eacute;n"  icon="/images/almacen_final.jpg" url="${pageContext.request.contextPath}/almacen.jsf"/>
             <p:menuitem value="Finanzas"  icon="/images/finanzas_final.jpg" url="${pageContext.request.contextPath}/finanzas.jsf"/>
