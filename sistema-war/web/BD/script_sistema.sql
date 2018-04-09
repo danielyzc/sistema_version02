@@ -32,6 +32,13 @@ create table modelo_producto(
 id_modelo_producto int(11) not null auto_increment,
 nombre_modelo_producto varchar(100) not null default '',
 descripcion varchar(250) not null default '',
+fec_creacion datetime,
+fec_modificacion datetime,
+fec_eliminacion datetime,
+usu_crea int,
+usu_modi int,
+usu_elim int,
+estado_existencia int(1),
 primary key(id_modelo_producto)
 )engine=innodb;
 
@@ -126,10 +133,17 @@ primary key(id_color_producto)
 )engine=innodb;
 
 create table talla_producto(
-id_talla_producto int(11) not null auto_increment,
+pk_id int(11) not null auto_increment,
 nombre_talla_producto varchar(100) not null default '',
 descripcion varchar(170) not null default '',
-primary key(id_talla_producto)
+fec_creacion datetime,
+fec_modificacion datetime,
+fec_eliminacion datetime,
+usu_crea int,
+usu_modi int,
+usu_elim int,
+estado_existencia int(1),
+primary key(pk_id)
 )engine=innodb;
 
 create table estado_producto(
@@ -152,7 +166,28 @@ create table tipo_producto(
 id_tipo_producto int(11) not null auto_increment,
 nombre_tipo_producto varchar(100) not null default '',
 descripcion varchar(170) not null default '',
+fec_creacion datetime,
+fec_modificacion datetime,
+fec_eliminacion datetime,
+usu_crea int,
+usu_modi int,
+usu_elim int,
+estado_existencia int(1),
 primary key (id_tipo_producto)
+)engine=innodb;
+
+create table marca_producto(
+pk_id int(11) not null auto_increment,
+nombre varchar(100) not null default '',
+descripcion varchar(170) not null default '',
+fec_creacion datetime,
+fec_modificacion datetime,
+fec_eliminacion datetime,
+usu_crea int,
+usu_modi int,
+usu_elim int,
+estado_existencia int(1),
+primary key (pk_id)
 )engine=innodb;
 
 create table tipo_venta(
@@ -274,6 +309,10 @@ id_cliente int(11) not null,
 total_pagos_credito decimal(9,2) not null default 0,
 /*cambio tabla*/
 factura_relacionada varchar(50)  default '',
+tipo_documento int(1) default 1,
+dato_documento varchar(100) default '',
+estado_existencia int(1) default 1,
+fec_reg datetime,
 primary key (id_venta),
 foreign key (id_tienda) references tienda (id_tienda),
 foreign key (id_empleado) references empleado (id_empleado),
@@ -349,6 +388,8 @@ observaciones varchar(200) not null default '',
 /*agregado*/
 id_cliente int(11) not null,
 total_pagos_credito decimal(9,2) not null default 0,
+estado_existencia int(1) default 1,
+fec_reg datetime,
 primary key (id_factura_venta),
 foreign key (id_tienda) references tienda (id_tienda),
 foreign key (id_empleado) references empleado (id_empleado),
@@ -381,18 +422,27 @@ foreign key (id_factura_venta) references factura_venta (id_factura_venta)
 create table producto(
 id_producto int(11) not null auto_increment,
 nombre_producto varchar(300) not null default '',
+fk_marca_producto int(11) not null,
 id_modelo_producto  int(11) not null,
 id_color_producto int(11) not null,
-id_talla_producto int(11) not null,
+fk_talla_producto int(11) not null,
 fecha_ingreso date not null,
 id_estado_producto int(11) not null,
 id_tipo_producto  int(11) not null,
 id_material_producto int(11) not null,
+fec_creacion datetime,
+fec_modificacion datetime,
+fec_eliminacion datetime,
+usu_crea int,
+usu_modi int,
+usu_elim int,
+estado_existencia int(1) default 1,
 primary key (id_producto), 
+foreign key (fk_marca_producto) references marca_producto (pk_id),
 foreign key (id_modelo_producto) references modelo_producto (id_modelo_producto),
 foreign key (id_tipo_producto)  references tipo_producto (id_tipo_producto),
 foreign key (id_color_producto) references color_producto (id_color_producto),
-foreign key (id_talla_producto) references talla_producto (id_talla_producto),
+foreign key (fk_talla_producto) references talla_producto (pk_id),
 foreign key (id_estado_producto) references estado_producto (id_estado_producto),
 foreign key (id_tipo_producto) references tipo_producto (id_tipo_producto),
 foreign key (id_material_producto) references material_producto (id_material_producto)
@@ -608,10 +658,11 @@ foreign key (id_empleado) references empleado (id_empleado)
 
 /*agregado*/
 create table precio_producto(
+pk_id int(11) not null auto_increment,
 id_producto int(11),
 fecha_actualizacion date not null,
 precio_producto decimal(9,2) not null default 0,
-primary key (id_producto),
+primary key (pk_id),
 foreign key (id_producto) references producto (id_producto)
 )engine=innodb;
 
