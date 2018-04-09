@@ -95,7 +95,8 @@
     <class>be.Venta</class>
     <class>be.VentaRapida</class>
     <class>be.ZonaCiudad</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <class>be.MarcaProducto</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties/>
