@@ -47,7 +47,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FacturaVenta.findByTotalVenta", query = "SELECT f FROM FacturaVenta f WHERE f.totalVenta = :totalVenta"),
     @NamedQuery(name = "FacturaVenta.findByTotalVentaIncluidoIgv", query = "SELECT f FROM FacturaVenta f WHERE f.totalVentaIncluidoIgv = :totalVentaIncluidoIgv"),
     @NamedQuery(name = "FacturaVenta.findByObservaciones", query = "SELECT f FROM FacturaVenta f WHERE f.observaciones = :observaciones"),
-    @NamedQuery(name = "FacturaVenta.findByTotalPagosCredito", query = "SELECT f FROM FacturaVenta f WHERE f.totalPagosCredito = :totalPagosCredito")})
+    @NamedQuery(name = "FacturaVenta.findByTotalPagosCredito", query = "SELECT f FROM FacturaVenta f WHERE f.totalPagosCredito = :totalPagosCredito"),
+    @NamedQuery(name = "FacturaVenta.findByEstadoExistencia", query = "SELECT f FROM FacturaVenta f WHERE f.estadoExistencia = :estadoExistencia"),
+    @NamedQuery(name = "FacturaVenta.findByFecReg", query = "SELECT f FROM FacturaVenta f WHERE f.fecReg = :fecReg")})
 public class FacturaVenta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -91,6 +93,11 @@ public class FacturaVenta implements Serializable {
     @NotNull
     @Column(name = "total_pagos_credito")
     private BigDecimal totalPagosCredito;
+    @Column(name = "estado_existencia")
+    private Integer estadoExistencia;
+    @Column(name = "fec_reg")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecReg;
     @JoinColumn(name = "id_tienda", referencedColumnName = "id_tienda")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Tienda tienda;
@@ -205,6 +212,22 @@ public class FacturaVenta implements Serializable {
 
     public void setTotalPagosCredito(BigDecimal totalPagosCredito) {
         this.totalPagosCredito = totalPagosCredito;
+    }
+
+    public Integer getEstadoExistencia() {
+        return estadoExistencia;
+    }
+
+    public void setEstadoExistencia(Integer estadoExistencia) {
+        this.estadoExistencia = estadoExistencia;
+    }
+
+    public Date getFecReg() {
+        return fecReg;
+    }
+
+    public void setFecReg(Date fecReg) {
+        this.fecReg = fecReg;
     }
 
     public Tienda getTienda() {

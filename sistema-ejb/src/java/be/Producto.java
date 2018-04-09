@@ -21,7 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,7 +40,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
     @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.idProducto = :idProducto"),
     @NamedQuery(name = "Producto.findByNombreProducto", query = "SELECT p FROM Producto p WHERE p.nombreProducto = :nombreProducto"),
-    @NamedQuery(name = "Producto.findByFechaIngreso", query = "SELECT p FROM Producto p WHERE p.fechaIngreso = :fechaIngreso")})
+    @NamedQuery(name = "Producto.findByFechaIngreso", query = "SELECT p FROM Producto p WHERE p.fechaIngreso = :fechaIngreso"),
+    @NamedQuery(name = "Producto.findByFecCreacion", query = "SELECT p FROM Producto p WHERE p.fecCreacion = :fecCreacion"),
+    @NamedQuery(name = "Producto.findByFecModificacion", query = "SELECT p FROM Producto p WHERE p.fecModificacion = :fecModificacion"),
+    @NamedQuery(name = "Producto.findByFecEliminacion", query = "SELECT p FROM Producto p WHERE p.fecEliminacion = :fecEliminacion"),
+    @NamedQuery(name = "Producto.findByUsuCrea", query = "SELECT p FROM Producto p WHERE p.usuCrea = :usuCrea"),
+    @NamedQuery(name = "Producto.findByUsuModi", query = "SELECT p FROM Producto p WHERE p.usuModi = :usuModi"),
+    @NamedQuery(name = "Producto.findByUsuElim", query = "SELECT p FROM Producto p WHERE p.usuElim = :usuElim"),
+    @NamedQuery(name = "Producto.findByEstadoExistencia", query = "SELECT p FROM Producto p WHERE p.estadoExistencia = :estadoExistencia")})
 public class Producto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,6 +65,23 @@ public class Producto implements Serializable {
     @Column(name = "fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
+    @Column(name = "fec_creacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecCreacion;
+    @Column(name = "fec_modificacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecModificacion;
+    @Column(name = "fec_eliminacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecEliminacion;
+    @Column(name = "usu_crea")
+    private Integer usuCrea;
+    @Column(name = "usu_modi")
+    private Integer usuModi;
+    @Column(name = "usu_elim")
+    private Integer usuElim;
+    @Column(name = "estado_existencia")
+    private Integer estadoExistencia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
     private List<StockProductoTiendaOrigen> stockProductoTiendaOrigenList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
@@ -77,6 +100,9 @@ public class Producto implements Serializable {
     private List<DetalleFacturaVentaProducto> detalleFacturaVentaProductoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
     private List<DetalleAlmacenProductos> detalleAlmacenProductosList;
+    @JoinColumn(name = "fk_marca_producto", referencedColumnName = "pk_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private MarcaProducto marcaProducto;
     @JoinColumn(name = "id_modelo_producto", referencedColumnName = "id_modelo_producto")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ModeloProducto modeloProducto;
@@ -86,7 +112,7 @@ public class Producto implements Serializable {
     @JoinColumn(name = "id_color_producto", referencedColumnName = "id_color_producto")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ColorProducto colorProducto;
-    @JoinColumn(name = "id_talla_producto", referencedColumnName = "id_talla_producto")
+    @JoinColumn(name = "fk_talla_producto", referencedColumnName = "pk_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TallaProducto tallaProducto;
     @JoinColumn(name = "id_estado_producto", referencedColumnName = "id_estado_producto")
@@ -103,8 +129,8 @@ public class Producto implements Serializable {
     private List<IngresoProductoTienda> ingresoProductoTiendaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
     private List<DetalleServicioProducto> detalleServicioProductoList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
-    private PrecioProducto precioProducto;
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
+    private List<PrecioProducto> precioProductoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
     private List<SalidaProductoTienda> salidaProductoTiendaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
@@ -149,6 +175,62 @@ public class Producto implements Serializable {
 
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
+    }
+
+    public Date getFecCreacion() {
+        return fecCreacion;
+    }
+
+    public void setFecCreacion(Date fecCreacion) {
+        this.fecCreacion = fecCreacion;
+    }
+
+    public Date getFecModificacion() {
+        return fecModificacion;
+    }
+
+    public void setFecModificacion(Date fecModificacion) {
+        this.fecModificacion = fecModificacion;
+    }
+
+    public Date getFecEliminacion() {
+        return fecEliminacion;
+    }
+
+    public void setFecEliminacion(Date fecEliminacion) {
+        this.fecEliminacion = fecEliminacion;
+    }
+
+    public Integer getUsuCrea() {
+        return usuCrea;
+    }
+
+    public void setUsuCrea(Integer usuCrea) {
+        this.usuCrea = usuCrea;
+    }
+
+    public Integer getUsuModi() {
+        return usuModi;
+    }
+
+    public void setUsuModi(Integer usuModi) {
+        this.usuModi = usuModi;
+    }
+
+    public Integer getUsuElim() {
+        return usuElim;
+    }
+
+    public void setUsuElim(Integer usuElim) {
+        this.usuElim = usuElim;
+    }
+
+    public Integer getEstadoExistencia() {
+        return estadoExistencia;
+    }
+
+    public void setEstadoExistencia(Integer estadoExistencia) {
+        this.estadoExistencia = estadoExistencia;
     }
 
     @XmlTransient
@@ -230,6 +312,14 @@ public class Producto implements Serializable {
 
     public void setDetalleAlmacenProductosList(List<DetalleAlmacenProductos> detalleAlmacenProductosList) {
         this.detalleAlmacenProductosList = detalleAlmacenProductosList;
+    }
+
+    public MarcaProducto getMarcaProducto() {
+        return marcaProducto;
+    }
+
+    public void setMarcaProducto(MarcaProducto marcaProducto) {
+        this.marcaProducto = marcaProducto;
     }
 
     public ModeloProducto getModeloProducto() {
@@ -316,12 +406,13 @@ public class Producto implements Serializable {
         this.detalleServicioProductoList = detalleServicioProductoList;
     }
 
-    public PrecioProducto getPrecioProducto() {
-        return precioProducto;
+    @XmlTransient
+    public List<PrecioProducto> getPrecioProductoList() {
+        return precioProductoList;
     }
 
-    public void setPrecioProducto(PrecioProducto precioProducto) {
-        this.precioProducto = precioProducto;
+    public void setPrecioProductoList(List<PrecioProducto> precioProductoList) {
+        this.precioProductoList = precioProductoList;
     }
 
     @XmlTransient

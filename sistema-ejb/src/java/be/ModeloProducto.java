@@ -6,6 +6,7 @@
 package be;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,7 +38,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ModeloProducto.findAll", query = "SELECT m FROM ModeloProducto m"),
     @NamedQuery(name = "ModeloProducto.findByIdModeloProducto", query = "SELECT m FROM ModeloProducto m WHERE m.idModeloProducto = :idModeloProducto"),
     @NamedQuery(name = "ModeloProducto.findByNombreModeloProducto", query = "SELECT m FROM ModeloProducto m WHERE m.nombreModeloProducto = :nombreModeloProducto"),
-    @NamedQuery(name = "ModeloProducto.findByDescripcion", query = "SELECT m FROM ModeloProducto m WHERE m.descripcion = :descripcion")})
+    @NamedQuery(name = "ModeloProducto.findByDescripcion", query = "SELECT m FROM ModeloProducto m WHERE m.descripcion = :descripcion"),
+    @NamedQuery(name = "ModeloProducto.findByFecCreacion", query = "SELECT m FROM ModeloProducto m WHERE m.fecCreacion = :fecCreacion"),
+    @NamedQuery(name = "ModeloProducto.findByFecModificacion", query = "SELECT m FROM ModeloProducto m WHERE m.fecModificacion = :fecModificacion"),
+    @NamedQuery(name = "ModeloProducto.findByFecEliminacion", query = "SELECT m FROM ModeloProducto m WHERE m.fecEliminacion = :fecEliminacion"),
+    @NamedQuery(name = "ModeloProducto.findByUsuCrea", query = "SELECT m FROM ModeloProducto m WHERE m.usuCrea = :usuCrea"),
+    @NamedQuery(name = "ModeloProducto.findByUsuModi", query = "SELECT m FROM ModeloProducto m WHERE m.usuModi = :usuModi"),
+    @NamedQuery(name = "ModeloProducto.findByUsuElim", query = "SELECT m FROM ModeloProducto m WHERE m.usuElim = :usuElim"),
+    @NamedQuery(name = "ModeloProducto.findByEstadoExistencia", query = "SELECT m FROM ModeloProducto m WHERE m.estadoExistencia = :estadoExistencia")})
 public class ModeloProducto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +63,23 @@ public class ModeloProducto implements Serializable {
     @Size(min = 0, max = 250)
     @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "fec_creacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecCreacion;
+    @Column(name = "fec_modificacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecModificacion;
+    @Column(name = "fec_eliminacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecEliminacion;
+    @Column(name = "usu_crea")
+    private Integer usuCrea;
+    @Column(name = "usu_modi")
+    private Integer usuModi;
+    @Column(name = "usu_elim")
+    private Integer usuElim;
+    @Column(name = "estado_existencia")
+    private Integer estadoExistencia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modeloProducto", fetch = FetchType.LAZY)
     private List<Producto> productoList;
 
@@ -91,6 +118,62 @@ public class ModeloProducto implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Date getFecCreacion() {
+        return fecCreacion;
+    }
+
+    public void setFecCreacion(Date fecCreacion) {
+        this.fecCreacion = fecCreacion;
+    }
+
+    public Date getFecModificacion() {
+        return fecModificacion;
+    }
+
+    public void setFecModificacion(Date fecModificacion) {
+        this.fecModificacion = fecModificacion;
+    }
+
+    public Date getFecEliminacion() {
+        return fecEliminacion;
+    }
+
+    public void setFecEliminacion(Date fecEliminacion) {
+        this.fecEliminacion = fecEliminacion;
+    }
+
+    public Integer getUsuCrea() {
+        return usuCrea;
+    }
+
+    public void setUsuCrea(Integer usuCrea) {
+        this.usuCrea = usuCrea;
+    }
+
+    public Integer getUsuModi() {
+        return usuModi;
+    }
+
+    public void setUsuModi(Integer usuModi) {
+        this.usuModi = usuModi;
+    }
+
+    public Integer getUsuElim() {
+        return usuElim;
+    }
+
+    public void setUsuElim(Integer usuElim) {
+        this.usuElim = usuElim;
+    }
+
+    public Integer getEstadoExistencia() {
+        return estadoExistencia;
+    }
+
+    public void setEstadoExistencia(Integer estadoExistencia) {
+        this.estadoExistencia = estadoExistencia;
     }
 
     @XmlTransient

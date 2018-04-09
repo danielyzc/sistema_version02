@@ -47,7 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Venta.findByTotalVenta", query = "SELECT v FROM Venta v WHERE v.totalVenta = :totalVenta"),
     @NamedQuery(name = "Venta.findByObservaciones", query = "SELECT v FROM Venta v WHERE v.observaciones = :observaciones"),
     @NamedQuery(name = "Venta.findByTotalPagosCredito", query = "SELECT v FROM Venta v WHERE v.totalPagosCredito = :totalPagosCredito"),
-    @NamedQuery(name = "Venta.findByFacturaRelacionada", query = "SELECT v FROM Venta v WHERE v.facturaRelacionada = :facturaRelacionada")})
+    @NamedQuery(name = "Venta.findByFacturaRelacionada", query = "SELECT v FROM Venta v WHERE v.facturaRelacionada = :facturaRelacionada"),
+    @NamedQuery(name = "Venta.findByTipoDocumento", query = "SELECT v FROM Venta v WHERE v.tipoDocumento = :tipoDocumento"),
+    @NamedQuery(name = "Venta.findByDatoDocumento", query = "SELECT v FROM Venta v WHERE v.datoDocumento = :datoDocumento"),
+    @NamedQuery(name = "Venta.findByEstadoExistencia", query = "SELECT v FROM Venta v WHERE v.estadoExistencia = :estadoExistencia"),
+    @NamedQuery(name = "Venta.findByFecReg", query = "SELECT v FROM Venta v WHERE v.fecReg = :fecReg")})
 public class Venta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,6 +94,16 @@ public class Venta implements Serializable {
     @Size(max = 50)
     @Column(name = "factura_relacionada")
     private String facturaRelacionada;
+    @Column(name = "tipo_documento")
+    private Integer tipoDocumento;
+    @Size(max = 100)
+    @Column(name = "dato_documento")
+    private String datoDocumento;
+    @Column(name = "estado_existencia")
+    private Integer estadoExistencia;
+    @Column(name = "fec_reg")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecReg;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "venta", fetch = FetchType.LAZY)
     private List<Cambio> cambioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "venta", fetch = FetchType.LAZY)
@@ -204,6 +218,38 @@ public class Venta implements Serializable {
 
     public void setFacturaRelacionada(String facturaRelacionada) {
         this.facturaRelacionada = facturaRelacionada;
+    }
+
+    public Integer getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(Integer tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public String getDatoDocumento() {
+        return datoDocumento;
+    }
+
+    public void setDatoDocumento(String datoDocumento) {
+        this.datoDocumento = datoDocumento;
+    }
+
+    public Integer getEstadoExistencia() {
+        return estadoExistencia;
+    }
+
+    public void setEstadoExistencia(Integer estadoExistencia) {
+        this.estadoExistencia = estadoExistencia;
+    }
+
+    public Date getFecReg() {
+        return fecReg;
+    }
+
+    public void setFecReg(Date fecReg) {
+        this.fecReg = fecReg;
     }
 
     @XmlTransient

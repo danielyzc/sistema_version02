@@ -6,12 +6,14 @@ package bc;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
  * @author root
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -58,5 +60,49 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    public List<T> buscarTerminoExacto(String campoBuscar, String terminoBusqueda, String campoOrdenar, int tipoOrden) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> registro = cq.from(entityClass);
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+// TIpo de Orden: descendente=0 , ascendente =1 
+// Con campo a ordenar hacemos que : cq.orderBy(cb.asc(registro.get("pkId"))); sea dinamico
+        if (tipoOrden == 0) {
+            cq.orderBy(cb.desc(registro.get(campoOrdenar)));
+        } else {
+            cq.orderBy(cb.asc(registro.get(campoOrdenar)));
+        }
+
+        cq.where(
+                getEntityManager().getCriteriaBuilder().and(
+                        getEntityManager().getCriteriaBuilder().equal(registro.get("estadoExistencia"), 1),
+                        getEntityManager().getCriteriaBuilder().equal(registro.get(campoBuscar), terminoBusqueda)
+                )
+        );
+
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return q.getResultList();
+    }
+
+    public List<T> listaActivos(String campoOrdenar, int tipoOrden) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> registro = cq.from(entityClass);
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+// TIpo de Orden: descendente=0 , ascendente =1 
+// Con campo a ordenar hacemos que : cq.orderBy(cb.asc(registro.get("pkId"))); sea dinamico
+        if (tipoOrden == 0) {
+            cq.orderBy(cb.desc(registro.get(campoOrdenar)));
+        } else {
+            cq.orderBy(cb.asc(registro.get(campoOrdenar)));
+        }
+
+        cq.where(
+                getEntityManager().getCriteriaBuilder().and(
+                        getEntityManager().getCriteriaBuilder().equal(registro.get("estadoExistencia"), 1)
+                )
+        );
+
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return q.getResultList();
+    }
 }

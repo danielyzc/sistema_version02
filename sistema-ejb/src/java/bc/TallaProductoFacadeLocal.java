@@ -29,4 +29,5 @@ public interface TallaProductoFacadeLocal {
 
     int count();
     
+    List<TallaProducto> listaActivos(String campoOrdenar, int tipoOrden);
 }

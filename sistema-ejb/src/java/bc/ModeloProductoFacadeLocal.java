@@ -29,4 +29,5 @@ public interface ModeloProductoFacadeLocal {
 
     int count();
     
+    List<ModeloProducto> listaActivos(String campoOrdenar, int tipoOrden);
 }

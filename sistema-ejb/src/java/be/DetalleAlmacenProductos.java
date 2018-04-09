@@ -99,6 +99,9 @@ public class DetalleAlmacenProductos implements Serializable {
     @JoinColumn(name = "id_ubicacion_fisica", referencedColumnName = "id_ubicacion_fisica")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UbicacionFisica ubicacionFisica;
+    @JoinColumn(name = "id_ingreso_producto_tienda", referencedColumnName = "id_ingreso_producto_tienda")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private IngresoProductoTienda ingresoProductoTienda;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detalleAlmacenProductos", fetch = FetchType.LAZY)
     private List<OrdenSalidaDetalleAlmacenProductos> ordenSalidaDetalleAlmacenProductosList;
 
@@ -221,6 +224,14 @@ public class DetalleAlmacenProductos implements Serializable {
 
     public void setUbicacionFisica(UbicacionFisica ubicacionFisica) {
         this.ubicacionFisica = ubicacionFisica;
+    }
+
+    public IngresoProductoTienda getIngresoProductoTienda() {
+        return ingresoProductoTienda;
+    }
+
+    public void setIngresoProductoTienda(IngresoProductoTienda ingresoProductoTienda) {
+        this.ingresoProductoTienda = ingresoProductoTienda;
     }
 
     @XmlTransient

@@ -5,6 +5,8 @@
 package bc;
 
 import be.DetalleAlmacenProductos;
+import be.Producto;
+import be.Tienda;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,4 +31,5 @@ public interface DetalleAlmacenProductosFacadeLocal {
 
     int count();
     
+    List<DetalleAlmacenProductos> lista_para_stock_tienda(Tienda t, Producto p);
 }

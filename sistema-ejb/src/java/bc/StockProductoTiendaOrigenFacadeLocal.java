@@ -4,7 +4,10 @@
  */
 package bc;
 
+import be.Producto;
 import be.StockProductoTiendaOrigen;
+import be.StockProductoTiendaOrigenPK;
+import be.Tienda;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,4 +32,8 @@ public interface StockProductoTiendaOrigenFacadeLocal {
 
     int count();
     
+    List<StockProductoTiendaOrigen> lista_stock_tienda_producto(Tienda t, Producto p);
+    List<StockProductoTiendaOrigen> lista_stock_producto(Producto p);
+    List<StockProductoTiendaOrigen> lista_stock_tienda(Tienda t);
+    List<Object[]> consulta_webservice(String parametro_);
 }

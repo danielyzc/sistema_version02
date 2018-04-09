@@ -32,32 +32,32 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author argos
  */
 @Entity
-@Table(name = "tipo_producto")
+@Table(name = "marca_producto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoProducto.findAll", query = "SELECT t FROM TipoProducto t"),
-    @NamedQuery(name = "TipoProducto.findByIdTipoProducto", query = "SELECT t FROM TipoProducto t WHERE t.idTipoProducto = :idTipoProducto"),
-    @NamedQuery(name = "TipoProducto.findByNombreTipoProducto", query = "SELECT t FROM TipoProducto t WHERE t.nombreTipoProducto = :nombreTipoProducto"),
-    @NamedQuery(name = "TipoProducto.findByDescripcion", query = "SELECT t FROM TipoProducto t WHERE t.descripcion = :descripcion"),
-    @NamedQuery(name = "TipoProducto.findByFecCreacion", query = "SELECT t FROM TipoProducto t WHERE t.fecCreacion = :fecCreacion"),
-    @NamedQuery(name = "TipoProducto.findByFecModificacion", query = "SELECT t FROM TipoProducto t WHERE t.fecModificacion = :fecModificacion"),
-    @NamedQuery(name = "TipoProducto.findByFecEliminacion", query = "SELECT t FROM TipoProducto t WHERE t.fecEliminacion = :fecEliminacion"),
-    @NamedQuery(name = "TipoProducto.findByUsuCrea", query = "SELECT t FROM TipoProducto t WHERE t.usuCrea = :usuCrea"),
-    @NamedQuery(name = "TipoProducto.findByUsuModi", query = "SELECT t FROM TipoProducto t WHERE t.usuModi = :usuModi"),
-    @NamedQuery(name = "TipoProducto.findByUsuElim", query = "SELECT t FROM TipoProducto t WHERE t.usuElim = :usuElim"),
-    @NamedQuery(name = "TipoProducto.findByEstadoExistencia", query = "SELECT t FROM TipoProducto t WHERE t.estadoExistencia = :estadoExistencia")})
-public class TipoProducto implements Serializable {
+    @NamedQuery(name = "MarcaProducto.findAll", query = "SELECT m FROM MarcaProducto m"),
+    @NamedQuery(name = "MarcaProducto.findByPkId", query = "SELECT m FROM MarcaProducto m WHERE m.pkId = :pkId"),
+    @NamedQuery(name = "MarcaProducto.findByNombre", query = "SELECT m FROM MarcaProducto m WHERE m.nombre = :nombre"),
+    @NamedQuery(name = "MarcaProducto.findByDescripcion", query = "SELECT m FROM MarcaProducto m WHERE m.descripcion = :descripcion"),
+    @NamedQuery(name = "MarcaProducto.findByFecCreacion", query = "SELECT m FROM MarcaProducto m WHERE m.fecCreacion = :fecCreacion"),
+    @NamedQuery(name = "MarcaProducto.findByFecModificacion", query = "SELECT m FROM MarcaProducto m WHERE m.fecModificacion = :fecModificacion"),
+    @NamedQuery(name = "MarcaProducto.findByFecEliminacion", query = "SELECT m FROM MarcaProducto m WHERE m.fecEliminacion = :fecEliminacion"),
+    @NamedQuery(name = "MarcaProducto.findByUsuCrea", query = "SELECT m FROM MarcaProducto m WHERE m.usuCrea = :usuCrea"),
+    @NamedQuery(name = "MarcaProducto.findByUsuModi", query = "SELECT m FROM MarcaProducto m WHERE m.usuModi = :usuModi"),
+    @NamedQuery(name = "MarcaProducto.findByUsuElim", query = "SELECT m FROM MarcaProducto m WHERE m.usuElim = :usuElim"),
+    @NamedQuery(name = "MarcaProducto.findByEstadoExistencia", query = "SELECT m FROM MarcaProducto m WHERE m.estadoExistencia = :estadoExistencia")})
+public class MarcaProducto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_tipo_producto")
-    private Integer idTipoProducto;
+    @Column(name = "pk_id")
+    private Integer pkId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 0, max = 100)
-    @Column(name = "nombre_tipo_producto")
-    private String nombreTipoProducto;
+    @Column(name = "nombre")
+    private String nombre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 0, max = 170)
@@ -80,36 +80,36 @@ public class TipoProducto implements Serializable {
     private Integer usuElim;
     @Column(name = "estado_existencia")
     private Integer estadoExistencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoProducto", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marcaProducto", fetch = FetchType.LAZY)
     private List<Producto> productoList;
 
-    public TipoProducto() {
+    public MarcaProducto() {
     }
 
-    public TipoProducto(Integer idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
+    public MarcaProducto(Integer pkId) {
+        this.pkId = pkId;
     }
 
-    public TipoProducto(Integer idTipoProducto, String nombreTipoProducto, String descripcion) {
-        this.idTipoProducto = idTipoProducto;
-        this.nombreTipoProducto = nombreTipoProducto;
+    public MarcaProducto(Integer pkId, String nombre, String descripcion) {
+        this.pkId = pkId;
+        this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-    public Integer getIdTipoProducto() {
-        return idTipoProducto;
+    public Integer getPkId() {
+        return pkId;
     }
 
-    public void setIdTipoProducto(Integer idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
+    public void setPkId(Integer pkId) {
+        this.pkId = pkId;
     }
 
-    public String getNombreTipoProducto() {
-        return nombreTipoProducto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreTipoProducto(String nombreTipoProducto) {
-        this.nombreTipoProducto = nombreTipoProducto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -188,18 +188,18 @@ public class TipoProducto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTipoProducto != null ? idTipoProducto.hashCode() : 0);
+        hash += (pkId != null ? pkId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoProducto)) {
+        if (!(object instanceof MarcaProducto)) {
             return false;
         }
-        TipoProducto other = (TipoProducto) object;
-        if ((this.idTipoProducto == null && other.idTipoProducto != null) || (this.idTipoProducto != null && !this.idTipoProducto.equals(other.idTipoProducto))) {
+        MarcaProducto other = (MarcaProducto) object;
+        if ((this.pkId == null && other.pkId != null) || (this.pkId != null && !this.pkId.equals(other.pkId))) {
             return false;
         }
         return true;
@@ -207,7 +207,7 @@ public class TipoProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "be.TipoProducto[ idTipoProducto=" + idTipoProducto + " ]";
+        return "be.MarcaProducto[ pkId=" + pkId + " ]";
     }
     
 }

@@ -28,5 +28,6 @@ public interface EmpleadoFacadeLocal {
     List<Empleado> findRange(int[] range);
 
     int count();
-    
+
+    List<Empleado> buscarTerminoExacto(String campoBuscar, String terminoBusqueda, String campoOrdenar, int tipoOrden);
 }
